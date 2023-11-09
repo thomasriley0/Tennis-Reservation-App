@@ -38,8 +38,8 @@ CREATE TABLE court_times(
 
     timeID SERIAL PRIMARY KEY,
     court_date DATE,
-    start_time VARCHAR(10),
-    end_time VARCHAR(10)
+    start_time INT, /*24 hr time, eg 0700, 1500 etc*/
+    end_time INT
 
 );
 
