@@ -14,16 +14,71 @@ describe('Server!', () => {
   it('Returns the default welcome message', done => {
     chai
       .request(server)
-      .get('/welcome')
+      .get('/')
       .end((err, res) => {
+        expect(err).to.equal(null)
         expect(res).to.have.status(200);
+
         expect(res.body.status).to.equals('success');
         assert.strictEqual(res.body.message, 'Welcome!');
         done();
       });
   });
 
+describe('Login',()=>{
+  it('positive : /login', done => {
+    chai
+      .request(server)
+      .post('/login')
+      .send({username: 'johndoe', password: 'pass'})
+      .end((err, res) => {
+        expect(err).to.equal(null)
+        expect(res).to.have.status(200);
+        expect(res.body.username).to.equals('johndoe');
+        done();
+      });
+  });
+
+  it('negative : /login', done => {
+    chai
+      .request(server)
+      .post('/login')
+      .send({username: 'johndoe', password: 'pass2'})
+      .end((err, res) => {
+        expect(err).not.equal(null)
+        expect(res).to.have.status(400);
+        done();
+      });
+  });
+});
+
+describe('Register',()=>{
+
+  it('positive : /register', done => {
+    chai
+      .request(server)
+      .post('/register')
+      .send({username: 'johndoe', password: 'pass'})
+      .end((err, res) => {
+        expect(err).to.equal(null)
+        expect(res).to.have.status(200);
+        done();
+      });
+  });
+
+  it('negative : /register', done => {
+    chai
+      .request(server)
+      .post('/register')
+      .send({username: 'johndoe', password: 'pass'})
+      .end((err, res) => {
+        expect(err).not.equal(null)
+        expect(res).to.have.status(400);
+        done();
+      });
+  });
+});
+
   // ===========================================================================
   
-
 });
