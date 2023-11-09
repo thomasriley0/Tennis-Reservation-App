@@ -3,12 +3,13 @@ CREATE TABLE users(
 
     userID  SERIAL PRIMARY KEY,
     username VARCHAR(100),
-    password VARCHAR(30),
+    password CHAR(60),
     rating DECIMAL(3,1), /* max is 99.9 but should be 1 - 10*/
     location INT, /* zip code */
     age INT,
     gender VARCHAR(10),
-    description VARCHAR(200)  /*optional description max 200 characters*/
+    description VARCHAR(200),  /*optional description max 200 characters*/
+    image VARCHAR(300)
 
 );
 
