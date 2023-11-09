@@ -1,3 +1,8 @@
+//From lab example
+app.get('/welcome', (req, res) => {
+    res.json({status: 'success', message: 'Welcome!'});
+  });
+
 //Login API Routes
 app.get('/login',(req,res) =>{
     res.render('pages/login');
@@ -28,3 +33,6 @@ app.post('/login', async(req,res)=>{
         res.render('pages/login', {message:error});
     }
 });
+
+//Start server
+module.exports = app.listen(3000);
