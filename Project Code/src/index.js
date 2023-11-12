@@ -34,5 +34,44 @@ app.post('/login', async(req,res)=>{
     }
 });
 
+app.get('/register',(req,res) =>{
+    res.render('pages/register');
+});
+
+
+app.get('/facilities',(req,res) =>{
+    res.render('pages/facilities');
+});
+
+app.get('/facility_courts',(req,res) =>{
+    res.render('pages/facility_courts');
+});
+
+app.get('/specific_court_times',(req,res) =>{
+    res.render('pages/specific_court_times');
+});
+
+app.get('/reservations',(req,res) =>{
+    res.render('pages/reservations');
+});
+
+app.get('/profile',(req,res) =>{
+    res.render('pages/profile');
+});
+
+app.get('/reservations_lfg',(req,res) =>{
+    res.render('pages/reservations_lfg');
+});
+
+app.get('/featured_facilities',(req,res) =>{
+    res.render('pages/featured_facilities');
+});
+
+
+
+
+
+
+
 //Start server
 module.exports = app.listen(3000);
