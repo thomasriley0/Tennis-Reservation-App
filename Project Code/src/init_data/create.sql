@@ -9,6 +9,8 @@ CREATE TABLE users(
     age INT,
     gender VARCHAR(10),
     description VARCHAR(200),  /*optional description max 200 characters*/
+    latitude FLOAT
+    longitude FLOAT
     image VARCHAR(300)
 
 );
@@ -19,7 +21,8 @@ CREATE TABLE facilities(
     facilityID SERIAL PRIMARY KEY,
     name VARCHAR(100),
     location INT
-
+    latitude FLOAT
+    longitude FLOAT
 
 );
 
