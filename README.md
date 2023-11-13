@@ -6,7 +6,7 @@ Application that allows users to create profiles and view local tennis courts wi
  - [Tom Riley](https://github.com/thomasriley0)
  - [Mitch Kubina](https://github.com/MitchKubina)
  - [Jake Carroll](https://github.com/jaca8185)
- - [Rodrigo Moleiro]()
+ - [Rodrigo Moleiro](https://github.com/moliche)
  - [Caleb Lehman](https://github.com/CalebLehman16)
  - [Trish Le](https://github.com/trle5720)
 
