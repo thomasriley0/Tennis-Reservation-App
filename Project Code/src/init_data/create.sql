@@ -20,8 +20,10 @@ CREATE TABLE facilities(
 
     facilityID SERIAL PRIMARY KEY,
     name VARCHAR(100),
-    location INT,
-    latitude FLOAT,
+    location INT
+    address CHAR(100)
+    city CHAR(60)
+    latitude FLOAT
     longitude FLOAT
 
 );
