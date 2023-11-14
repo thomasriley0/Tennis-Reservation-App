@@ -9,8 +9,8 @@ CREATE TABLE users(
     age INT,
     gender VARCHAR(10),
     description VARCHAR(200),  /*optional description max 200 characters*/
-    latitude FLOAT
-    longitude FLOAT
+    latitude FLOAT,
+    longitude FLOAT,
     image VARCHAR(300)
 
 );
@@ -20,8 +20,8 @@ CREATE TABLE facilities(
 
     facilityID SERIAL PRIMARY KEY,
     name VARCHAR(100),
-    location INT
-    latitude FLOAT
+    location INT,
+    latitude FLOAT,
     longitude FLOAT
 
 );
@@ -66,7 +66,7 @@ CREATE TABLE reservation(
     userID INT NOT NULL,
     courtID INT NOT NULL,
     timeID INT NOT NULL,
-    lfg BOOLEAN NOT NULL /*looking for group */
+    lfg BOOLEAN NOT NULL, /*looking for group */
 
     FOREIGN KEY (userID) REFERENCES users(userID),
     FOREIGN KEY (courtID) REFERENCES courts(courtID),
