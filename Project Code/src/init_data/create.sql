@@ -20,12 +20,12 @@ CREATE TABLE facilities(
 
     facilityID SERIAL PRIMARY KEY,
     name VARCHAR(100),
-    location INT
-    address CHAR(100)
-    city CHAR(60)
-    latitude FLOAT
+    location INT,
+    address CHAR(100),
+    city CHAR(60),
+    latitude FLOAT,
     longitude FLOAT
-
+    
 );
 
 DROP TABLE IF EXISTS courts CASCADE;
