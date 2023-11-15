@@ -15,6 +15,21 @@ const dbConfig = {
   password: process.env.POSTGRES_PASSWORD,
 };
 
+var user = {
+
+  user_id: undefined,
+  username: undefined,
+  rating: undefined,
+  location: undefined,
+  age: undefined,
+  gender: undefined,
+  description: undefined,
+  latitude: undefined,
+  longitude: undefined,
+  image: undefined
+
+};
+
 const db = pgp(dbConfig);
 
 db.connect()
@@ -81,6 +96,30 @@ app.post("/login", async (req, res) => {
 
 app.get("/register", (req, res) => {
   res.render("pages/register");
+});
+
+app.post("/register", (req,res) =>{
+
+  const username = req.body.username;
+  const password = bcrypt.hash(req.body.password,10);
+
+  const query = 'INSERT INTO users (username,password) VALUES ($1,$2);';
+
+  db.any(query,[username,password])
+
+  .then(function() {
+    console.log("added into users");
+    res.redirect("/profile");
+
+
+  })
+  .catch(function(err){
+      console.log(err);
+
+  })
+
+
+
 });
 
 app.get("/facilities", (req, res) => {
