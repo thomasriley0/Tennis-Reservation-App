@@ -59,6 +59,8 @@ app.use(
   })
 );
 
+app.use(express.static(__dirname + "/resources"));
+
 app.get("/", (req, res) => {
   res.render("pages/home");
   // res.render("pages/home");
