@@ -15,6 +15,21 @@ const dbConfig = {
   password: process.env.POSTGRES_PASSWORD,
 };
 
+var user = {
+
+  user_id: undefined,
+  username: undefined,
+  rating: undefined,
+  location: undefined,
+  age: undefined,
+  gender: undefined,
+  description: undefined,
+  latitude: undefined,
+  longitude: undefined,
+  image: undefined
+
+};
+
 const db = pgp(dbConfig);
 
 db.connect()
@@ -43,6 +58,8 @@ app.use(
     resave: false,
   })
 );
+
+app.use(express.static(__dirname + "/resources"));
 
 app.get("/", (req, res) => {
   res.render("pages/home");
@@ -96,7 +113,6 @@ app.get("/register", (req, res) => {
 app.post("/register", async (req, res) => {
   //hash the password using bcrypt library
   const hash = await bcrypt.hash(req.body.password, 10);
-
   var error;
 
   const query1 = `select * from users where username = '${req.body.username}';`;
@@ -105,7 +121,6 @@ app.post("/register", async (req, res) => {
   //If we do not get an error, then the user must exit already
   try {
     var test = await db.one(query1);
-
     error = true;
   }  
   catch {
@@ -155,7 +170,52 @@ app.get("/reservations", (req, res) => {
 });
 
 app.get("/profile", (req, res) => {
-  res.render("pages/profile");
+  
+  const query = `SELECT * FROM users WHERE username = '${user.username}';`;
+
+  db.any(query)
+
+  .then(function (data){
+    res.render('/pages/profile',{
+      data:data
+    })
+    
+
+  }).catch((err)=>{
+
+    console.log(err);
+    console.log(data);
+  })
+});
+
+app.post("/profile",(req,res)=>{
+
+  const query = 
+  'UPDATE users SET rating = $1, location = $2, age = $3, gender = $4, description = $5, image = $6 WHERE userID = $7;';
+
+  db.any(query,[
+    req.body.rating,
+    req.body.location,
+    req.body.age,
+    req.body.gender,
+    req.body.description,
+    req.body.image,
+    user.user_id
+  ])
+
+  .then((data)=>{
+
+    res.redirect("/profile");
+    console.log("info updated");
+
+
+  })
+  .catch((err)=>{
+
+    console.log(err);
+  })
+
+
 });
 
 app.get("/reservations_lfg", (req, res) => {
