@@ -15,6 +15,21 @@ const dbConfig = {
   password: process.env.POSTGRES_PASSWORD,
 };
 
+var user = {
+
+  user_id: undefined,
+  username: undefined,
+  rating: undefined,
+  location: undefined,
+  age: undefined,
+  gender: undefined,
+  description: undefined,
+  latitude: undefined,
+  longitude: undefined,
+  image: undefined
+
+};
+
 const db = pgp(dbConfig);
 
 db.connect()
