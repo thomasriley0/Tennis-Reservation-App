@@ -187,7 +187,7 @@ app.get("/profile", (req, res) => {
 app.post("/profile",(req,res)=>{
 
   const query = 
-  'UPDATE users SET rating = $1, location = $2, age = $3, gender = $4, description = $5, image = $6 WHERE id = $7;';
+  'UPDATE users SET rating = $1, location = $2, age = $3, gender = $4, description = $5, image = $6 WHERE userID = $7;';
 
   db.any(query,[
     req.body.rating,
