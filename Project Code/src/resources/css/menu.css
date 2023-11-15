@@ -1,0 +1,82 @@
+/* removing default margin */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none !important;
+  color: inherit !important;
+}
+
+.close-button {
+  cursor: pointer;
+}
+.menu-button {
+  cursor: pointer;
+}
+.menuLogo {
+  cursor: pointer;
+}
+
+.header {
+  height: 100%;
+}
+
+.nav {
+  height: 60px;
+  border-bottom: 1px solid #c5c5c5;
+}
+
+.nav-popup {
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  background-color: white;
+  padding: 30px;
+  font-family: "Nunito Sans", sans-serif;
+  color: #666666;
+  font-size: 16px;
+}
+
+.popup-content {
+  margin: 0;
+  padding: 0;
+}
+
+.nav-list {
+  list-style-type: none;
+}
+
+.nav-list li {
+  padding-top: 20px;
+}
+
+.nav-break {
+  padding-top: 20px;
+}
+
+#webHeader {
+  margin-left: 75px;
+}
+
+/* Above Tablet*/
+
+@media (max-width: 801px) {
+  #webHeader {
+    display: none !important;
+  }
+}
+
+@media (min-width: 801px) {
+  #mobileHeader {
+    display: none !important;
+  }
+  #webHeader {
+    display: flex !important;
+  }
+}
+
+.closed {
+  display: none !important;
+}
