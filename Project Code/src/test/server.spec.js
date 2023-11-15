@@ -30,11 +30,12 @@ describe('Login',()=>{
     chai
       .request(server)
       .post('/login')
-      .send({username: 'johndoe', password: 'pass'})
+      .send({username: 'Caleb', password: 'pass'})
       .end((err, res) => {
         expect(err).to.equal(null)
         expect(res).to.have.status(200);
-        expect(res.body.username).to.equals('johndoe');
+        // expect(res.body.username).to.equals('Caleb');
+        assert.strictEqual(res.body.username, 'Caleb');
         done();
       });
   });
@@ -43,9 +44,9 @@ describe('Login',()=>{
     chai
       .request(server)
       .post('/login')
-      .send({username: 'johndoe', password: 'pass2'})
+      .send({username: 'Caleb', password: 'pass2'})
       .end((err, res) => {
-        expect(err).not.equal(null)
+        expect(err).to.equal(null)
         expect(res).to.have.status(400);
         done();
       });

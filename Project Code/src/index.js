@@ -45,7 +45,8 @@ app.use(
 );
 
 app.get("/", (req, res) => {
-  res.render("pages/home");
+  res.json({status: 'success', message: 'Welcome!'});
+  // res.render("pages/home");
 });
 //Login API Routes
 app.get("/login", (req, res) => {
@@ -57,30 +58,72 @@ app.post("/login", async (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
     const query = `select * from users where username='${username}';`;
-    let user = await db.any(query);
+    let user = await db.one(query);
     //console.log(user);
 
     if (user.length != 0) {
       // check if password from request matches with password in DB
-      const match = await bcrypt.compare(req.body.password, user[0].password);
-      if (match.err) {
+      const match = await bcrypt.compare(req.body.password, user.password);
+      //console.log(match);
+      if (match == false) {
+        //console.log("here0");
+        //res.status(400);
         throw new Error("Incorrect username or password");
       } else {
         //save user details in session like in lab 8
-        //req.session.user = user;
+        //console.log("here1");
+        //res.sendStatus(200);
+        res.json({username: username})
+        req.session.user = user;
         req.session.save();
-        res.redirect("/home");
+        //res.redirect("/facilities");
       }
     } else {
+      //console.log("here2");
       res.redirect("/register");
     }
-  } catch (error) {
+  } 
+  catch (error) {
+    //console.log("here3");
+    res.status(400);
     res.render("pages/login", { message: error });
   }
 });
 
 app.get("/register", (req, res) => {
   res.render("pages/register");
+});
+
+app.post('/register', async (req, res) => {
+  //hash the password using bcrypt library
+  const hash = await bcrypt.hash(req.body.password, 10);
+
+  //var error = false;
+
+  // const query1 = `select * from users where username = '${req.body.username}';`;
+  // console.log(req.body.username);
+
+  // var test = await db.one(query1);
+  // console.log(test);
+
+  // if (test != null) {
+  //   console.log("ERROR");
+  //   res.status(400);
+  //   throw new Error("Username already exists!");
+  // }
+
+  const query = `insert into users (username, password) values ('${req.body.username}', '${hash}') returning *;`
+  db.one(query)
+  .then((data) => {
+      res.redirect('/login');
+  })
+  .catch(err => {
+      console.log(err);
+      res.render('pages/register.ejs', {
+        message: "Username already found!",
+        error: 1
+      });
+  });
 });
 
 app.get("/facilities", (req, res) => {
