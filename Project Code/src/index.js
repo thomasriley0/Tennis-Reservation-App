@@ -97,32 +97,45 @@ app.post("/register", async (req, res) => {
   //hash the password using bcrypt library
   const hash = await bcrypt.hash(req.body.password, 10);
 
-  //var error = false;
+  var error;
 
-  // const query1 = `select * from users where username = '${req.body.username}';`;
-  // console.log(req.body.username);
+  const query1 = `select * from users where username = '${req.body.username}';`;
 
-  // var test = await db.one(query1);
-  // console.log(test);
+  //check to see if username already exists in db
+  //If we do not get an error, then the user must exit already
+  try {
+    var test = await db.one(query1);
 
-  // if (test != null) {
-  //   console.log("ERROR");
-  //   res.status(400);
-  //   throw new Error("Username already exists!");
-  // }
+    error = true;
+  }  
+  catch {
+    error = false;
+  }
 
-  const query = `insert into users (username, password) values ('${req.body.username}', '${hash}') returning *;`;
-  db.one(query)
-    .then((data) => {
-      res.redirect("/login");
-    })
-    .catch((err) => {
-      console.log(err);
-      res.render("pages/register.ejs", {
-        message: "Username already found!",
-        error: 1,
+ // console.log(error);
+
+  //will continue with inserting user into db if it does not exist already
+  if (!error) {
+    const query = `insert into users (username, password) values ('${req.body.username}', '${hash}') returning *;`;
+    db.one(query)
+      .then((data) => {
+        console.log("inserted");
+        res.redirect("/login");
+      })
+      .catch((err) => {
+        console.log(err);
+        res.render("pages/register.ejs", {
+          message: "Username already found!",
+          error: 1,
+        });
       });
+  } else {
+    //goes back to register page if username already exists.
+    res.status(400);
+    res.render("pages/register.ejs", {
+      message: "Username already exists!"
     });
+  }
 });
 
 app.get("/facilities", (req, res) => {
