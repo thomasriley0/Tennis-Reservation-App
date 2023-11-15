@@ -45,7 +45,7 @@ app.use(
 );
 
 app.get("/", (req, res) => {
-  res.json({status: 'success', message: 'Welcome!'});
+  res.render("pages/home");
   // res.render("pages/home");
 });
 //Login API Routes
@@ -73,7 +73,7 @@ app.post("/login", async (req, res) => {
         //save user details in session like in lab 8
         //console.log("here1");
         //res.sendStatus(200);
-        res.json({username: username})
+        res.json({ username: username });
         req.session.user = user;
         req.session.save();
         //res.redirect("/facilities");
@@ -82,8 +82,7 @@ app.post("/login", async (req, res) => {
       //console.log("here2");
       res.redirect("/register");
     }
-  } 
-  catch (error) {
+  } catch (error) {
     //console.log("here3");
     res.status(400);
     res.render("pages/login", { message: error });
@@ -94,7 +93,7 @@ app.get("/register", (req, res) => {
   res.render("pages/register");
 });
 
-app.post('/register', async (req, res) => {
+app.post("/register", async (req, res) => {
   //hash the password using bcrypt library
   const hash = await bcrypt.hash(req.body.password, 10);
 
@@ -112,18 +111,18 @@ app.post('/register', async (req, res) => {
   //   throw new Error("Username already exists!");
   // }
 
-  const query = `insert into users (username, password) values ('${req.body.username}', '${hash}') returning *;`
+  const query = `insert into users (username, password) values ('${req.body.username}', '${hash}') returning *;`;
   db.one(query)
-  .then((data) => {
-      res.redirect('/login');
-  })
-  .catch(err => {
+    .then((data) => {
+      res.redirect("/login");
+    })
+    .catch((err) => {
       console.log(err);
-      res.render('pages/register.ejs', {
+      res.render("pages/register.ejs", {
         message: "Username already found!",
-        error: 1
+        error: 1,
       });
-  });
+    });
 });
 
 app.get("/facilities", (req, res) => {
