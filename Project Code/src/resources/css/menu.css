@@ -38,6 +38,10 @@
   white-space: nowrap;
 }
 
+.nav-link:hover {
+  color: #005f8f !important;
+}
+
 .popup-content {
   margin: 0;
   padding: 0;
@@ -53,10 +57,6 @@
 
 .nav-break {
   padding-top: 20px;
-}
-
-#webHeader {
-  padding-left: 50px;
 }
 
 /* Above Tablet*/

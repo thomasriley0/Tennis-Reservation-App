@@ -3,7 +3,40 @@
   padding: 0;
 }
 
+main {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
 a {
   text-decoration: none !important;
   color: inherit !important;
+}
+
+footer {
+  background-color: #002f47;
+  color: white !important;
+  padding-top: 20px;
+  margin-top: auto;
+}
+
+.footer-link {
+  color: #f5f5f5;
+  font-family: "Nunito Sans", sans-serif !important;
+  font-size: 13px;
+  font-weight: normal;
+}
+
+.footer-text {
+  font-size: 14px !important;
+  font-family: "Nunito Sans", sans-serif !important;
+  font-weight: normal;
+}
+
+h4 {
+  font-family: "Poppins", sans-serif !important;
+  font-weight: 600 !important;
+  white-space: nowrap !important;
+  font-size: 16px !important;
 }
