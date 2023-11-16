@@ -2,6 +2,25 @@
 @import url(//fonts.googleapis.com/css?family=Nunito);
 @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 
+.card{
+    border: none;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12vh;
+    border-style: none;
+}
+
+.form-control{
+    background-color: rgba(206, 255, 197, 0.225);
+    width: 400vw;
+}
+
+
+
 .login-btn {
   color: white;
   font-weight: 800;
@@ -9,10 +28,16 @@
   width: 200px;
   background-color: #20af4b; /* Tennis ball color */
   border-color: #20af4b;
-  display: block;
-  margin: 0 auto;
-  margin-top: 15px;
+
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50%;
+
 }
+
+
 
 #login-text {
   font-weight: 800;
@@ -39,3 +64,4 @@
   font-weight: bold;
   font-family: "Nunito", sans-serif;
 }
+
