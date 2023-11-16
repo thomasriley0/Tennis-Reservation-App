@@ -1,5 +1,5 @@
 <%- include ('../partials/header')%> <%- include ('../partials/menu')%>
-<link rel="stylesheet" href="/css/login.css">
+<link rel="stylesheet" href="/css/login.css" />
 <main>
   <div class="container mt-5">
     <div class="row justify-content-center">
@@ -8,12 +8,36 @@
           <div class="card-body">
             <form action="/login" method="POST">
               <div class="row justify-content-center">
-                  <input type="text" name="username" class="form-control"  id="username" placeholder="Username" required>
-                  <input type="text" name="password" class="form-control" placeholder="Password" required>
-                  <input type="text" name="confirm-password" class="form-control" placeholder="Confirm Password" required>
-                  <p class="mt-3">Already have an account? <a href="/login" id="log">Login</a></p>
+                <input
+                  type="text"
+                  name="username"
+                  class="form-control"
+                  id="username"
+                  placeholder="Username"
+                  required
+                />
+                <input
+                  type="text"
+                  name="password"
+                  class="form-control"
+                  placeholder="Password"
+                  required
+                />
+                <input
+                  type="text"
+                  name="confirm-password"
+                  class="form-control"
+                  placeholder="Confirm Password"
+                  required
+                />
+                <p class="mt-3">
+                  Already have an account?
+                  <a class="loginLink" href="/login" id="log">Login</a>
+                </p>
               </div>
-              <button type="submit" class="btn btn-primary login-btn">REGISTER</button>
+              <button type="submit" class="btn btn-primary login-btn">
+                REGISTER
+              </button>
             </form>
           </div>
         </div>

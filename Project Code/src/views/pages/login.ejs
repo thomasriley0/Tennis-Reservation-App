@@ -1,7 +1,7 @@
 <%- include ('../partials/header')%> <%- include ('../partials/menu')%>
 
 <main>
-  <link rel="stylesheet" href="/css/login.css">
+  <link rel="stylesheet" href="/css/login.css" />
   <div class="container mt-5">
     <div class="row justify-content-center">
       <div class="col-md-6">
@@ -9,11 +9,29 @@
           <div class="card-body">
             <form action="/login" method="POST">
               <div class="row justify-content-center">
-                  <input type="text" name="username" class="form-control" id="username" placeholder="Username" required>
-                  <input type="password" name="password" class="form-control" placeholder="Password" required>
-                  <p class="mt-3">Don't have an account? <a href="/register">Register</a></p>
+                <input
+                  type="text"
+                  name="username"
+                  class="form-control"
+                  id="username"
+                  placeholder="Username"
+                  required
+                />
+                <input
+                  type="password"
+                  name="password"
+                  class="form-control"
+                  placeholder="Password"
+                  required
+                />
+                <p class="mt-3">
+                  Don't have an account?
+                  <a class="loginLink" href="/register">Register</a>
+                </p>
               </div>
-              <button type="submit" class="btn btn-primary login-btn">LOGIN</button>
+              <button type="submit" class="btn btn-primary login-btn">
+                LOGIN
+              </button>
             </form>
           </div>
         </div>
