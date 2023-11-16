@@ -4,8 +4,27 @@
       <img class="mx-auto menuLogo" src="/img/logo.svg" alt="" />
       <img class="menu-button" src="/img/menu.svg" alt="" />
     </div>
-    <div id="webHeader" class="header d-flex align-items-center flex-row">
-      <img class="menuLogo" src="/img/logo.svg" alt="" />
+    <div id="webHeader" class="header d-flex align-items-center flex-row" style="height: 100%; width:100%;">
+      
+      <a href="/">
+        <img class="menuLogo" src="/img/logo.svg" alt="" />
+      </a>
+     
+        <div class="ml-3 d-flex flex-row justify-content-left">
+          <a class="nav-link" href="/featured-parks">Featured Parks</a>
+          <a class="nav-link" href="/find-partners">Find Partners</a>
+          <a class="nav-link" href="/park-search">Park Search</a>
+        </div>
+        <div class="right ml-auto ml-3 d-flex flex-row">
+          <!-- LOGGED OUT -->
+          <a class="nav-link" href="/register">Log In / Sign Up</a> 
+           <!-- LOGGED IN 
+           <a class="nav-link" href="/reservations">Reservations</a>
+           <a class="nav-link" href="/profile">Profile</a>
+          <a class="nav-link" href="/logout">Logout</a> -->
+         
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -17,38 +36,29 @@
   </div>
   <div class="popup-content">
     <ul class="nav-list d-flex flex-column">
-      <li><a href="#">Home</a></li>
-      <li><a href="#">Learn More</a></li>
+      <li><a href="/">Home</a></li>
+      <li><a href="/learn-more">Learn More</a></li>
       <div class="nav-break">
-        <svg
-          width="175"
-          height="1"
-          viewBox="0 0 175 1"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <line y1="0.5" x2="175" y2="0.5" stroke="#666666" />
-        </svg>
+      <img src="/img/line.svg" alt="">
       </div>
 
-      <li><a href="#">Featured Parks</a></li>
-      <li><a href="#">Find Partners</a></li>
-      <li><a href="#">Park Search</a></li>
-      <li><a href="#">Help</a></li>
+      <li><a href="/featured-parks">Featured Parks</a></li>
+      <li><a href="/find-partners">Find Partners</a></li>
+      <li><a href="/park-search">Park Search</a></li>
       <div class="nav-break">
-        <svg
-          width="175"
-          height="1"
-          viewBox="0 0 175 1"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <line y1="0.5" x2="175" y2="0.5" stroke="#666666" />
-        </svg>
+        <img src="/img/line.svg" alt="">
       </div>
 
-      <li><a href="#">Log In</a></li>
-      <li><a href="#">Create an Account</a></li>
+      <!-- LOGGED OUT -->
+      <li><a href="/login">Log In</a></li>
+      <li><a href="/register">Create an Account</a></li>
+
+      <!-- LOGGED IN 
+      <li><a href="/login">Reservations</a></li>
+      <li><a href="/profile">Profile</a></li>
+      <li><a href="/logout">Logout</a></li> -->
+      
+
     </ul>
   </div>
 </div>

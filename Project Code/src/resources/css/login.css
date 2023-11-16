@@ -1,45 +1,41 @@
-  /* Custom CSS for styling the button */
-  @import url(//fonts.googleapis.com/css?family=Nunito);
-  @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+/* Custom CSS for styling the button */
+@import url(//fonts.googleapis.com/css?family=Nunito);
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 
+.login-btn {
+  color: white;
+  font-weight: 800;
+  font-family: "Nunito", sans-serif;
+  width: 200px;
+  background-color: #20af4b; /* Tennis ball color */
+  border-color: #20af4b;
+  display: block;
+  margin: 0 auto;
+  margin-top: 15px;
+}
 
-  .login-btn {
-    color: white ;
-    font-weight: 800;
-    font-family: 'Nunito',sans-serif;
-    width: 200px;
-    background-color: #20AF4B; /* Tennis ball color */
-    border-color: #20AF4B;
-    display: block;
-    margin: 0 auto;
-    margin-top: 15px;
-  }
+#login-text {
+  font-weight: 800;
+  font-size: x-large;
+  display: block;
+  margin: 25px auto;
+}
 
-  #login-text{
-    font-weight: 800;
-    font-size:x-large;
-    display: block;
-    margin: 25px auto;
-  }
+#username {
+  margin-top: 50px;
+  margin-bottom: 25px;
+  width: 80%;
+}
 
-  main{
-    font-family: 'Poppins';
-    font-weight: 500;
-  }
- 
-  #username{
-    margin-top: 50px;
-    margin-bottom: 25px;
-    width:75%;
-  }
+.form-control {
+  margin-bottom: 25px;
+  width: 80%;
+}
 
-  #password{
-    margin-bottom: 25px;
-    width:75%;
-  }
-
-  a, a:link, a:visited{
-    color:#20AF4B;
-    font-weight: bold;
-  }
-
+.loginLink,
+.loginLink:link,
+.loginLink:visited {
+  color: #20af4b !important;
+  font-weight: bold;
+  font-family: "Nunito", sans-serif;
+}

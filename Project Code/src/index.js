@@ -16,7 +16,6 @@ const dbConfig = {
 };
 
 var user = {
-
   user_id: undefined,
   username: undefined,
   rating: undefined,
@@ -26,8 +25,7 @@ var user = {
   description: undefined,
   latitude: undefined,
   longitude: undefined,
-  image: undefined
-
+  image: undefined,
 };
 
 const db = pgp(dbConfig);
@@ -90,6 +88,7 @@ app.post("/login", async (req, res) => {
         //save user details in session like in lab 8
         //console.log("here1");
         //res.sendStatus(200);
+
         res.json({ username: username });
         req.session.user = user;
         req.session.save();
@@ -122,12 +121,11 @@ app.post("/register", async (req, res) => {
   try {
     var test = await db.one(query1);
     error = true;
-  }  
-  catch {
+  } catch {
     error = false;
   }
 
- // console.log(error);
+  // console.log(error);
 
   //will continue with inserting user into db if it does not exist already
   if (!error) {
@@ -148,7 +146,7 @@ app.post("/register", async (req, res) => {
     //goes back to register page if username already exists.
     res.status(400);
     res.render("pages/register.ejs", {
-      message: "Username already exists!"
+      message: "Username already exists!",
     });
   }
 });
@@ -170,52 +168,43 @@ app.get("/reservations", (req, res) => {
 });
 
 app.get("/profile", (req, res) => {
-  
   const query = `SELECT * FROM users WHERE username = '${user.username}';`;
 
   db.any(query)
 
-  .then(function (data){
-    res.render('/pages/profile',{
-      data:data
+    .then(function (data) {
+      res.render("/pages/profile", {
+        data: data,
+      });
     })
-    
-
-  }).catch((err)=>{
-
-    console.log(err);
-    console.log(data);
-  })
+    .catch((err) => {
+      console.log(err);
+      console.log(data);
+    });
 });
 
-app.post("/profile",(req,res)=>{
+app.post("/profile", (req, res) => {
+  const query =
+    "UPDATE users SET rating = $1, location = $2, age = $3, gender = $4, description = $5, image = $6 WHERE userID = $7;";
 
-  const query = 
-  'UPDATE users SET rating = $1, location = $2, age = $3, gender = $4, description = $5, image = $6 WHERE userID = $7;';
-
-  db.any(query,[
+  db.any(query, [
     req.body.rating,
     req.body.location,
     req.body.age,
     req.body.gender,
     req.body.description,
     req.body.image,
-    user.user_id
+    req.session.user.user_id,
   ])
 
-  .then((data)=>{
-
-    res.redirect("/profile");
-    console.log("info updated");
-
-
-  })
-  .catch((err)=>{
-
-    console.log(err);
-  })
-
-
+    .then((data) => {
+      res.redirect("/profile");
+      console.log("info updated");
+    })
+    .catch((err) => {
+      console.log(err);
+      res.redirect("/profile");
+    });
 });
 
 app.get("/reservations_lfg", (req, res) => {
