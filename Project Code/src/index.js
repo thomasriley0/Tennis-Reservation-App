@@ -73,33 +73,24 @@ app.post("/login", async (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
     const query = `select * from users where username='${username}';`;
-    user = await db.one(query);
-    //console.log(user);
+    let user = await db.one(query);
 
     if (user.length != 0) {
       // check if password from request matches with password in DB
       const match = await bcrypt.compare(req.body.password, user.password);
-      //console.log(match);
       if (match == false) {
-        //console.log("here0");
-        //res.status(400);
         throw new Error("Incorrect username or password");
       } else {
         //save user details in session like in lab 8
-        //console.log("here1");
-        //res.sendStatus(200);
-
-        res.redirect("/")
         req.session.user = user;
         req.session.save();
-        //res.redirect("/facilities");
+        res.redirect("/");
       }
-    } else {
-      //console.log("here2");
+    } else { // I dont think this will ever hit?
       res.redirect("/register");
     }
-  } catch (error) {
-    //console.log("here3");
+  } catch (error) { //will happen most likely when the db encounters an error (does not find anything in db or username/password is wrong)
+    console.log(error);
     res.status(400);
     res.render("pages/login", { message: error });
   }
@@ -112,20 +103,21 @@ app.get("/register", (req, res) => {
 app.post("/register", async (req, res) => {
   //hash the password using bcrypt library
   const hash = await bcrypt.hash(req.body.password, 10);
+
+  //console.log(req.body.password);
+  //console.log(req.body.username);
   var error;
 
   const query1 = `select * from users where username = '${req.body.username}';`;
 
   //check to see if username already exists in db
-  //If we do not get an error, then the user must exit already
+  //If we do not get an error, then the user must exist already
   try {
     var test = await db.one(query1);
     error = true;
   } catch {
     error = false;
   }
-
-  // console.log(error);
 
   //will continue with inserting user into db if it does not exist already
   if (!error) {
@@ -138,13 +130,14 @@ app.post("/register", async (req, res) => {
       })
       .catch((err) => {
         console.log(err);
-        res.render("pages/register.ejs", {
+        res.render("pages/register", {
           message: "Username already found!",
           error: 1,
         });
       });
   } else {
     //goes back to register page if username already exists.
+    console.log("error");
     res.status(400);
     res.render("pages/register.ejs", {
       message: "Username already exists!",
