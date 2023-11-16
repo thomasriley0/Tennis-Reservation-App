@@ -1,13 +1,4 @@
 /* removing default margin */
-* {
-  margin: 0;
-  padding: 0;
-}
-
-a {
-  text-decoration: none !important;
-  color: inherit !important;
-}
 
 .close-button {
   cursor: pointer;
@@ -29,7 +20,6 @@ a {
 }
 
 .nav-popup {
-  position: absolute;
   height: 100vh;
   width: 100vw;
   background-color: white;
@@ -37,6 +27,8 @@ a {
   font-family: "Nunito Sans", sans-serif;
   color: #666666;
   font-size: 16px;
+  z-index: 1000;
+  overflow: hidden;
 }
 
 .popup-content {
@@ -57,7 +49,7 @@ a {
 }
 
 #webHeader {
-  margin-left: 75px;
+  margin-left: 50px;
 }
 
 /* Above Tablet*/
