@@ -257,9 +257,23 @@ app.get("/find_partners", (req, res) => {
 
 app.get("/featured_parks", (req, res) => {
 
+  const query = "SELECT facilities.name, COUNT(facilities.name) FROM facilities INNER JOIN reservation ON facilities.facilityID = reservation.facilityID GROUP BY facilities.name ORDER BY DESC LIMIT 8;";
 
+  db.any(query)
+
+  .then((data)=>{
+
+    res.status(200);
+    res.render("pages/featured_parks",{data:data});
+
+
+  })
+  .catch((err)=>{
+
+    res.status(400);
+    console.log(err);
+  })
   
-  res.render("pages/featured_parks");
 });
 
 //Start server
