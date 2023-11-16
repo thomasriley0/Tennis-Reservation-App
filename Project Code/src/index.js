@@ -73,7 +73,7 @@ app.post("/login", async (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
     const query = `select * from users where username='${username}';`;
-    let user = await db.one(query);
+    user = await db.one(query);
     //console.log(user);
 
     if (user.length != 0) {
@@ -173,8 +173,9 @@ app.get("/parks", (req, res) => {
   
   .then((data)=>{
 
-    res.render("pages/parks",{data:data});
     res.status(201);
+    res.render("pages/parks",{data:data});
+    
 
   })
   .catch((err)=>{
