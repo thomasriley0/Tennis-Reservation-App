@@ -2,7 +2,6 @@
   @import url(//fonts.googleapis.com/css?family=Nunito);
   @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
-
   .login-btn {
     color: white ;
     font-weight: 800;
@@ -21,25 +20,21 @@
     display: block;
     margin: 25px auto;
   }
-
-  main{
-    font-family: 'Poppins';
-    font-weight: 500;
-  }
  
   #username{
     margin-top: 50px;
     margin-bottom: 25px;
-    width:75%;
+    width:80%;
   }
 
-  #password{
+  .form-control{
     margin-bottom: 25px;
-    width:75%;
+    width:80%;
   }
 
   a, a:link, a:visited{
-    color:#20AF4B;
+    color:#20AF4B !important;
     font-weight: bold;
+    font-family: 'Nunito',sans-serif;
   }
 
