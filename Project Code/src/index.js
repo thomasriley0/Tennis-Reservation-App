@@ -90,6 +90,7 @@ app.post("/login", async (req, res) => {
         //save user details in session like in lab 8
         //console.log("here1");
         //res.sendStatus(200);
+
         res.json({ username: username });
         req.session.user = user;
         req.session.save();
@@ -131,7 +132,6 @@ app.post("/register", async (req, res) => {
   const query = `insert into users (username, password) values ('${req.body.username}', '${hash}') returning *;`;
   db.one(query)
     .then((data) => {
-
       res.redirect("/profile");
     })
     .catch((err) => {
@@ -163,8 +163,6 @@ app.get("/reservations", (req, res) => {
 
 
 app.get("/profile", (req, res) => {
-
-  
   const query = `SELECT * FROM users WHERE username = '${user.username}';`;
 
   db.any(query)
@@ -196,7 +194,7 @@ app.post("/profile",(req,res)=>{
     req.body.gender,
     req.body.description,
     req.body.image,
-    user.user_id
+    req.session.user.user_id
   ])
 
   .then((data)=>{
@@ -209,6 +207,7 @@ app.post("/profile",(req,res)=>{
   .catch((err)=>{
 
     console.log(err);
+    res.redirect("/profile");
   })
 
 
