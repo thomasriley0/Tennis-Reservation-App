@@ -152,6 +152,18 @@ app.post("/register", async (req, res) => {
   }
 });
 
+// Authentication Middleware.
+const auth = (req, res, next) => {
+  if (!req.session.user) {
+    // Default to login page.
+    return res.redirect('/login');
+  }
+  next();
+};
+
+// Authentication Required
+app.use(auth);
+
 app.get("/facilities", (req, res) => {
   res.render("pages/facilities");
 });
@@ -160,12 +172,19 @@ app.get("/facility_courts", (req, res) => {
   res.render("pages/facility_courts");
 });
 
-app.get("/specific_court_times", (req, res) => {
-  res.render("pages/specific_court_times");
+app.get("/court", (req, res) => {
+  res.render("pages/court");
 });
 
 app.get("/reservations", (req, res) => {
   res.render("pages/reservations");
+});
+
+app.post("/reservations", (req,res)=>{
+
+
+
+
 });
 
 app.get("/profile", (req, res) => {
@@ -180,6 +199,7 @@ app.get("/profile", (req, res) => {
       res.status(201);
     })
     .catch((err) => {
+      res.status(400);
       console.log(err);
       console.log(data);
     });
@@ -211,8 +231,10 @@ app.post("/profile", (req, res) => {
     });
 });
 
-app.get("/reservations_lfg", (req, res) => {
-  res.render("pages/reservations_lfg");
+app.get("/find_partners", (req, res) => {
+  //get reservations that are looking for group
+
+  res.render("pages/find_partners")
 });
 
 app.get("/featured_parks", (req, res) => {
