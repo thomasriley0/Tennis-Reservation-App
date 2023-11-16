@@ -89,7 +89,7 @@ app.post("/login", async (req, res) => {
         //console.log("here1");
         //res.sendStatus(200);
 
-        res.json({ username: username });
+        res.redirect("/")
         req.session.user = user;
         req.session.save();
         //res.redirect("/facilities");
@@ -134,6 +134,7 @@ app.post("/register", async (req, res) => {
       .then((data) => {
         console.log("inserted");
         res.redirect("/login");
+        res.status(201);
       })
       .catch((err) => {
         console.log(err);
@@ -176,6 +177,7 @@ app.get("/profile", (req, res) => {
       res.render("/pages/profile", {
         data: data,
       });
+      res.status(201);
     })
     .catch((err) => {
       console.log(err);
@@ -200,10 +202,12 @@ app.post("/profile", (req, res) => {
     .then((data) => {
       res.redirect("/profile");
       console.log("info updated");
+      res.status(201);
     })
     .catch((err) => {
       console.log(err);
       res.redirect("/profile");
+      res.status(400);
     });
 });
 
@@ -211,8 +215,8 @@ app.get("/reservations_lfg", (req, res) => {
   res.render("pages/reservations_lfg");
 });
 
-app.get("/featured_facilities", (req, res) => {
-  res.render("pages/featured_facilities");
+app.get("/featured_parks", (req, res) => {
+  res.render("pages/featured_parks");
 });
 
 //Start server
