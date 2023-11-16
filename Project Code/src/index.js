@@ -166,8 +166,9 @@ app.get("/parks", (req, res) => {
   
   .then((data)=>{
 
-    res.render("pages/parks",{data:data});
     res.status(201);
+    res.render("pages/parks",{data:data});
+    
 
   })
   .catch((err)=>{
