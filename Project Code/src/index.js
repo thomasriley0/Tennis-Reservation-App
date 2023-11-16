@@ -86,10 +86,12 @@ app.post("/login", async (req, res) => {
         req.session.save();
         res.redirect("/");
       }
-    } else { // I dont think this will ever hit?
+    } else {
+      // I dont think this will ever hit?
       res.redirect("/register");
     }
-  } catch (error) { //will happen most likely when the db encounters an error (does not find anything in db or username/password is wrong)
+  } catch (error) {
+    //will happen most likely when the db encounters an error (does not find anything in db or username/password is wrong)
     console.log(error);
     res.status(400);
     res.render("pages/login", { message: error });
@@ -149,7 +151,7 @@ app.post("/register", async (req, res) => {
 const auth = (req, res, next) => {
   if (!req.session.user) {
     // Default to login page.
-    return res.redirect('/login');
+    return res.redirect("/login");
   }
   next();
 };
@@ -158,31 +160,20 @@ const auth = (req, res, next) => {
 app.use(auth);
 
 app.get("/parks", (req, res) => {
-
-
-
   const query = "SELECT * FROM facilities;";
   db.any(query)
-  
-  .then((data)=>{
 
-    res.status(201);
-    res.render("pages/parks",{data:data});
-    
-
-  })
-  .catch((err)=>{
-    console.log(err);
-    res.status(400);
-
-  })
-  
+    .then((data) => {
+      res.status(201);
+      res.render("pages/parks", { data: data });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(400);
+    });
 });
 
-app.get("/park", (req, res) => {
-  
-
-});
+app.get("/park", (req, res) => {});
 
 app.get("/court", (req, res) => {
   res.render("pages/court");
@@ -192,12 +183,7 @@ app.get("/reservations", (req, res) => {
   res.render("pages/reservations");
 });
 
-app.post("/reservations", (req,res)=>{
-
-
-
-
-});
+app.post("/reservations", (req, res) => {});
 
 app.get("/profile", (req, res) => {
   const query = `SELECT * FROM users WHERE username = '${user.username}';`;
@@ -205,7 +191,7 @@ app.get("/profile", (req, res) => {
   db.any(query)
 
     .then(function (data) {
-      res.render("/pages/profile", {
+      res.render("pages/profile", {
         data: data,
       });
       res.status(201);
@@ -246,28 +232,23 @@ app.post("/profile", (req, res) => {
 app.get("/find_partners", (req, res) => {
   //get reservations that are looking for group
 
-  res.render("pages/find_partners")
+  res.render("pages/find_partners");
 });
 
 app.get("/featured_parks", (req, res) => {
-
-  const query = "SELECT facilities.name, COUNT(facilities.name) FROM facilities INNER JOIN reservation ON facilities.facilityID = reservation.facilityID GROUP BY facilities.name ORDER BY DESC LIMIT 8;";
+  const query =
+    "SELECT facilities.name, COUNT(facilities.name) FROM facilities INNER JOIN reservation ON facilities.facilityID = reservation.facilityID GROUP BY facilities.name ORDER BY DESC LIMIT 8;";
 
   db.any(query)
 
-  .then((data)=>{
-
-    res.status(200);
-    res.render("pages/featured_parks",{data:data});
-
-
-  })
-  .catch((err)=>{
-
-    res.status(400);
-    console.log(err);
-  })
-  
+    .then((data) => {
+      res.status(200);
+      res.render("pages/featured_parks", { data: data });
+    })
+    .catch((err) => {
+      res.status(400);
+      console.log(err);
+    });
 });
 
 //Start server
