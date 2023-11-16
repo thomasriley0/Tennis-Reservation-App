@@ -24,7 +24,7 @@ CREATE TABLE facilities(
     address CHAR(100),
     city CHAR(60),
     latitude FLOAT,
-    longitude FLOAT,
+    longitude FLOAT
    
     
 );
@@ -70,7 +70,7 @@ CREATE TABLE reservation(
     courtID INT NOT NULL,
     timeID INT NOT NULL,
     facilityID INT NOT NULL,
-    lfg BOOLEAN NOT NULL /*looking for group */
+    lfg BOOLEAN NOT NULL, /*looking for group */
 
     FOREIGN KEY (userID) REFERENCES users(userID),
     FOREIGN KEY (courtID) REFERENCES courts(courtID),
