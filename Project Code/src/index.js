@@ -168,12 +168,26 @@ app.get("/parks", (req, res) => {
 
 
 
-  const query = "SELECT * FROM "
-  res.render("pages/facilities");
+  const query = "SELECT * FROM facilities;";
+  db.any(query)
+  
+  .then((data)=>{
+
+    res.render("pages/parks",{data:data});
+    res.status(201);
+
+  })
+  .catch((err)=>{
+    console.log(err);
+    res.status(400);
+
+  })
+  
 });
 
-app.get("/park_courts", (req, res) => {
-  res.render("pages/park_courts");
+app.get("/park", (req, res) => {
+  
+
 });
 
 app.get("/court", (req, res) => {
@@ -242,6 +256,9 @@ app.get("/find_partners", (req, res) => {
 });
 
 app.get("/featured_parks", (req, res) => {
+
+
+  
   res.render("pages/featured_parks");
 });
 
