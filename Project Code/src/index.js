@@ -164,12 +164,16 @@ const auth = (req, res, next) => {
 // Authentication Required
 app.use(auth);
 
-app.get("/facilities", (req, res) => {
+app.get("/parks", (req, res) => {
+
+
+
+  const query = "SELECT * FROM "
   res.render("pages/facilities");
 });
 
-app.get("/facility_courts", (req, res) => {
-  res.render("pages/facility_courts");
+app.get("/park_courts", (req, res) => {
+  res.render("pages/park_courts");
 });
 
 app.get("/court", (req, res) => {
