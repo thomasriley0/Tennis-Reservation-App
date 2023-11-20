@@ -73,15 +73,18 @@ app.post("/login", async (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
     const query = `select * from users where username='${username}';`;
-    let user = await db.one(query);
+    let user_temp = await db.one(query);
 
-    if (user.length != 0) {
+    if (user_temp.length != 0) {
       // check if password from request matches with password in DB
-      const match = await bcrypt.compare(req.body.password, user.password);
+      const match = await bcrypt.compare(req.body.password, user_temp.password);
       if (match == false) {
         throw new Error("Incorrect username or password");
       } else {
         //save user details in session like in lab 8
+        user.username = username;
+        user.password = password;
+        user.user_id = user_temp.userid;
         req.session.user = user;
         req.session.save();
         res.redirect("/");
@@ -186,7 +189,7 @@ app.get("/reservations", (req, res) => {
 app.post("/reservations", (req, res) => {});
 
 app.get("/profile", (req, res) => {
-  const query = `SELECT * FROM users WHERE username = '${user.username}';`;
+  const query = `SELECT * FROM users WHERE userID = '${req.session.user.user_id}';`;
 
   db.any(query)
 
