@@ -5,6 +5,7 @@ const session = require("express-session");
 const bcrypt = require("bcrypt");
 const axios = require("axios");
 const bodyParser = require("body-parser");
+const { query } = require("express");
 
 // database configuration
 const dbConfig = {
@@ -60,9 +61,21 @@ app.use(
 app.use(express.static(__dirname + "/resources"));
 
 app.get("/", (req, res) => {
-  res.render("pages/home");
-  // res.render("pages/home");
+
+  const query = "SELECT name,city FROM facilities LIMIT 8;";
+
+  db.any(query) // if fully booked do not show the park
+    .then((parks) =>{
+      res.render("pages/home",{
+       parks,
+     });
+    })
+  .catch((err)=>{
+    console.log(err);
+    res.render("pages/err");
+  });
 });
+
 //Login API Routes
 app.get("/login", (req, res) => {
   res.render("pages/login");
@@ -211,8 +224,20 @@ app.get("/reservations_lfg", (req, res) => {
   res.render("pages/reservations_lfg");
 });
 
-app.get("/featured_facilities", (req, res) => {
-  res.render("pages/featured_facilities");
+app.get("/featured-parks", (req, res) => {
+
+  const query = "SELECT name,city FROM facilities;";
+
+  db.any(query) // if fully booked do not show the park
+    .then((parks) =>{
+      res.render("pages/featured-parks",{
+       parks,
+     });
+    })
+  .catch((err)=>{
+    console.log(err);
+    res.render("pages/err");
+  });
 });
 
 //Start server

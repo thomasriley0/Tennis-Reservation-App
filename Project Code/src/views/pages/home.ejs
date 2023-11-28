@@ -1,5 +1,63 @@
 <%- include ('../partials/header') %>
 
-<main><%- include ('../partials/menu') %></main>
+<link rel="stylesheet" href="css/home.css" />
+<main>
+  <%- include ('../partials/menu') %>
+
+  <!-- Look for park with zip-code -->
+    <div class="wrapper">
+    <div class="div-form">
+      <form action="/find_parks" method="post">
+        <input
+          type="text"
+          name="zip-code"
+          class="zip-input"
+          id="username"
+          placeholder="Zip Code"
+        />
+        <button type="submit" class="btn parks-btn">Find Parks</button>
+      </form>
+    </div>
+    <h2 >Featured Parks Near Me</h2>
+
+    <div class="div-featured">  
+
+        <% parks.forEach( park => {%>
+        
+        <div class="courts">
+            <img src="../img/rec.png" alt="image" />
+            <h4><%-park.name%></h4>
+            <h5>Location: <%-park.city%></h5>
+        </div>
+        <%}); %>
+    </div>
+    <div class="div-btn">
+        <button type="submit" class="btn view-btn"><a href="featured-parks.ejs">View All</a></button>
+    </div>
+    <!-- Featured Parks -->
+
+    <!-- Para arreglar el carousel tienes que crear un nuevo div -->
+
+    <!-- Play with a partner -->
+    <h2>Play With a Partner</h2>
+
+    <div class="div-partner-idk">
+
+      <% parks.forEach( park => {%>
+        
+        <div class="courts">
+            <img src="../img/park.svg" alt="image" />
+            <h4><%-park.name%></h4>
+            <h5>Location: <%-park.city%></h5>
+        </div>
+        <%}); %>
+
+    </div>
+    <div class="div-btn">
+        <button type="submit" class="btn view-btn"><a href="/featured-parks">View All</a></button>
+    </div>
+  </div>
+</div>
+</main>
 
 <%- include ('../partials/footer') %>
