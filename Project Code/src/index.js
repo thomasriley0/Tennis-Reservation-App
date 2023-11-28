@@ -211,7 +211,7 @@ app.get("/reservations", (req, res) => {
     res.status(400);
   })
   
-  res.render("pages/reservations");
+  
 });
 
 app.post("/reservations", (req, res) => {});
