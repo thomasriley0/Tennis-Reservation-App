@@ -176,7 +176,9 @@ app.get("/parks", (req, res) => {
     });
 });
 
-app.get("/park", (req, res) => {});
+app.get("/park", (req, res) => {
+  res.redirect("/");
+});
 
 app.get("/court", (req, res) => {
   res.render("pages/court");
@@ -186,7 +188,7 @@ app.get("/reservations", (req, res) => {
   res.render("pages/reservations");
 });
 
-app.post("/reservations", (req, res) => {});
+app.post("/reservations", (req, res) => { });
 
 app.get("/profile", (req, res) => {
   const query = `SELECT * FROM users WHERE userID = '${req.session.user.user_id}';`;
@@ -238,15 +240,21 @@ app.get("/find_partners", (req, res) => {
   res.render("pages/find_partners");
 });
 
-app.get("/featured_parks", (req, res) => {
-  const query =
-    "SELECT facilities.name, COUNT(facilities.name) FROM facilities INNER JOIN reservation ON facilities.facilityID = reservation.facilityID GROUP BY facilities.name ORDER BY DESC LIMIT 8;";
+app.get("/featured-parks", (req, res) => {
+
+  //returns error, needs work
+  //possibly because there are currently no resverations in table?
+  //const query =
+  //  "SELECT facilities.name, COUNT(facilities.name) FROM facilities INNER JOIN reservation ON facilities.facilityID = reservation.facilityID GROUP BY facilities.name ORDER BY DESC LIMIT 8;";
+
+  //placeholder query for testing
+  const query = "select name from facilities LIMIT 8;";
 
   db.any(query)
 
     .then((data) => {
       res.status(200);
-      res.render("pages/featured_parks", { data: data });
+      res.render("pages/featured-parks", { data: data });
     })
     .catch((err) => {
       res.status(400);
