@@ -1,0 +1,117 @@
+@import url(//fonts.googleapis.com/css?family=Nunito);
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
+/* .container{
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 5px;
+} */
+
+h2{
+    font-family: Nunito;
+    text-align: center;
+    padding-top: 2.5rem;
+
+}
+
+.div-btn{
+    display: flex;
+    justify-content: center;
+}
+
+::placeholder {
+    color: rgb(118, 118, 118);
+    padding-left: 4px;
+}
+
+.zip-input{
+    border: 1px solid black;
+    border-radius: 15px;
+    background-color: #DDDDDD;
+    text-align: center;
+
+}
+
+.parks-btn{
+    background-color: #20AF4B;
+    font-family: "Nunito", sans-serif;
+    color: #fff;
+}
+
+.div-form{
+    display: flex;
+    justify-content: center;
+    padding-top: 2.2rem;
+}
+
+.div-featured{
+
+
+  display: flex;
+  gap: 10px;
+  width: 70rem;
+  max-width: 90%;
+  margin: 50px auto;
+  padding: 10px;
+  overflow-x: scroll;
+
+  scroll-snap-type: x mandatory;
+
+}
+
+.courts{
+    /* display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: rgb(213, 213, 213) ;
+    border: 1px solid black;
+    border-radius: 5px; */
+
+
+    flex: 1 0 250px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px 1px #ccc;
+    color: #444;
+    /* snap */
+    scroll-snap-align: start;
+    scroll-margin: 5px;
+
+}
+
+
+.div-partner-idk{
+    /* display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border: 1px solid black;
+    border-radius: 5px;
+    gap: 5px; */
+
+
+  display: flex;
+  gap: 10px;
+  width: 70rem;
+  max-width: 90%;
+  margin: 50px auto;
+  padding: 10px;
+  overflow-x: scroll;
+
+  scroll-snap-type: x mandatory;
+
+}
+
+.view-btn{
+    background-color: #002F47;
+    font-family: "Nunito", sans-serif;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+
+}
+
