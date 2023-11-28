@@ -167,8 +167,9 @@ app.get("/parks", (req, res) => {
   db.any(query)
 
     .then((data) => {
-      res.status(201);
+      
       res.render("pages/parks", { data: data });
+      res.status(201);
     })
     .catch((err) => {
       console.log(err);
@@ -183,6 +184,33 @@ app.get("/court", (req, res) => {
 });
 
 app.get("/reservations", (req, res) => {
+  
+  var query = 
+  `SELECT courts.name, facilities.name, 
+  facilities.address, court_times.court_date,
+  court_times.start_time, court_times.end_time, reservation.lfg
+  FROM reservation
+  INNER JOIN courts
+  ON reservation.courtID = courts.courtID
+  INNER JOIN court_times
+  ON reservation.timeID = court_times.timeID
+  INNER JOIN facilities
+  ON reservation.facilityID = facilities.facilityID
+  AND reservation.userID = ${req.session.user.user_id};`
+
+  db.any(query)
+  .then((data) =>{
+    console.log("success");
+    res.render();
+    res.status(201);
+    res.render("pages/reservation",{data:data});
+
+  })
+  .catch((err) =>{
+    console.log(err)
+    res.status(400);
+  })
+  
   res.render("pages/reservations");
 });
 
