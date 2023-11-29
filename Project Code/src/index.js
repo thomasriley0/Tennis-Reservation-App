@@ -60,13 +60,20 @@ app.use(
 app.use(express.static(__dirname + "/resources"));
 
 app.get("/", (req, res) => {
-  res.render("pages/home");
+  res.render("pages/home",{user_id:user.user_id});
   // res.render("pages/home");
 });
 //Login API Routes
 app.get("/login", (req, res) => {
-  res.render("pages/login");
+  res.render("pages/login",{user_id:user.user_id});
 });
+
+app.get("/logout", (req, res) => {
+  req.session.destroy();
+  user = {};
+  res.render("pages/home", { user_id:user.user_id });
+});
+
 
 app.post("/login", async (req, res) => {
   try {
@@ -102,7 +109,7 @@ app.post("/login", async (req, res) => {
 });
 
 app.get("/register", (req, res) => {
-  res.render("pages/register");
+  res.render("pages/register",{user_id: user.user_id});
 });
 
 app.post("/register", async (req, res) => {
@@ -167,9 +174,8 @@ app.get("/parks", (req, res) => {
   db.any(query)
 
     .then((data) => {
-
-      res.render("pages/parks", { data: data });
       res.status(201);
+      res.render("pages/parks", { data: data, user_id: user.user_id});
     })
     .catch((err) => {
       console.log(err);
@@ -234,6 +240,7 @@ app.get("/profile", (req, res) => {
     .then(function (data) {
       res.render("pages/profile", {
         data: data,
+        user_id: user.user_id
       });
       res.status(201);
     })
@@ -242,6 +249,12 @@ app.get("/profile", (req, res) => {
       console.log(err);
       console.log(data);
     });
+});
+
+app.get("/park-search", (req, res) => {
+  //get reservations that are looking for group
+
+  res.render("pages/park-search");
 });
 
 app.post("/profile", (req, res) => {
@@ -273,7 +286,7 @@ app.post("/profile", (req, res) => {
 app.get("/find_partners", (req, res) => {
   //get reservations that are looking for group
 
-  res.render("pages/find_partners");
+  res.render("pages/find-partners", {user_id: user.user_id});
 });
 
 app.get("/featured_parks", (req, res) => {
@@ -284,7 +297,7 @@ app.get("/featured_parks", (req, res) => {
 
     .then((data) => {
       res.status(200);
-      res.render("pages/featured_parks", { data: data });
+      res.render("pages/featured-parks", { data: data, user_id:user.user_id });
     })
     .catch((err) => {
       res.status(400);
