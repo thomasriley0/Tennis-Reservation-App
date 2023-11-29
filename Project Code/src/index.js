@@ -176,7 +176,25 @@ app.get("/parks", (req, res) => {
     });
 });
 
-app.get("/park", (req, res) => {});
+app.get("/park", (req, res) => {
+
+  park = req.body.park_name;
+
+  query = 'SELECT * FROM facilities WHERE name = $1'
+
+  db.any(query,park)
+
+  .then((data)=>{
+    console.log("park found")
+    res.render("pages/park",{data:data})
+    res.status(201)
+  })
+  .catch((err)=>{
+    console.log(err)
+    res.status(400)
+  })
+
+});
 
 app.get("/court", (req, res) => {
   res.render("pages/court");
