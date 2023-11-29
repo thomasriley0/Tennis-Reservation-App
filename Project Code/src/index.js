@@ -237,18 +237,44 @@ app.post("/profile", (req, res) => {
 app.get("/find_partners", (req, res) => {
   //get reservations that are looking for group
 
-  res.render("pages/find_partners");
+  //location variable that will allow us to alter display on the frontend if we want to.
+  var location;
+
+  if (user.location != null) {
+    //query for no location found
+    location = false;
+    var query = "select facilities.name, facilities.location, facilities.facilityID, lfg_reservations.reservationID,courts.name from facilities INNER JOIN ( select * from reservation where lfg = TRUE) lfg_reservations on facilities.facilityID = lfg_reservations.facilityID INNER JOIN courts on lfg_reservations.courtID = courts.courtID LIMIT 8;"
+  }
+  else {
+    location = true;
+
+  }
+
+  db.any(query)
+    .then((data) => {
+      res.render("pages/find_partners", {
+        data: data,
+        location: location
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.redirect("/");
+      res.status(400);
+    });
+
 });
 
 app.get("/featured-parks", (req, res) => {
 
   //returns error, needs work
   //possibly because there are currently no resverations in table?
-  //const query =
-  //  "SELECT facilities.name, COUNT(facilities.name) FROM facilities INNER JOIN reservation ON facilities.facilityID = reservation.facilityID GROUP BY facilities.name ORDER BY DESC LIMIT 8;";
+  //facilities.name, COUNT(facilities.name), facilities.location
+  const query =
+    "SELECT facilities.name, COUNT(facilities.name) FROM facilities INNER JOIN reservation ON facilities.facilityID = reservation.facilityID GROUP BY facilities.name ORDER BY COUNT(facilities.name) DESC LIMIT 8; ";
 
   //placeholder query for testing
-  const query = "select name from facilities LIMIT 8;";
+  //const query = "select * from facilities LIMIT 8;";
 
   db.any(query)
 
