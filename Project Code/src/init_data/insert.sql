@@ -590,3 +590,14 @@ INSERT INTO court_times (court_date, start_time, end_time) VALUES ('2024-01-31',
 INSERT INTO court_times (court_date, start_time, end_time) VALUES ('2024-01-31', '1600', '1700');
 INSERT INTO court_times (court_date, start_time, end_time) VALUES ('2024-01-31', '1700', '1800');
 INSERT INTO court_times (court_date, start_time, end_time) VALUES ('2024-01-31', '1800', '1900');
+
+INSERT into reservation (userID, courtID, timeID, facilityID, lfg) VALUES (1, 10, 5, 3, FALSE);
+INSERT into reservation (userID, courtID, timeID, facilityID, lfg) VALUES (2, 1, 1, 1, FALSE);
+INSERT into reservation (userID, courtID, timeID, facilityID, lfg) VALUES (3, 5, 10, 2, TRUE);
+INSERT into reservation (userID, courtID, timeID, facilityID, lfg) VALUES (4, 13, 23, 4, FALSE);
+INSERT into reservation (userID, courtID, timeID, facilityID, lfg) VALUES (5, 15, 15, 5, FALSE);
+INSERT into reservation (userID, courtID, timeID, facilityID, lfg) VALUES (6, 27, 2, 6, TRUE);
+INSERT into reservation (userID, courtID, timeID, facilityID, lfg) VALUES (7, 35, 31, 7, FALSE);
+INSERT into reservation (userID, courtID, timeID, facilityID, lfg) VALUES (8, 37, 12, 8, FALSE);
+INSERT into reservation (userID, courtID, timeID, facilityID, lfg) VALUES (9, 48, 19, 9, TRUE);
+

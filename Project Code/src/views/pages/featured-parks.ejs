@@ -10,7 +10,8 @@
             .profileContainer {
                 display: grid;
                 margin: auto;
-                grid-template-columns: repeat(3, 1fr);
+                grid-template-columns: repeat(2, 1fr);
+                row-gap: 5px;
                 width: 50%;
                 padding: 10px;
             }
@@ -24,18 +25,21 @@
 
         <%- include ('../partials/menu')%>
 
-            <section id="profileContainer" class="vh-100" style="background-color: #f4f5f7;">
+            <section id="profileContainer" class="vh-100" style="background-color: #f4f5f7; height:100%;">
                 <h3 style="text-align: center;">Featured Parks</h3>
                 <p style="text-align: center;">Here are some of our favorite parks in your local area!</p>
                 <div class="profileContainer">
-                    <% data.forEach(function (facility) { %>
-                        <div class="facility">
-                            <h3> <%- facility.name %> </h3>
-                            <form action="/park" method="GET">
-                                <input name="name" type="hidden" value="<%- facility.name %>">
-                                <button type="submit" class="btn btn-success">Courts</button>
-                            </form>
-                        </div>
+                    <% data.forEach(function (park) { %>
+                        <form action="/court" method="GET">
+                            <div class="card text-center" style="width: 18rem; height: 10rem">
+                                <div class="card-body">
+                                    <input type="hidden" name="name" value="<%- park.name %>">
+                                    <h5><%- park.name %></h5>
+                                    <h5><%- park.location %></h5>
+                                    <button type="submit" class="btn btn-success">View Courts</button>
+                                </div>
+                            </div>
+                        </form>
                         <% }); %>
                 </div>
             </section>
