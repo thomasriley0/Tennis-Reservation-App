@@ -47,20 +47,41 @@ h2{
     padding-top: 2.2rem;
 }
 
+
+
 .div-featured{
 
+    border: 2px solid black;    
+    border-radius: 15px;
+    
 
-  display: flex;
-  gap: 10px;
-  width: 70rem;
-  max-width: 90%;
-  margin: 50px auto;
-  padding: 10px;
-  overflow-x: scroll;
 
-  scroll-snap-type: x mandatory;
+    display: flex;
+    gap: 10px;
+    width: 70rem;
+    max-width: 90%;
+    margin: 50px auto;
+    padding: 10px;
+    overflow-x: scroll;
+
+    scroll-snap-type: x mandatory;
 
 }
+
+/* border */
+
+/* .borderrr {
+	font-size: 1.6rem;
+
+
+	min-height: 200px;
+	border: 8px solid;
+	padding: 1rem;
+}
+
+.sides-2 {
+	border-image: linear-gradient(to bottom, rgb(16, 226, 72), greenyellow) 0 1 ;
+} */
 
 .courts{
     /* display: flex;
@@ -84,7 +105,7 @@ h2{
 }
 
 
-.div-partner-idk{
+.div-partner{
     /* display: flex;
     justify-content: center;
     align-items: center;
@@ -93,7 +114,8 @@ h2{
     border-radius: 5px;
     gap: 5px; */
 
-
+    border: 2px solid black;    
+    border-radius: 15px;
   display: flex;
   gap: 10px;
   width: 70rem;
@@ -112,6 +134,8 @@ h2{
     color: #fff;
     display: flex;
     justify-content: center;
-
+    width: 23%;
 }
+
+ 
 
