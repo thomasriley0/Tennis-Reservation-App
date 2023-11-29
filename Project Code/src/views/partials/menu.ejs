@@ -14,15 +14,19 @@
         <a class="nav-link" href="/featured-parks">Featured Parks</a>
         <a class="nav-link" href="/find-partners">Find Partners</a>
         <a class="nav-link" href="/park-search">Park Search</a>
-        <a class="nav-link" href="/profile">Profile</a>
       </div>
       <div class="right ml-auto ml-3 d-flex flex-row">
-        <!-- LOGGED OUT -->
-        <a class="nav-link" href="/register">Log In / Sign Up</a>
-        <!-- LOGGED IN 
-           <a class="nav-link" href="/reservations">Reservations</a>
-           <a class="nav-link" href="/profile">Profile</a>
-          <a class="nav-link" href="/logout">Logout</a> -->
+       
+        <%if (user_id) {%>
+          <!-- LOGGED IN -->
+          <a class="nav-link" href="/reservations">Reservations</a>
+          <a class="nav-link" href="/profile">Profile</a>
+          <a class="nav-link" href="/logout">Logout</a> 
+        <% } else {%>
+          <!-- LOGGED OUT -->
+          <a class="nav-link" href="/register">Log In / Sign Up</a>
+        <% } %>
+       
 
       </div>
     </div>
@@ -51,16 +55,16 @@
         <img src="/img/line.svg" alt="">
       </div>
 
-      <!-- LOGGED OUT -->
-      <li><a href="/login">Log In</a></li>
-      <li><a href="/register">Create an Account</a></li>
-
-      <!-- LOGGED IN 
-      <li><a href="/login">Reservations</a></li>
-      <li><a href="/profile">Profile</a></li>
-      <li><a href="/logout">Logout</a></li> -->
-
-
+      <%if (user_id) {%>
+        <!-- LOGGED IN -->
+        <li><a href="/login">Reservations</a></li>
+        <li><a href="/profile">Profile</a></li>
+        <li><a href="/logout">Logout</a></li> 
+      <% } else { %>
+        <!-- LOGGED OUT -->
+        <li><a href="/login">Log In</a></li>
+        <li><a href="/register">Create an Account</a></li>
+      <% }  %>
     </ul>
   </div>
 </div>
