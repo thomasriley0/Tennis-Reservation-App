@@ -254,5 +254,27 @@ app.get("/featured_parks", (req, res) => {
     });
 });
 
+app.get("/courts", (req,res) =>{
+
+  const id = req.body.name
+  const query =
+  `SELECT * FROM courts WHERE name = '${id}'; `;
+
+  db.any(query)
+
+  .then((data) =>{
+    res.status(201);
+    res.render("pages/courts",{data:data})
+
+  })
+
+  .catch((err) =>{
+    res.status(400)
+    console.log(err)
+  })
+
+
+})
+
 //Start server
 module.exports = app.listen(3000);
