@@ -3,7 +3,57 @@
 -->
 
 <%- include ('../partials/header')%>
+    <main>
+        <%- include ('../partials/menu')%>
+            <link rel="stylesheet" href="/css/reservations.css" />
+            <div class="container-md mt-5 text-center">
+                <h6>MY RESERVATIONS</h6>
+            </div>
+            <div class="container mt-5">
+                <% if(!data[0]){%>
+                    <p style="text-align: center;">You currently have no reservations.</p>
+                    <%};%>
+                        <% data.forEach(function(item){ %>
+                            <div class="card mb-2 border-secondary">
+                                <div class="card-body">
+                                    <div class="row">
 
-<main><%- include ('../partials/menu')%></main>
+                                        <div class="col-md-4" style="padding-top: 18px;">
+                                            <h5>
+                                                <%=item.court_date.toLocaleDateString()%>
+                                            </h5>
+                                            <p>
+                                                Time: <%=item.start_time.toString().substring(0,2)%>:
+                                                    <%=item.start_time.toString().substring(2,4)%> -
+                                                        <%=item.end_time.toString().substring(0,2)%>:
+                                                            <%=item.end_time.toString().substring(2,4)%>
+                                            </p>
+                                        </div>
 
-<%- include ('../partials/footer') %>
+
+                                        <div class="col-md-5">
+
+                                            <p class="card-text">Park: <%=item.park%>
+                                            </p>
+                                            <p class="card-text">Court: <%=item.court%>
+                                            </p>
+                                            <p class="card-text">Address: <%=item.address%>
+                                            </p>
+                                        </div>
+
+                                        <div class="col-md-3 d-flex justify-content-end align-items-center">
+                                            <form id="cancelForm" action="/reservations" method="POST">
+                                                <input type="hidden" name="reservationID" value=<%-item.reservationid%>>
+                                                <button type="submit" class="btn btn-danger">CANCEL</button>
+                                            </form>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <% }); %>
+            </div>
+
+    </main>
+
+    <%- include ('../partials/footer') %>

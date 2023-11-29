@@ -167,7 +167,7 @@ app.get("/parks", (req, res) => {
   db.any(query)
 
     .then((data) => {
-      
+
       res.render("pages/parks", { data: data });
       res.status(201);
     })
@@ -177,18 +177,19 @@ app.get("/parks", (req, res) => {
     });
 });
 
-app.get("/park", (req, res) => {});
+app.get("/park", (req, res) => { });
 
 app.get("/court", (req, res) => {
   res.render("pages/court");
 });
 
 app.get("/reservations", (req, res) => {
-  
-  var query = 
-  `SELECT courts.name, facilities.name, 
+
+  var query =
+    `SELECT courts.name AS court, facilities.name AS park, 
   facilities.address, court_times.court_date,
-  court_times.start_time, court_times.end_time, reservation.lfg
+  court_times.start_time, court_times.end_time, reservation.lfg,
+  reservation.reservationID
   FROM reservation
   INNER JOIN courts
   ON reservation.courtID = courts.courtID
@@ -199,22 +200,31 @@ app.get("/reservations", (req, res) => {
   AND reservation.userID = ${req.session.user.user_id};`
 
   db.any(query)
-  .then((data) =>{
-    console.log("success");
-    res.render();
-    res.status(201);
-    res.render("pages/reservation",{data:data});
+    .then((data) => {
+      res.status(201);
+      res.render("pages/reservations", {
+        data: data,
+      });
 
-  })
-  .catch((err) =>{
-    console.log(err)
-    res.status(400);
-  })
-  
-  
+    })
+    .catch((err) => {
+      console.log(err)
+      res.status(400);
+    })
 });
 
-app.post("/reservations", (req, res) => {});
+app.post("/reservations", (req, res) => {
+  const query = `DELETE FROM reservation WHERE reservationID = '${req.body.reservationID}';`;
+  db.any(query)
+    .then((data) => {
+      res.status(201);
+      res.redirect("/reservations");
+    })
+    .catch((err) => {
+      console.log(err)
+      res.status(400);
+    })
+});
 
 app.get("/profile", (req, res) => {
   const query = `SELECT * FROM users WHERE userID = '${req.session.user.user_id}';`;
