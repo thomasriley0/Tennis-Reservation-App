@@ -167,8 +167,9 @@ app.get("/parks", (req, res) => {
   db.any(query)
 
     .then((data) => {
-      res.status(201);
       res.render("pages/parks", { data: data });
+      res.status(201);
+      
     })
     .catch((err) => {
       console.log(err);
@@ -180,20 +181,32 @@ app.get("/park", (req, res) => {
 
   park = req.body.park_name;
 
-  query = 'SELECT * FROM facilities WHERE name = $1'
+  query = `SELECT * FROM facilities WHERE name = '${park}';`;
+  query2 = `SELECT * FROM courts INNER JOIN facilities ON courts.facilitiesID = facilities.facilityID AND facilities.name = '${park}';`;
 
-  db.any(query,park)
+  db.task('get-everything',task=>{
 
-  .then((data)=>{
-    console.log("park found")
-    res.render("pages/park",{data:data})
-    res.status(201)
-  })
-  .catch((err)=>{
-    console.log(err)
-    res.status(400)
+    return task.batch([
+      task.any(query),
+      task.any(query2)
+    ])
   })
 
+    .then( data=>{
+
+      console.log("courts and park found")
+      res.render("pages/park",{park:data[0], courts:data[1]})
+      res.status(201)
+      
+    })
+
+    .catch(err=>{
+
+      console.log(err)
+      res.status(400)
+    })
+
+  
 });
 
 app.get("/court", (req, res) => {
