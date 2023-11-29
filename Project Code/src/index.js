@@ -68,6 +68,13 @@ app.get("/login", (req, res) => {
   res.render("pages/login",{user_id:user.user_id});
 });
 
+app.get("/logout", (req, res) => {
+  req.session.destroy();
+  user = {};
+  res.render("pages/home", { user_id:user.user_id });
+});
+
+
 app.post("/login", async (req, res) => {
   try {
     const username = req.body.username;
