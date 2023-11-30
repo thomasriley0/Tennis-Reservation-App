@@ -16,54 +16,54 @@
         <a class="nav-link" href="/park-search">Park Search</a>
       </div>
       <div class="right ml-auto ml-3 d-flex flex-row">
-       
+
         <%if (user_id) {%>
           <!-- LOGGED IN -->
           <a class="nav-link" href="/reservations">Reservations</a>
           <a class="nav-link" href="/profile">Profile</a>
-          <a class="nav-link" href="/logout">Logout</a> 
-        <% } else {%>
-          <!-- LOGGED OUT -->
-          <a class="nav-link" href="/register">Log In / Sign Up</a>
-        <% } %>
-       
+          <a class="nav-link" href="/logout">Logout</a>
+          <% } else {%>
+            <!-- LOGGED OUT -->
+            <a class="nav-link" href="/register">Log In / Sign Up</a>
+            <% } %>
+
 
       </div>
     </div>
   </div>
 </div>
 </div>
-  <div class="nav-popup transition closed">
-    <div class="popup-content">
-      <ul class="nav-list d-flex flex-column">
-        <li><a href="/">Home</a></li>
-        <li><a href="/learn-more">Learn More</a></li>
-        <div class="nav-break">
-          <img src="/img/line.svg" alt="">
-        </div>
-  
-        <li><a href="/featured-parks">Featured Parks</a></li>
-        <li><a href="/find-partners">Find Partners</a></li>
-        <li><a href="/park-search">Park Search</a></li>
+<div class="nav-popup transition closed">
+  <div class="popup-content">
+    <ul class="nav-list d-flex flex-column">
+      <li><a href="/">Home</a></li>
+      <li><a href="/learn-more">Learn More</a></li>
+      <div class="nav-break">
+        <img src="/img/line.svg" alt="">
+      </div>
+
+      <li><a href="/featured-parks">Featured Parks</a></li>
+      <li><a href="/find-partners">Find Partners</a></li>
+      <li><a href="/park-search">Park Search</a></li>
+      <li><a href="/profile">Profile</a></li>
+      <div class="nav-break">
+        <img src="/img/line.svg" alt="">
+      </div>
+
+      <%if (user_id) {%>
+        <!-- LOGGED IN -->
+        <li><a href="/reservations">Reservations</a></li>
         <li><a href="/profile">Profile</a></li>
-        <div class="nav-break">
-          <img src="/img/line.svg" alt="">
-        </div>
-  
-        <%if (user_id) {%>
-          <!-- LOGGED IN -->
-          <li><a href="/login">Reservations</a></li>
-          <li><a href="/profile">Profile</a></li>
-          <li><a href="/logout">Logout</a></li> 
+        <li><a href="/logout">Logout</a></li>
         <% } else { %>
           <!-- LOGGED OUT -->
           <li><a href="/login">Log In</a></li>
           <li><a href="/register">Create an Account</a></li>
-        <% }  %>
-      </ul>
-    </div>
+          <% } %>
+    </ul>
+  </div>
 
-  
+
 </div>
 
 
