@@ -5,6 +5,21 @@
 
 <%- include ('../partials/header')%>
 
-<main><%- include ('../partials/menu')%></main>
+    <main>
+        <%- include ('../partials/menu')%>
+            <div class="container-md mt-5 text-center">
+                <h6>FIND PARTNERS</h6>
+                <% if (location !=null) { %>
+                    <h4>Here are some open reservations in your local area! </h5>
+                        <% } else {%>
+                            <h4>Here are some of our reccomended open reservations for you to join!</h5>
+                                <% } %>
+            </div>
+            <section id="findReservationsContainer">
+                <div class="container-md mt-5 text-center">
 
-<%- include ('../partials/footer') %>
+                </div>
+            </section>
+    </main>
+
+    <%- include ('../partials/footer') %>
