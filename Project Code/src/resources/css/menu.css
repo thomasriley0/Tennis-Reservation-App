@@ -83,6 +83,9 @@ overflow:hidden;
   #webHeader {
     display: flex !important;
   }
+  body {
+    overflow: auto !important;
+  }
 }
 
 .closed {
