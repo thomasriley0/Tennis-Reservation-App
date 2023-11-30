@@ -67,6 +67,7 @@ CREATE TABLE reservation(
 
     reservationID SERIAL PRIMARY KEY,
     userID INT NOT NULL,
+    joinedUserID INT,
     courtID INT NOT NULL,
     timeID INT NOT NULL,
     facilityID INT NOT NULL,

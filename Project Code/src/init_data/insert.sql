@@ -592,4 +592,4 @@ INSERT INTO court_times (court_date, start_time, end_time) VALUES ('2024-01-31',
 INSERT INTO court_times (court_date, start_time, end_time) VALUES ('2024-01-31', '1800', '1900');
 
 INSERT into reservation (userID, courtID, timeID, facilityID, lfg) VALUES (1,1,1,1,TRUE);
-INSERT into reservation (userID, courtID, timeID, facilityID, lfg) VALUES (2,3,2,2,TRUE);
+INSERT into reservation (userID, courtID, timeID, facilityID, lfg) VALUES (2,4,2,2,TRUE);

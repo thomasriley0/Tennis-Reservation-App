@@ -252,7 +252,7 @@ app.get("/reservations", (req, res) => {
   ON reservation.timeID = court_times.timeID
   INNER JOIN facilities
   ON reservation.facilityID = facilities.facilityID
-  AND reservation.userID = ${req.session.user.user_id};`
+  AND (reservation.userID = ${req.session.user.user_id} OR reservation.joinedUserID = ${req.session.user.user_id});`
 
   db.any(query)
     .then((data) => {
@@ -361,7 +361,7 @@ app.get("/find-partners", async (req, res) => {
   //Need to send username, location, facilityname, courtname, time
   // need to send facilityID, courtID, court to time id?
 
-  if (user.location) {
+  if (req.session.user.location != undefined) {
     //query for no location found
     location = false;
     //var query = `select facilities.name, facilities.location, facilities.facilityID, lfg_reservations.reservationID,courts.name from facilities INNER JOIN ( select * from reservation where lfg = TRUE) lfg_reservations on facilities.facilityID = lfg_reservations.facilityID INNER JOIN courts on lfg_reservations.courtID = courts.courtID LIMIT 8;`;
@@ -390,7 +390,7 @@ app.get("/find-partners", async (req, res) => {
   }
   else {
     location = true;
-    var query = `select reservations.facilityID, reservations.timeID, reservations.courtID, reservations.userID,
+    var query = `select reservations.reservationID, reservations.facilityID, reservations.timeID, reservations.courtID, reservations.userID,
      facilities.name as parkName, facilities.location, facilities.city, courts.name as courtName, court_times.court_date, 
      court_times.start_time, court_times.end_time, users.username
      from (select * from reservation where lfg = TRUE) reservations
@@ -399,6 +399,7 @@ app.get("/find-partners", async (req, res) => {
      INNER JOIN court_times on reservations.timeID = court_times.timeID
      INNER JOIN users on reservations.userID = users.userID;`;
     console.log("here1");
+    console.log(req.session.user.location);
     db.any(query)
       .then((data) => {
         res.render("pages/find-partners", {
@@ -416,6 +417,28 @@ app.get("/find-partners", async (req, res) => {
 
 });
 
+app.post("/join-reservation", (req, res) => {
+  var query = `update reservation set joinedUserID = '${req.session.user.user_id}' where reservationID = '${req.body.reservationID}' returning *;`;
+
+  db.any(query)
+    .then((data) => {
+      var query2 = `update reservation set lfg = 'FALSE' where reservationID = '${req.body.reservationID}' returning *;`;
+      db.any(query2)
+        .then((data2) => {
+          res.redirect("/find-partners");
+        })
+        .catch((error) => {
+          console.log(error);
+          res.redirect("/find-partners")
+        })
+    })
+    .catch((err) => {
+      console.log(err);
+      res.redirect("/");
+      res.status(400);
+    });
+});
+
 app.get("/featured-parks", (req, res) => {
 
   //returns error, needs work
@@ -423,6 +446,7 @@ app.get("/featured-parks", (req, res) => {
   //facilities.name, COUNT(facilities.name), facilities.location
   const query =
     "SELECT facilities.name, COUNT(facilities.name) FROM facilities INNER JOIN reservation ON facilities.facilityID = reservation.facilityID GROUP BY facilities.name ORDER BY COUNT(facilities.name) DESC LIMIT 8; ";
+
 
   //placeholder query for testing
   //const query = "select * from facilities LIMIT 8;";
