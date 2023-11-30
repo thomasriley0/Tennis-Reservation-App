@@ -210,6 +210,7 @@ app.get("/reservations", (req, res) => {
       res.status(201);
       res.render("pages/reservations", {
         data: data,
+        user_id: user.user_id
       });
 
     })
