@@ -60,7 +60,54 @@ app.use(
 app.use(express.static(__dirname + "/resources"));
 
 app.get("/", (req, res) => {
-  res.render("pages/home", { user_id: user.user_id });
+
+  //temporary partner data
+  const reservations = [
+    {
+      parkName: "Cu Rec Courts",
+      start_time: "8:00 AM",
+      end_time: "10:00 AM",
+      image: "https://www.colorado.edu/recreation/sites/default/files/styles/hero/public/page/cureccenter-r-tennis-02-low_res_0.jpg?itok=p6vRutfF"
+    },
+    {
+      parkName: "Cu Rec Courts",
+      start_time: "10:00 AM",
+      end_time: "12:00 PM"
+    },
+    {
+      parkName: "Cu Rec Courts",
+      start_time: "12:00 PM",
+      end_time: "2:00 PM"
+    },
+    {
+      parkName: "Cu Rec Courts",
+      start_time: "2:00 PM",
+      end_time: "4:00 PM"
+    },
+    {
+      parkName: "Cu Rec Courts",
+      start_time: "4:00 PM",
+      end_time: "6:00 PM"
+    },
+    {
+      parkName: "Cu Rec Courts",
+      start_time: "8:00 PM",
+      end_time: "9:00 PM"
+    }
+  ]
+
+  //temporary park query
+  const query =
+    "SELECT * FROM facilities LIMIT 8;";
+    db.any(query) .then((data) => {
+      res.status(200);
+      res.render("pages/home", { user_id: user.user_id, data:data, partnerInfo: reservations });
+    }) .catch((err) => {
+      res.render("pages/home", { user_id: user.user_id, data:[], parterInfo: reservations });
+      res.status(400);
+    });
+ 
+
   // res.render("pages/home");
 });
 //Login API Routes
@@ -71,7 +118,7 @@ app.get("/login", (req, res) => {
 app.get("/logout", (req, res) => {
   req.session.destroy();
   user = {};
-  res.render("pages/home", { user_id: user.user_id });
+  res.render("pages/home", { user_id: user.user_id, data:[], partnerInfo: [] });
 });
 
 
@@ -183,7 +230,9 @@ app.get("/parks", (req, res) => {
     });
 });
 
-app.get("/park", (req, res) => { });
+app.get("/park", (req, res) => { 
+  res.render("pages/park", {user_id: user.user_id } )
+});
 
 app.get("/court", (req, res) => {
   res.render("pages/court");
