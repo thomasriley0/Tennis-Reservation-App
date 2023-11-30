@@ -243,17 +243,18 @@ app.get("/find-partners", async (req, res) => {
   //Need to send username, location, facilityname, courtname, time
   // need to send facilityID, courtID, court to time id?
 
-
-  if (user.location != undefined) {
+  if (user.location) {
     //query for no location found
     location = false;
     //var query = `select facilities.name, facilities.location, facilities.facilityID, lfg_reservations.reservationID,courts.name from facilities INNER JOIN ( select * from reservation where lfg = TRUE) lfg_reservations on facilities.facilityID = lfg_reservations.facilityID INNER JOIN courts on lfg_reservations.courtID = courts.courtID LIMIT 8;`;
     var query = `select reservations.facilityID, reservations.timeID, reservations.courtID, reservations.userID,
-     facilities.name as parkName, facilities.location, facilities.city, courts.name as courtName, court_times.court_date, court_times.start_time, court_times.end_time
-     from (select * from reservation where lfg = TRUE) reservations
-     INNER JOIN facilities on reservations.facilityID = facilities.facilityID
-     INNER JOIN courts on reservations.courtID = courts.courtID
-     INNER JOIN court_times on reservations.timeID = court_times.timeID;`;
+    facilities.name as parkName, facilities.location, facilities.city, courts.name as courtName, court_times.court_date, 
+    court_times.start_time, court_times.end_time, users.username
+    from (select * from reservation where lfg = TRUE) reservations
+    INNER JOIN facilities on reservations.facilityID = facilities.facilityID
+    INNER JOIN courts on reservations.courtID = courts.courtID
+    INNER JOIN court_times on reservations.timeID = court_times.timeID
+    INNER JOIN users on reservations.userID = users.userID`;
     console.log("here");
     db.any(query)
       .then((data) => {

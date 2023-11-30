@@ -16,8 +16,32 @@
                                 <% } %>
             </div>
             <section id="findReservationsContainer">
-                <div class="container-md mt-5 text-center">
-
+                <div class="findReservationsContainer" style="width:60%; margin:auto; text-align: center;">
+                    <% data.forEach(function (reservation) { %>
+                        <form action="/reservation" method="/POST">
+                            <div class="idk" style="border-style:solid; padding:10px; height:300px">
+                                <input type="hidden" name="facilityId" value="<%- reservation.facilityid %>">
+                                <input type="hidden" name="timeId" value="<%- reservation.timeid %>">
+                                <input type="hidden" name="courtId" value="<%- reservation.courtid %>">
+                                <input type="hidden" name="userId" value="<%- reservation.userid %>">
+                                <div class="containerSection" style="float:left">
+                                    <h6><%- reservation.parkname %></h6>
+                                    <h6><%- reservation.location %></h6>
+                                    <h6><%- reservation.city %></h6>
+                                    <h6><%- reservation.courtname %></h6>
+                                    <h6><%- reservation.username %></h6>
+                                </div>
+                                <div class="containerSection" style="float:left">
+                                    <h6><%- reservation.court_date %></h6>
+                                    <h6><%- reservation.start_time %></h6>
+                                    <h6><%- reservation.end_time %></h6>
+                                </div>
+                                <div class="containerSection" style="float:left">
+                                    <button class="btn btn-sucess" type="submit">Join Reservation</button>
+                                </div>
+                            </div>
+                        </form>
+                        <% }) %>
                 </div>
             </section>
     </main>
