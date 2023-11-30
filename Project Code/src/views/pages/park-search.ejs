@@ -6,7 +6,71 @@
 -->
 
 <%- include ('../partials/header')%>
+<link rel="stylesheet" href="/css/search.css" />
+<link rel="stylesheet" href="/css/park.css" />
 
-<main><%- include ('../partials/menu')%></main>
+<main>
+  <%- include ('../partials/menu')%>
+  <div class="container">
+    <div class="d-flex justify-content-center mt-3">
+      <div class="d-flex flex-column">
+        <h3 class="text-center">Park Search</h3>
+        <div class="d-flex flex-row pt-3">
+          <form id="parkSearchForm" action="/park-search" method="GET">
+            <input
+              class="searchInput"
+              type="text"
+              name="zip"
+              id="zip"
+              placeholder="Zip Code"
+            />
+
+            <button class="searchBtn" onClick="return validateForm();">
+              Find Parks
+            </button>
+          </form>
+        </div>
+        <small id="zipError" class="text-danger hidden">
+          Please enter a valid zip code.
+        </small>
+        <div>
+          <p class="text-center mt-5">
+            <%if (zip == "") {%> 
+                <p class="text-center mt-5">Showing <%=parkCount%> parks. </p>
+            <%} else {%>
+                <p class="text-center mt-5">Showing <%=parkCount%> parks within 200 miles of <%=zip%></p>
+            <% }%>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-5">
+        <%parks.forEach(park => { %>
+            <a href="/park?id=<%=park.facilityid%>">
+                <div class="col- mx-auto mb-3">
+
+                <div class="parkCard">
+                  <%if (park.image) {%>
+                  <img class="parkImage" src="<%=park.image%>" alt="" />
+                  <%} else {%>
+                  <img class="parkImage" src="/img/defaultPark.jpg" alt="" />
+                  <%}%>
+      
+                  <div class="d-flex flex-column parkCardContent">
+                    <span class="parkName"><%-park.name %></span>
+                    <span class="parkCity">City: <%-park.city %></span>
+                  </div>
+                </div>
+              </a>
+            </div>
+              <%}) %>
+       
+     
+    </div>
+  </div>
+</main>
+
+<script src="js/search.js"></script>
+
 
 <%- include ('../partials/footer') %>
