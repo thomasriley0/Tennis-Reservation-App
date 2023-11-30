@@ -1,0 +1,20 @@
+@import url(//fonts.googleapis.com/css?family=Nunito);
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
+.container {
+    font-family: "Poppins", sans-serif;
+}
+
+.card {
+    background-color: #98FB98;
+}
+
+h6 {
+    font-size: 20pt;
+    font-weight: bold;
+}
+
+h5 {
+    font-size: 18pt;
+    font-weight: bolder;
+}

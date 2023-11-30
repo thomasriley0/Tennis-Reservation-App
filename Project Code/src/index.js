@@ -183,17 +183,54 @@ app.get("/parks", (req, res) => {
     });
 });
 
-app.get("/park", (req, res) => {});
+app.get("/park", (req, res) => { });
 
 app.get("/court", (req, res) => {
   res.render("pages/court");
 });
 
 app.get("/reservations", (req, res) => {
-  res.render("pages/reservations");
+
+  var query =
+    `SELECT courts.name AS court, facilities.name AS park, 
+  facilities.address, court_times.court_date,
+  court_times.start_time, court_times.end_time, reservation.lfg,
+  reservation.reservationID
+  FROM reservation
+  INNER JOIN courts
+  ON reservation.courtID = courts.courtID
+  INNER JOIN court_times
+  ON reservation.timeID = court_times.timeID
+  INNER JOIN facilities
+  ON reservation.facilityID = facilities.facilityID
+  AND reservation.userID = ${req.session.user.user_id};`
+
+  db.any(query)
+    .then((data) => {
+      res.status(201);
+      res.render("pages/reservations", {
+        data: data,
+      });
+
+    })
+    .catch((err) => {
+      console.log(err)
+      res.status(400);
+    })
 });
 
-app.post("/reservations", (req, res) => {});
+app.post("/reservations", (req, res) => {
+  const query = `DELETE FROM reservation WHERE reservationID = '${req.body.reservationID}';`;
+  db.any(query)
+    .then((data) => {
+      res.status(201);
+      res.redirect("/reservations");
+    })
+    .catch((err) => {
+      console.log(err)
+      res.status(400);
+    })
+});
 
 app.get("/profile", (req, res) => {
   const query = `SELECT * FROM users WHERE userID = '${req.session.user.user_id}';`;
