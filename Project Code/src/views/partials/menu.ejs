@@ -2,7 +2,7 @@
   <div id="nav" class="container-fluid">
     <div id="mobileHeader" class="header d-flex align-items-center">
       <img class="mx-auto menuLogo" src="/img/logo.svg" alt="" />
-      <img class="menu-button" src="/img/menu.svg" alt="" />
+      <img class="menu-button" width="28px" src="/img/menu.svg" alt="" />
     </div>
     <div id="webHeader" class="header d-flex align-items-center flex-row" style="height: 100%; width:100%;">
 
@@ -33,40 +33,39 @@
   </div>
 </div>
 </div>
-
-<div class="nav-popup closed">
-  <div class="popup-top d-flex justify-content-between">
-    <img class="menuLogo" src="/img/logo.svg" alt="" />
-    <img class="close-button" src="/img/close.svg" alt="" />
-  </div>
-  <div class="popup-content">
-    <ul class="nav-list d-flex flex-column">
-      <li><a href="/">Home</a></li>
-      <li><a href="/learn-more">Learn More</a></li>
-      <div class="nav-break">
-        <img src="/img/line.svg" alt="">
-      </div>
-
-      <li><a href="/featured-parks">Featured Parks</a></li>
-      <li><a href="/find-partners">Find Partners</a></li>
-      <li><a href="/park-search">Park Search</a></li>
-      <li><a href="/profile">Profile</a></li>
-      <div class="nav-break">
-        <img src="/img/line.svg" alt="">
-      </div>
-
-      <%if (user_id) {%>
-        <!-- LOGGED IN -->
-        <li><a href="/login">Reservations</a></li>
+  <div class="nav-popup transition closed">
+    <div class="popup-content">
+      <ul class="nav-list d-flex flex-column">
+        <li><a href="/">Home</a></li>
+        <li><a href="/learn-more">Learn More</a></li>
+        <div class="nav-break">
+          <img src="/img/line.svg" alt="">
+        </div>
+  
+        <li><a href="/featured-parks">Featured Parks</a></li>
+        <li><a href="/find-partners">Find Partners</a></li>
+        <li><a href="/park-search">Park Search</a></li>
         <li><a href="/profile">Profile</a></li>
-        <li><a href="/logout">Logout</a></li> 
-      <% } else { %>
-        <!-- LOGGED OUT -->
-        <li><a href="/login">Log In</a></li>
-        <li><a href="/register">Create an Account</a></li>
-      <% }  %>
-    </ul>
-  </div>
+        <div class="nav-break">
+          <img src="/img/line.svg" alt="">
+        </div>
+  
+        <%if (user_id) {%>
+          <!-- LOGGED IN -->
+          <li><a href="/login">Reservations</a></li>
+          <li><a href="/profile">Profile</a></li>
+          <li><a href="/logout">Logout</a></li> 
+        <% } else { %>
+          <!-- LOGGED OUT -->
+          <li><a href="/login">Log In</a></li>
+          <li><a href="/register">Create an Account</a></li>
+        <% }  %>
+      </ul>
+    </div>
+
+  
 </div>
+
+
 
 <script src="/js/menu.js"></script>
