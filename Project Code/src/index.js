@@ -99,14 +99,14 @@ app.get("/", (req, res) => {
   //temporary park query
   const query =
     "SELECT * FROM facilities LIMIT 8;";
-    db.any(query) .then((data) => {
-      res.status(200);
-      res.render("pages/home", { user_id: user.user_id, data:data, partnerInfo: reservations });
-    }) .catch((err) => {
-      res.render("pages/home", { user_id: user.user_id, data:[], parterInfo: reservations });
-      res.status(400);
-    });
- 
+  db.any(query).then((data) => {
+    res.status(200);
+    res.render("pages/home", { user_id: user.user_id, data: data, partnerInfo: reservations });
+  }).catch((err) => {
+    res.render("pages/home", { user_id: user.user_id, data: [], parterInfo: reservations });
+    res.status(400);
+  });
+
 
   // res.render("pages/home");
 });
@@ -118,7 +118,7 @@ app.get("/login", (req, res) => {
 app.get("/logout", (req, res) => {
   req.session.destroy();
   user = {};
-  res.render("pages/home", { user_id: user.user_id, data:[], partnerInfo: [] });
+  res.render("pages/home", { user_id: user.user_id, data: [], partnerInfo: [] });
 });
 
 
@@ -230,8 +230,8 @@ app.get("/parks", (req, res) => {
     });
 });
 
-app.get("/park", (req, res) => { 
-  res.render("pages/park", {user_id: user.user_id } )
+app.get("/park", (req, res) => {
+  res.render("pages/park", { user_id: user.user_id })
 });
 
 app.get("/court", (req, res) => {
@@ -353,7 +353,7 @@ app.get("/find-partners", async (req, res) => {
     INNER JOIN facilities on reservations.facilityID = facilities.facilityID
     INNER JOIN courts on reservations.courtID = courts.courtID
     INNER JOIN court_times on reservations.timeID = court_times.timeID
-    INNER JOIN users on reservations.userID = users.userID`;
+    INNER JOIN users on reservations.userID = users.userID;`;
     console.log("here");
     db.any(query)
       .then((data) => {
@@ -378,7 +378,7 @@ app.get("/find-partners", async (req, res) => {
      INNER JOIN facilities on reservations.facilityID = facilities.facilityID
      INNER JOIN courts on reservations.courtID = courts.courtID
      INNER JOIN court_times on reservations.timeID = court_times.timeID
-     INNER JOIN users on reservations.userID = users.userID`;
+     INNER JOIN users on reservations.userID = users.userID;`;
     console.log("here1");
     db.any(query)
       .then((data) => {
