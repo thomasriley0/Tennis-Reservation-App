@@ -64,3 +64,142 @@ describe("Register", () => {
       });
   });
 });
+
+describe("Profile: editing profiles", () => {
+  it("positive : /profile", (done) => {
+    chai
+      .request(server)
+      .post("/profile")
+      .send({ rating: 9, location: 80227, age: 20, gender: "he/him", description: "I am good at tennis!", image: "http:image.com" })
+      .end((err, res) => {
+        expect(err).to.equal(null);
+        expect(res).to.have.status(200);
+        done();
+      });
+  });
+});
+
+describe("Testing all GET ROUTES", () => {
+  it('positive: testing get /', done => {
+    chai
+      .request(server)
+      .get('/')
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(err).to.equal(null);
+        done();
+      });
+  });
+
+  it('positive: testing get /profile', done => {
+    chai
+      .request(server)
+      .get('/profile')
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(err).to.equal(null);
+        done();
+      });
+  });
+
+  it('positive: testing get /login', done => {
+    chai
+      .request(server)
+      .get('/login')
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(err).to.equal(null);
+        done();
+      });
+  });
+
+  it('positive: testing get /logout', done => {
+    chai
+      .request(server)
+      .get('/logout')
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(err).to.equal(null);
+        done();
+      });
+  });
+
+  it('positive: testing get /register', done => {
+    chai
+      .request(server)
+      .get('/register')
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(err).to.equal(null);
+        done();
+      });
+  });
+
+  it('positive: testing get /parks', done => {
+    chai
+      .request(server)
+      .get('/parks')
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(err).to.equal(null);
+        done();
+      });
+  });
+
+  it('positive: testing get /court', done => {
+    chai
+      .request(server)
+      .get('/court')
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(err).to.equal(null);
+        done();
+      });
+  });
+
+  it('positive: testing get /reservations', done => {
+    chai
+      .request(server)
+      .get('/')
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(err).to.equal(null);
+        done();
+      });
+  });
+
+  it('positive: testing get /park-search', done => {
+    chai
+      .request(server)
+      .get('/park-search')
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(err).to.equal(null);
+        done();
+      });
+  });
+
+  it('positive: testing get /featured_parks', done => {
+    chai
+      .request(server)
+      .get('/featured_parks')
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(err).to.equal(null);
+        done();
+      });
+  });
+
+  it('positive: testing get /find-partners', done => {
+    chai
+      .request(server)
+      .get('/find-partners')
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(err).to.equal(null);
+        done();
+      });
+  });
+});
+
+
