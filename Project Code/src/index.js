@@ -301,6 +301,25 @@ app.get("/profile", (req, res) => {
     });
 });
 
+app.get("/user", (req, res) => {
+  const query = `SELECT * FROM users WHERE userID = '${req.query.userID}';`;
+
+  db.any(query)
+
+    .then(function (data) {
+      res.render("pages/user", {
+        data: data,
+        user_id: user.user_id
+      });
+      res.status(201);
+    })
+    .catch((err) => {
+      res.status(400);
+      console.log(err);
+      console.log(data);
+    });
+});
+
 app.get("/park-search", (req, res) => {
   //get reservations that are looking for group
 
