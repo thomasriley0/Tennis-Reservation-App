@@ -19,20 +19,26 @@
   border-bottom: 1px solid #c5c5c5;
 }
 
+.overflowHidden {
+overflow:hidden;
+}
+
 .nav-popup {
   height: 100vh;
   width: 100vw;
   background-color: white;
-  padding: 30px;
+  padding-left: 30px;
   font-family: "Nunito Sans", sans-serif;
   color: #666666;
   font-size: 16px;
   z-index: 1000;
-  overflow: hidden;
+  position: absolute;
+  
+
 }
 
 .nav-link {
-  font-family: "Nunito Sans", sans-serif;
+  font-family: inherit;
   font-weight: 300;
   font-size: 13px;
   white-space: nowrap;
@@ -71,11 +77,22 @@
   #mobileHeader {
     display: none !important;
   }
+  .nav-popup {
+    display: none !important;
+  }
   #webHeader {
     display: flex !important;
   }
 }
 
 .closed {
-  display: none !important;
+  margin-left: 100% !important;
+}
+
+
+.transition{
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition:all 0.5s ease-in-out
+    -o-transition:all 0.5s ease-in-out;
+    transition::all 0.5s ease-in-out;
 }

@@ -60,13 +60,20 @@ app.use(
 app.use(express.static(__dirname + "/resources"));
 
 app.get("/", (req, res) => {
-  res.render("pages/home");
+  res.render("pages/home", { user_id: user.user_id });
   // res.render("pages/home");
 });
 //Login API Routes
 app.get("/login", (req, res) => {
-  res.render("pages/login");
+  res.render("pages/login", { user_id: user.user_id });
 });
+
+app.get("/logout", (req, res) => {
+  req.session.destroy();
+  user = {};
+  res.render("pages/home", { user_id: user.user_id });
+});
+
 
 app.post("/login", async (req, res) => {
   try {
@@ -102,7 +109,7 @@ app.post("/login", async (req, res) => {
 });
 
 app.get("/register", (req, res) => {
-  res.render("pages/register");
+  res.render("pages/register", { user_id: user.user_id });
 });
 
 app.post("/register", async (req, res) => {
@@ -168,7 +175,7 @@ app.get("/parks", (req, res) => {
 
     .then((data) => {
       res.status(201);
-      res.render("pages/parks", { data: data });
+      res.render("pages/parks", { data: data, user_id: user.user_id });
     })
     .catch((err) => {
       console.log(err);
@@ -176,19 +183,55 @@ app.get("/parks", (req, res) => {
     });
 });
 
-app.get("/park", (req, res) => {
-  res.redirect("/");
-});
+app.get("/park", (req, res) => { });
 
 app.get("/court", (req, res) => {
   res.render("pages/court");
 });
 
 app.get("/reservations", (req, res) => {
-  res.render("pages/reservations");
+
+  var query =
+    `SELECT courts.name AS court, facilities.name AS park, 
+  facilities.address, court_times.court_date,
+  court_times.start_time, court_times.end_time, reservation.lfg,
+  reservation.reservationID
+  FROM reservation
+  INNER JOIN courts
+  ON reservation.courtID = courts.courtID
+  INNER JOIN court_times
+  ON reservation.timeID = court_times.timeID
+  INNER JOIN facilities
+  ON reservation.facilityID = facilities.facilityID
+  AND reservation.userID = ${req.session.user.user_id};`
+
+  db.any(query)
+    .then((data) => {
+      res.status(201);
+      res.render("pages/reservations", {
+        data: data,
+        user_id: user.user_id
+      });
+
+    })
+    .catch((err) => {
+      console.log(err)
+      res.status(400);
+    })
 });
 
-app.post("/reservations", (req, res) => { });
+app.post("/reservations", (req, res) => {
+  const query = `DELETE FROM reservation WHERE reservationID = '${req.body.reservationID}';`;
+  db.any(query)
+    .then((data) => {
+      res.status(201);
+      res.redirect("/reservations");
+    })
+    .catch((err) => {
+      console.log(err)
+      res.status(400);
+    });
+});
 
 app.get("/profile", (req, res) => {
   const query = `SELECT * FROM users WHERE userID = '${req.session.user.user_id}';`;
@@ -198,6 +241,7 @@ app.get("/profile", (req, res) => {
     .then(function (data) {
       res.render("pages/profile", {
         data: data,
+        user_id: user.user_id
       });
       res.status(201);
     })
@@ -206,6 +250,12 @@ app.get("/profile", (req, res) => {
       console.log(err);
       console.log(data);
     });
+});
+
+app.get("/park-search", (req, res) => {
+  //get reservations that are looking for group
+
+  res.render("pages/park-search");
 });
 
 app.post("/profile", (req, res) => {
@@ -313,7 +363,7 @@ app.get("/featured-parks", (req, res) => {
 
     .then((data) => {
       res.status(200);
-      res.render("pages/featured-parks", { data: data });
+      res.render("pages/featured-parks", { data: data, user_id: user.user_id });
     })
     .catch((err) => {
       res.status(400);
