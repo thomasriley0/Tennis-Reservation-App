@@ -99,14 +99,14 @@ app.get("/", (req, res) => {
   //temporary park query
   const query =
     "SELECT * FROM facilities LIMIT 8;";
-    db.any(query) .then((data) => {
-      res.status(200);
-      res.render("pages/home", { user_id: user.user_id, data:data, partnerInfo: reservations });
-    }) .catch((err) => {
-      res.render("pages/home", { user_id: user.user_id, data:[], parterInfo: reservations });
-      res.status(400);
-    });
- 
+  db.any(query).then((data) => {
+    res.status(200);
+    res.render("pages/home", { user_id: user.user_id, data: data, partnerInfo: reservations });
+  }).catch((err) => {
+    res.render("pages/home", { user_id: user.user_id, data: [], parterInfo: reservations });
+    res.status(400);
+  });
+
 
   // res.render("pages/home");
 });
@@ -118,7 +118,7 @@ app.get("/login", (req, res) => {
 app.get("/logout", (req, res) => {
   req.session.destroy();
   user = {};
-  res.render("pages/home", { user_id: user.user_id, data:[], partnerInfo: [] });
+  res.render("pages/home", { user_id: user.user_id, data: [], partnerInfo: [] });
 });
 
 
@@ -230,8 +230,8 @@ app.get("/parks", (req, res) => {
     });
 });
 
-app.get("/park", (req, res) => { 
-  res.render("pages/park", {user_id: user.user_id } )
+app.get("/park", (req, res) => {
+  res.render("pages/park", { user_id: user.user_id })
 });
 
 app.get("/court", (req, res) => {
@@ -289,6 +289,25 @@ app.get("/profile", (req, res) => {
 
     .then(function (data) {
       res.render("pages/profile", {
+        data: data,
+        user_id: user.user_id
+      });
+      res.status(201);
+    })
+    .catch((err) => {
+      res.status(400);
+      console.log(err);
+      console.log(data);
+    });
+});
+
+app.get("/user", (req, res) => {
+  const query = `SELECT * FROM users WHERE userID = '${req.query.userID}';`;
+
+  db.any(query)
+
+    .then(function (data) {
+      res.render("pages/user", {
         data: data,
         user_id: user.user_id
       });
