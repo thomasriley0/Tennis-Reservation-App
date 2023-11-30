@@ -292,7 +292,7 @@ app.get("/profile", (req, res) => {
         data: data,
         user_id: user.user_id
       });
-      res.status(201);
+     
     })
     .catch((err) => {
       res.status(400);
@@ -303,8 +303,36 @@ app.get("/profile", (req, res) => {
 
 app.get("/park-search", (req, res) => {
   //get reservations that are looking for group
+  console.log(req.query.zip)
+  if (req.query.zip == "") {
+    //show all parks 
+    const query = "SELECT * FROM facilities;"
+    db.any(query).then(function (data) {
+      console.log(data)
+      res.status(201);
+      res.render("pages/park-search", {
+        parks: data,
+        zip: "",
+        parkCount: Object.keys(data).length,
+        user_id: user.user_id
+      })
+    }).catch((err) => {
+      res.status(400);
+      console.log(err);
+      console.log(data);
+    });
+  } else {
+    //show all parks in raidus of zip 
+    //sending blank for now needs to be implemented
+    res.render("pages/park-search", {
+      parks: [],
+      zip: req.query.zip,
+      parkCount: 0,
+      user_id: user.user_id
+    })
+    res.status(201);
+  }
 
-  res.render("pages/park-search");
 });
 
 app.post("/profile", (req, res) => {
