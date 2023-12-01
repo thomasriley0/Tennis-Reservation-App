@@ -151,7 +151,7 @@ app.post("/login", async (req, res) => {
     //will happen most likely when the db encounters an error (does not find anything in db or username/password is wrong)
     console.log(error);
     res.status(400);
-    res.render("pages/login", { message: error });
+    res.render("pages/login", { message: error, user_id: user.user_id });
   }
 });
 
