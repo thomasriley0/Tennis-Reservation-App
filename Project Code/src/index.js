@@ -67,7 +67,7 @@ app.get("/", (req, res) => {
       //query for no location found
       location = false;
       var findPartners = `select reservations.reservationID, reservations.facilityID, reservations.timeID, reservations.courtID, reservations.userID,
-    facilities.name as parkName, facilities.location, facilities.city, courts.name as courtName, court_times.court_date, 
+    facilities.name as parkName, facilities.img, facilities.location, facilities.city, courts.name as courtName, court_times.court_date, 
     court_times.start_time, court_times.end_time, users.username
     from (select * from reservation where lfg = TRUE) reservations
     INNER JOIN facilities on reservations.facilityID = facilities.facilityID
@@ -78,7 +78,7 @@ app.get("/", (req, res) => {
     } else {
       location = true;
       var findPartners = `select reservations.reservationID, reservations.reservationID, reservations.facilityID, reservations.timeID, reservations.courtID, reservations.userID,
-     facilities.name as parkName, facilities.location, facilities.city, courts.name as courtName, court_times.court_date, 
+     facilities.name as parkName, facilities.img, facilities.location, facilities.city, courts.name as courtName, court_times.court_date, 
      court_times.start_time, court_times.end_time, users.username
      from (select * from reservation where lfg = TRUE) reservations
      INNER JOIN facilities on reservations.facilityID = facilities.facilityID

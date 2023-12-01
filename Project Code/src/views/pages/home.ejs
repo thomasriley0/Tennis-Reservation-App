@@ -61,8 +61,8 @@
         <%partnerInfo.forEach(reservation => { %>
         <div class="partnerCard">
           <a href="/find-partners?id=<%=reservation.reservationid%>">
-            <%if (reservation.image) {%>
-            <img class="partnerImage" src="<%=reservation.image%>" alt="" />
+            <%if (reservation.img) {%>
+            <img class="partnerImage" src="<%=reservation.img%>" alt="" />
             <%} else {%>
             <img class="partnerImage" src="/img/defaultPark.jpg" alt="" />
             <%}%>
