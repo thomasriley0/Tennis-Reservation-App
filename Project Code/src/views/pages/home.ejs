@@ -36,8 +36,8 @@
         <%data.forEach(park => { %>
         <a href="/park?id=<%=park.facilityid%>">
           <div class="parkCard">
-            <%if (park.image) {%>
-            <img class="parkImage" src="<%=park.image%>" alt="" />
+            <%if (park.img) {%>
+            <img class="parkImage" src="<%=park.img%>" alt="" />
             <%} else {%>
             <img class="parkImage" src="/img/defaultPark.jpg" alt="" />
             <%}%>
