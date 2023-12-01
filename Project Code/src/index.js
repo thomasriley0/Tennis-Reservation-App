@@ -77,7 +77,7 @@ app.get("/", (req, res) => {
       return task.batch([task.any(findPartners, []), task.any(getParks, [])]);
     } else {
       location = true;
-      var findPartners = `select reservations.reservationID, reservations.reservationID, reservations.facilityID, reservations.timeID, reservations.courtID, reservations.userID,
+      var findPartners = `select reservations.reservationID, reservations.facilityID, reservations.timeID, reservations.courtID, reservations.userID,
      facilities.name as parkName, facilities.img, facilities.location, facilities.city, courts.name as courtName, court_times.court_date, 
      court_times.start_time, court_times.end_time, users.username
      from (select * from reservation where lfg = TRUE) reservations
@@ -89,7 +89,6 @@ app.get("/", (req, res) => {
     }
   })
     .then((data) => {
-      console.log(data[0]);
       res.status(200);
       res.render("pages/home", {
         user_id: user.user_id,
@@ -159,8 +158,6 @@ app.post("/register", async (req, res) => {
   //hash the password using bcrypt library
   const hash = await bcrypt.hash(req.body.password, 10);
 
-  //console.log(req.body.password);
-  //console.log(req.body.username);
   var error;
 
   const query1 = `select * from users where username = '${req.body.username}';`;
@@ -179,7 +176,6 @@ app.post("/register", async (req, res) => {
     const query = `insert into users (username, password) values ('${req.body.username}', '${hash}') returning *;`;
     db.one(query)
       .then((data) => {
-        console.log("inserted");
         res.redirect("/login");
         res.status(201);
       })
@@ -335,7 +331,6 @@ app.post("/profile", (req, res) => {
 
     .then((data) => {
       res.redirect("/profile");
-      console.log("info updated");
       res.status(201);
     })
     .catch((err) => {
@@ -352,7 +347,7 @@ app.get("/find-partners", async (req, res) => {
   if (req.query.id) {
     singleView = true;
     var reservationId = req.query.id;
-    var getReservation = `select reservations.facilityID, reservations.timeID, reservations.courtID, reservations.userID,
+    var getReservation = `select reservations.reservationID, reservations.facilityID, reservations.timeID, reservations.courtID, reservations.userID,
     facilities.name as parkName, facilities.location, facilities.city, courts.name as courtName, court_times.court_date, 
     court_times.start_time, court_times.end_time, users.username
     from (select * from reservation where reservationID = ${reservationId}) reservations
@@ -384,7 +379,6 @@ app.get("/find-partners", async (req, res) => {
     if (req.session.user.location != undefined) {
       //query for no location found
       location = false;
-      //var query = `select facilities.name, facilities.location, facilities.facilityID, lfg_reservations.reservationID,courts.name from facilities INNER JOIN ( select * from reservation where lfg = TRUE) lfg_reservations on facilities.facilityID = lfg_reservations.facilityID INNER JOIN courts on lfg_reservations.courtID = courts.courtID LIMIT 8;`;
       var query = `select reservations.facilityID, reservations.timeID, reservations.courtID, reservations.userID,
     facilities.name as parkName, facilities.location, facilities.city, courts.name as courtName, court_times.court_date, 
     court_times.start_time, court_times.end_time, users.username
@@ -393,7 +387,6 @@ app.get("/find-partners", async (req, res) => {
     INNER JOIN courts on reservations.courtID = courts.courtID
     INNER JOIN court_times on reservations.timeID = court_times.timeID
     INNER JOIN users on reservations.userID = users.userID;`;
-      console.log("here");
       db.any(query)
         .then((data) => {
           res.render("pages/find-partners", {
@@ -418,8 +411,6 @@ app.get("/find-partners", async (req, res) => {
      INNER JOIN courts on reservations.courtID = courts.courtID
      INNER JOIN court_times on reservations.timeID = court_times.timeID
      INNER JOIN users on reservations.userID = users.userID;`;
-      console.log("here1");
-      console.log(req.session.user.location);
       db.any(query)
         .then((data) => {
           res.render("pages/find-partners", {
