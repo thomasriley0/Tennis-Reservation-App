@@ -24,7 +24,8 @@ CREATE TABLE facilities(
     address CHAR(100),
     city CHAR(60),
     latitude FLOAT,
-    longitude FLOAT
+    longitude FLOAT,
+    img VARCHAR(400)
    
     
 );
