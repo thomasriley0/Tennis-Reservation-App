@@ -5,12 +5,19 @@
 
 <%- include ('../partials/header')%>
     <link rel="stylesheet" href="/css/find-partner.css">
+    <link rel="stylesheet" href="/css/home.css">
 
     <main>
         <%- include ('../partials/menu')%>
             <div class="container mt-5 text-center">
                 <h6>FIND PARTNERS</h6>
-                <h4>Here are some of our reccomended open reservations for you to join!</h5>
+                <% if (singleView) {%>
+                    <h4>Here is a reservation that you can join and play with an opponent!</h5>
+
+                <% } else {%>
+                    <h4>Here are some of our reccomended open reservations for you to join!</h5>
+
+                <% } %>
                     <div class="d-flex flex-column justify-content-center align-items-center">
                         <% data.forEach(function (reservation) { %>
                             <div class="reservationCard d-flex mt-3" style="background-color:#f4f5f7;">
@@ -43,6 +50,19 @@
                             <% }) %>
 
                     </div>
+                    <% if (singleView) {%>
+                        <a href="/find-partners">
+                            <button class="viewAllButton">View All</button>
+                        </a>
+                        
+    
+                    <% } else {%>
+                        <a href="/">
+                            <button class="viewAllButton">Go Back</button>
+                        </a>
+                       
+    
+                    <% } %>
             </div>
            
     </main>
