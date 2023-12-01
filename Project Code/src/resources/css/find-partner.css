@@ -3,9 +3,8 @@
 }
 
 .reservationCard {
-  width: 90%;
-  min-width: 450px;
-  height: 175px;
+  min-width: 350px;
   border: 1px solid #c5c5c5;
   border-radius: 20px;
+  padding: 25px;
 }

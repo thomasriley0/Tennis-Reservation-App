@@ -13,11 +13,11 @@
                 <h4>Here are some of our reccomended open reservations for you to join!</h5>
                     <div class="d-flex flex-column justify-content-center align-items-center">
                         <% data.forEach(function (reservation) { %>
-                            <div class="reservationCard mt-3" style="background-color:#f4f5f7;">
+                            <div class="reservationCard d-flex mt-3" style="background-color:#f4f5f7;">
                                 <form action="/join-reservation" method="POST">
                                     <input type="hidden" name="reservationID" value="<%- reservation.reservationid %>">
-                                    <div class="row flex-nowrap">
-                                        <div class="left col-md-4 align-items-center" style="padding-top: 45px;">
+                                    <div class="row">
+                                        <div class="left col-md-4 align-items-center mt-4" >
                                             <h6><%- reservation.court_date.toLocaleDateString() %>
                                             </h6>
                                             <h6><%- (reservation.start_time)/100 %>:00 -
@@ -26,18 +26,16 @@
                                             <h6><%- reservation.courtname %></h6>
 
                                         </div>
-                                        <div class="center col-md-5 mt-3" style="padding-top: 5px; padding-right:10%">
+                                        <div class="center col-md-5 mt-3">
                                             <h6><%- reservation.parkname %></h6>
                                             <h6><%- reservation.city %> <%- reservation.location %></h6>
                                             <h6>Opponent: <%- reservation.username %></h6>
                                             <a href="/user?userID=<%-reservation.userid %>"
-                                                class="btn btn-outline-dark">View Opponent</a>
+                                                class="btn btn-outline-dark mt-2">View Opponent</a>
                                         </div>
-                                        <div class="right col-md-3 d-flex align-items-center"
-                                            style="padding-top:5px; padding-right: 10%;">
-                                            <button type="submit" class="btn btn-outline-success btn-large">Join
-                                                Reservation</button>
-                                        </div>
+                                        <div class="right col-md-3 d-flex align-items-center justify-content-center">
+                                        <button type="submit" class="btn btn-outline-success mt-3">Join Reservation</button>
+                                    </div>
 
                                     </div>
                                 </form>
@@ -46,37 +44,7 @@
 
                     </div>
             </div>
-            <!--
-            <section id="findReservationsContainer">
-                <div class="findReservationsContainer" style="width:60%; margin:auto; text-align: center;">
-                    <% data.forEach(function (reservation) { %>
-                        <form action="/reservation" method="/POST">
-                            <div class="idk" style="border-style:solid; padding:10px; height:300px">
-                                <input type="hidden" name="facilityId" value="<%- reservation.facilityid %>">
-                                <input type="hidden" name="timeId" value="<%- reservation.timeid %>">
-                                <input type="hidden" name="courtId" value="<%- reservation.courtid %>">
-                                <input type="hidden" name="userId" value="<%- reservation.userid %>">
-                                <div class="containerSection" style="float:left">
-                                    <h6><%- reservation.parkname %></h6>
-                                    <h6><%- reservation.location %></h6>
-                                    <h6><%- reservation.city %></h6>
-                                    <h6><%- reservation.courtname %></h6>
-                                    <h6><%- reservation.username %></h6>
-                                </div>
-                                <div class="containerSection" style="float:left">
-                                    <h6><%- reservation.court_date %></h6>
-                                    <h6><%- reservation.start_time %></h6>
-                                    <h6><%- reservation.end_time %></h6>
-                                </div>
-                                <div class="containerSection" style="float:left">
-                                    <button class="btn btn-sucess" type="submit">Join Reservation</button>
-                                </div>
-                            </div>
-                        </form>
-                        <% }) %>
-                </div>
-            </section>
-            -->
+           
     </main>
 
 
