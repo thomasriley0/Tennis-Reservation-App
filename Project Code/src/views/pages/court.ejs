@@ -2,9 +2,31 @@
     - Display all court times for a given park in a list on this page
 -->
 
-
 <%- include ('../partials/header')%>
+<link rel="stylesheet" href="/css/court.css" />
+<main>
+  <%- include ('../partials/menu')%>
+  <div class="container">
+    <h2 class="text-center mt-4">CU Rec Center 1</h2>
 
-<main><%- include ('../partials/menu')%></main>
+    <div class="div-times d-flex flex-wrap justify-content-center mt-5">
+      <div class="times d-flex justify-content-center p-2 mr-4">
+        <span>8:00-10:00</span>
+      </div>
+      <div class="times d-flex justify-content-center p-2 mr-4">
+        <span>8:00-10:00</span>
+      </div>
+      <div class="times d-flex justify-content-center p-2 mr-4">
+        <span>8:00-10:00</span>
+      </div>
+      <div class="times d-flex justify-content-center p-2 mr-4">
+        <span>8:00-10:00</span>
+      </div>
+      <div class="times d-flex justify-content-center p-2 mr-4">
+        <span>8:00-10:00</span>
+      </div>
+    </div>
+  </div>
+</main>
 
 <%- include ('../partials/footer') %>

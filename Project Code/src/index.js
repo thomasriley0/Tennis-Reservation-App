@@ -64,33 +64,33 @@ app.get("/", (req, res) => {
   //temporary partner data
   const reservations = [
     {
-      parkName: "Cu Rec Courts",
+      parkName: "Court 1",
       start_time: "8:00 AM",
       end_time: "10:00 AM",
       image: "https://www.colorado.edu/recreation/sites/default/files/styles/hero/public/page/cureccenter-r-tennis-02-low_res_0.jpg?itok=p6vRutfF"
     },
     {
-      parkName: "Cu Rec Courts",
+      parkName: "Court 1",
       start_time: "10:00 AM",
       end_time: "12:00 PM"
     },
     {
-      parkName: "Cu Rec Courts",
+      parkName: "Court 1",
       start_time: "12:00 PM",
       end_time: "2:00 PM"
     },
     {
-      parkName: "Cu Rec Courts",
+      parkName: "Court 1",
       start_time: "2:00 PM",
       end_time: "4:00 PM"
     },
     {
-      parkName: "Cu Rec Courts",
+      parkName: "Court 1",
       start_time: "4:00 PM",
       end_time: "6:00 PM"
     },
     {
-      parkName: "Cu Rec Courts",
+      parkName: "Court 1",
       start_time: "8:00 PM",
       end_time: "9:00 PM"
     }
@@ -216,32 +216,55 @@ const auth = (req, res, next) => {
 // Authentication Required
 app.use(auth);
 
-app.get("/parks", (req, res) => {
-  const query = "SELECT * FROM facilities;";
-  db.any(query)
+app.get("/park", (req, res) => {
 
-    .then((data) => {
+  const parkId = req.query.id;
+
+  const court_q = `SELECT * FROM courts WHERE facilityid = ${parkId};`;
+  const park_q = `SELECT name FROM facilities WHERE facilityid = ${parkId};`;
+
+
+    db.task(task =>{
+      return task.batch([task.any(court_q), task.any(park_q)]);
+    })
+    .then(data => {
       res.status(201);
-      res.render("pages/parks", { data: data, user_id: user.user_id });
+      res.render("pages/park", { court_q: data[0], park: data[1][0],user_id: user.user_id });
+      
     })
     .catch((err) => {
       console.log(err);
       res.status(400);
     });
+
 });
 
-app.get("/park", (req, res) => {
-  res.render("pages/park", { user_id: user.user_id })
-});
+
 
 app.get("/court", (req, res) => {
-  res.render("pages/court");
+
+  const courtId = req.query.courtid;
+
+  var findPartners = `select reservations.reservationID, reservations.facilityID, reservations.timeID, reservations.courtID, reservations.userID,
+     facilities.name as parkName, facilities.location, facilities.city, courts.name as courtName, court_times.court_date, 
+     court_times.start_time, court_times.end_time, users.username
+     from (select * from reservation where lfg = TRUE) reservations
+     INNER JOIN facilities on reservations.facilityID = facilities.facilityID
+     INNER JOIN courts on reservations.courtID = courts.courtID
+     INNER JOIN court_times on reservations.timeID = court_times.timeID
+     INNER JOIN users on reservations.userID = users.userID;`;
+
+  db.any(findPartners).then(data => {
+    console.log(data);
+  })
+
+  res.render("pages/court", {user_id: user.user_id});
 });
 
 app.get("/reservations", (req, res) => {
 
   var query =
-    `SELECT courts.name AS court, facilities.name AS park, 
+  `SELECT courts.name AS court, facilities.name AS park, 
   facilities.address, court_times.court_date,
   court_times.start_time, court_times.end_time, reservation.lfg,
   reservation.reservationID

@@ -1,0 +1,14 @@
+.div-courts{
+    background-color: antiquewhite;
+
+
+}
+
+.court-card{
+    background-color: rgb(72, 92, 175);
+    color: #fff;
+    height: 20rem;
+    width: 18rem;
+    border-radius:10px;
+}
+
