@@ -33,11 +33,11 @@
     <div class="featuredParks d-flex flex-column align-items-center">
       <h3 class="text-center">Featured Parks Near Me</h3>
       <div class="parkCarousel d-flex mt-4">
-        <%data.forEach(park => { %>
+        <%parks.forEach(park => { %>
         <a href="/park?id=<%=park.facilityid%>">
           <div class="parkCard">
-            <%if (park.image) {%>
-            <img class="parkImage" src="<%=park.image%>" alt="" />
+            <%if (park.img) {%>
+            <img class="parkImage" src="<%=park.img%>" alt="" />
             <%} else {%>
             <img class="parkImage" src="/img/defaultPark.jpg" alt="" />
             <%}%>
@@ -60,17 +60,23 @@
       <div class="partnerCarousel d-flex mt-4">
         <%partnerInfo.forEach(reservation => { %>
         <div class="partnerCard">
-          <%if (reservation.image) {%>
-          <img class="partnerImage" src="<%=reservation.image%>" alt="" />
-          <%} else {%>
-          <img class="partnerImage" src="/img/defaultPark.jpg" alt="" />
-          <%}%>
-          <div class="d-flex flex-column parterCardContent">
-            <span class="partnerLocation"><%=reservation.parkName%></span>
-            <span class="partnerTime"
-              ><%=reservation.start_time%>-<%=reservation.end_time%></span
-            >
-          </div>
+          <a href="/find-partners?id=<%=reservation.reservationid%>">
+            <%if (reservation.img) {%>
+            <img class="partnerImage" src="<%=reservation.img%>" alt="" />
+            <%} else {%>
+            <img class="partnerImage" src="/img/defaultPark.jpg" alt="" />
+            <%}%>
+            <div class="d-flex flex-column parterCardContent">
+              <span class="partnerLocation"><%=reservation.parkname%></span>
+              <span class="partnerTime"
+                ><%=reservation.court_date.toLocaleDateString()%></span
+              >
+              <span class="partnerTime"
+                ><%- (reservation.start_time)/100 %>:00 - <%-
+                (reservation.end_time)/100 %>:00</span
+              >
+            </div>
+          </a>
         </div>
         <% }) %>
       </div>
