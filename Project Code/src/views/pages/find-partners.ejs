@@ -4,7 +4,69 @@
 
 
 <%- include ('../partials/header')%>
+    <link rel="stylesheet" href="/css/find-partner.css">
+    <link rel="stylesheet" href="/css/home.css">
 
-<main><%- include ('../partials/menu')%></main>
+    <main>
+        <%- include ('../partials/menu')%>
+            <div class="container mt-5 text-center">
+                <h6>FIND PARTNERS</h6>
+                <% if (singleView) {%>
+                    <h4>Here is a reservation that you can join and play with an opponent!</h5>
 
-<%- include ('../partials/footer') %>
+                <% } else {%>
+                    <h4>Here are some of our reccomended open reservations for you to join!</h5>
+
+                <% } %>
+                    <div class="d-flex flex-column justify-content-center align-items-center">
+                        <% data.forEach(function (reservation) { %>
+                            <div class="reservationCard d-flex mt-3" style="background-color:#f4f5f7;">
+                                <form action="/join-reservation" method="POST" style="width: 100%;">
+                                    <input type="hidden" name="reservationID" value="<%- reservation.reservationid %>">
+                                    <div class="row">
+                                        <div class="left col-md-4 align-items-center mt-4" >
+                                            <h6><%- reservation.court_date.toLocaleDateString() %>
+                                            </h6>
+                                            <h6><%- (reservation.start_time)/100 %>:00 -
+                                                    <%- (reservation.end_time)/100 %>:00
+                                            </h6>
+                                            <h6><%- reservation.courtname %></h6>
+
+                                        </div>
+                                        <div class="center col-md-5 mt-3">
+                                            <h6><%- reservation.parkname %></h6>
+                                            <h6><%- reservation.city %> <%- reservation.location %></h6>
+                                            <h6>Opponent: <%- reservation.username %></h6>
+                                            <a href="/user?userID=<%-reservation.userid %>"
+                                                class="btn btn-outline-dark mt-2">View Opponent</a>
+                                        </div>
+                                        <div class="right col-md-3 d-flex align-items-center justify-content-center">
+                                        <button type="submit" class="btn btn-outline-success mt-3">Join Reservation</button>
+                                    </div>
+
+                                    </div>
+                                </form>
+                            </div>
+                            <% }) %>
+
+                    </div>
+                    <% if (singleView) {%>
+                        <a href="/find-partners">
+                            <button class="viewAllButton">View All</button>
+                        </a>
+                        
+    
+                    <% } else {%>
+                        <a href="/">
+                            <button class="viewAllButton">Go Back</button>
+                        </a>
+                       
+    
+                    <% } %>
+            </div>
+           
+    </main>
+
+
+
+    <%- include ('../partials/footer') %>

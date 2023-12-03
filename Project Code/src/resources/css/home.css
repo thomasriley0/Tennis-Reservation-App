@@ -1,0 +1,32 @@
+.container {
+    font-family: "Poppins";
+}
+
+.featuredParks {
+    margin-top: 40px;
+}
+
+.partnerContainer {
+    margin-top: 40px;
+}
+
+.viewAllButton {
+    width: 250px;
+    height: 40px;
+    background: #002F47;
+    border-radius: 10px;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+    /* identical to box height */
+    margin-top: 15px;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+.viewAllButton:hover {
+    background: #001f2e; 
+}
+

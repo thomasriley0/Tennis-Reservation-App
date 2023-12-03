@@ -1,0 +1,88 @@
+<%- include ('../partials/header')%>
+
+<main>
+  <%- include ('../partials/menu')%>
+  <link rel="stylesheet" href="/css/profile.css" />
+  <section
+    id="profileContainer"
+    class="vh-100"
+    style="background-color: #f4f5f7"
+  >
+    <div class="container py-6 h-150">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col col-lg-6 mb-4 mb-lg-0">
+          <div class="card mb-3" style="border-radius: 0.5rem">
+            <div class="row g-0">
+              <div
+                class="col-md-4 gradient-custom text-center text-white"
+                style="
+                  border-top-left-radius: 0.5rem;
+                  border-bottom-left-radius: 0.5rem;
+                "
+              >
+                <img
+                  src="<%-(data[0].image == null ? 'https://i.stack.imgur.com/34AD2.jpg': data[0].image) %>"
+                  alt="Avatar"
+                  class="img-fluid my-5"
+                  style="width: 80px"
+                />
+                <h5><%= data[0].username %></h5>
+                <p>
+                  <%= data[0].description==null ? 'Tennis Player'
+                  :data[0].description %>
+                </p>
+                <i class="far fa-edit mb-5"></i>
+              </div>
+              <div class="col-md-8">
+                <div class="card-body p-4">
+                  <h6>Profile Info</h6>
+                  <hr class="mt-0 mb-4" />
+                  <div class="row pt-1">
+                    <div class="col-6 mb-3">
+                      <h6>Skill Rating</h6>
+                      <p class="text-muted">
+                        <%= data[0].rating==null ? 'NA' :data[0].rating %>
+                      </p>
+                    </div>
+                    <div class="col-6 mb-3">
+                      <h6>Gender</h6>
+                      <p class="text-muted">
+                        <%= data[0].gender==null ? 'NA' : data[0].gender %>
+                      </p>
+                    </div>
+                  </div>
+                  <hr class="mt-0 mb-4" />
+                  <div class="row pt-1">
+                    <div class="col-6 mb-3">
+                      <h6>Age</h6>
+                      <p class="text-muted">
+                        <%=data[0].age==null ? 'NA' :data[0].age %>
+                      </p>
+                    </div>
+                    <div class="col-6 mb-3">
+                      <h6>Location</h6>
+                      <p class="text-muted">
+                        <%=data[0].location==null ? 'NA' :data[0].location %>
+                      </p>
+                    </div>
+                  </div>
+                  <div>
+                    <a href="javascript:history.go(-1)">
+                      <button type="submit" class="btn btn-secondary">
+                        Back
+                      </button>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<%- include ('../partials/footer') %>
+
+<script src="/js/profile.js"></script>

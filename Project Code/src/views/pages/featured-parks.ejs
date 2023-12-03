@@ -3,19 +3,10 @@
 -->
 
 <%- include ('../partials/header')%>
-    <link rel="stylesheet" href="/css/login.css" />
+    <link rel="stylesheet" href="/css/featured-parks.css" />
 
     <main>
         <style>
-            .profileContainer {
-                display: grid;
-                margin: auto;
-                grid-template-columns: repeat(2, 1fr);
-                row-gap: 5px;
-                width: 50%;
-                padding: 10px;
-            }
-
             .facility {
                 border-style: solid;
                 padding: 10px;
@@ -27,19 +18,23 @@
 
             <section id="profileContainer" class="vh-100" style="background-color: #f4f5f7; height:100%;">
                 <h3 style="text-align: center;">Featured Parks</h3>
-                <p style="text-align: center;">Here are some of our favorite parks in your local area!</p>
+                <p style="text-align: center;">Here are some of our favorite parks!</p>
                 <div class="profileContainer">
                     <% data.forEach(function (park) { %>
-                        <form action="/court" method="GET">
-                            <div class="card text-center" style="width: 18rem; height: 10rem">
-                                <div class="card-body">
-                                    <input type="hidden" name="name" value="<%- park.name %>">
-                                    <h5><%- park.name %></h5>
-                                    <h5><%- park.location %></h5>
-                                    <button type="submit" class="btn btn-success">View Courts</button>
-                                </div>
+                        <a href="/park?id=<%=park.facilityid%>">
+                            <div class="parkCard">
+                                <%if (park.img) {%>
+                                    <img class="parkImage" src="<%=park.img%>" alt="" />
+                                    <%} else {%>
+                                        <img class="parkImage" src="/img/defaultPark.jpg" alt="" />
+                                        <%}%>
+
+                                            <div class="d-flex flex-column parkCardContent" style="text-align: center;">
+                                                <span class="parkName"><%-park.name %></span>
+                                                <span class="parkCity">City: <%-park.city %></span>
+                                            </div>
                             </div>
-                        </form>
+                        </a>
                         <% }); %>
                 </div>
             </section>

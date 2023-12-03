@@ -1,5 +1,86 @@
 <%- include ('../partials/header') %>
+  <link rel="stylesheet" href="/css/home.css" />
+  <link rel="stylesheet" href="/css/search.css" />
+  <link rel="stylesheet" href="/css/park.css" />
+  <link rel="stylesheet" href="/css/partner.css" />
 
-<main><%- include ('../partials/menu') %></main>
+  <main>
+    <%- include ('../partials/menu') %>
 
-<%- include ('../partials/footer') %>
+      <div class="container">
+        <div class="d-flex justify-content-center mt-3">
+          <div class="d-flex flex-column">
+            <div class="d-flex flex-row pt-3">
+              <form id="parkSearchForm" action="/park-search" method="GET">
+                <input class="searchInput" type="text" name="zip" id="zip" placeholder="Zip Code" />
+
+                <button class="searchBtn" onClick="return validateForm();">
+                  Find Parks
+                </button>
+              </form>
+            </div>
+            <small id="zipError" class="text-danger hidden">
+              Please enter a valid zip code.
+            </small>
+          </div>
+        </div>
+        <div class="featuredParks d-flex flex-column align-items-center">
+          <h3 class="text-center">Featured Parks Near Me</h3>
+          <div class="parkCarousel d-flex mt-4">
+            <%parks.forEach(park=> { %>
+              <a href="/park?id=<%=park.facilityid%>">
+                <div class="parkCard">
+                  <%if (park.img) {%>
+                    <img class="parkImage" src="<%=park.img%>" alt="" />
+                    <%} else {%>
+                      <img class="parkImage" src="/img/defaultPark.jpg" alt="" />
+                      <%}%>
+
+                        <div class="d-flex flex-column parkCardContent">
+                          <span class="parkName"><%-park.name %></span>
+                          <span class="parkCity">City: <%-park.city %></span>
+                        </div>
+                </div>
+              </a>
+              <% }) %>
+          </div>
+          <a href="/featured-parks">
+            <button class="viewAllButton">View All</button>
+          </a>
+        </div>
+
+        <div class="partnerContainer d-flex flex-column align-items-center">
+          <h3 class="text-center">Play With A Partner</h3>
+          <div class="partnerCarousel d-flex mt-4">
+            <%partnerInfo.forEach(reservation=> { %>
+              <div class="partnerCard">
+                <a href="/find-partners?id=<%=reservation.reservationid%>">
+                  <%if (reservation.img) {%>
+                    <img class="partnerImage" src="<%=reservation.img%>" alt="" />
+                    <%} else {%>
+                      <img class="partnerImage" src="/img/defaultPark.jpg" alt="" />
+                      <%}%>
+                        <div class="d-flex flex-column parterCardContent">
+                          <span class="partnerLocation">
+                            <%=reservation.parkname%>
+                          </span>
+                          <span class="partnerTime">
+                            <%=reservation.court_date.toLocaleDateString()%>
+                          </span>
+                          <span class="partnerTime"><%- (reservation.start_time)/100 %>:00 - <%-
+                                (reservation.end_time)/100 %>:00</span>
+                        </div>
+                </a>
+              </div>
+              <% }) %>
+          </div>
+          <a href="/find-partners">
+            <button class="viewAllButton">View All</button>
+          </a>
+        </div>
+      </div>
+  </main>
+
+  <script src="js/search.js"></script>
+
+  <%- include ('../partials/footer') %>
