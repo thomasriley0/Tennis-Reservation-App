@@ -529,7 +529,7 @@ app.get("/featured-parks", (req, res) => {
   //returns error, needs work
   //possibly because there are currently no resverations in table?
   const query =
-    "SELECT facilities.name, facilities.facilityID, facilities.img, facilities.city, COUNT(facilities.name) FROM facilities INNER JOIN reservation ON facilities.facilityID = reservation.facilityID GROUP BY facilities.name, facilities.facilityID, facilities.img, facilities.city ORDER BY COUNT(facilities.name) DESC; "
+    "SELECT facilities.name, facilities.facilityID, facilities.img, facilities.city, COUNT(facilities.name) as numres FROM facilities INNER JOIN reservation ON facilities.facilityID = reservation.facilityID GROUP BY facilities.name, facilities.facilityID, facilities.img, facilities.city ORDER BY COUNT(facilities.name) DESC; "
 
   //placeholder query for testing
   //const query = "select * from facilities LIMIT 8;";

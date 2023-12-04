@@ -1,43 +1,41 @@
 <!-- Template For Displaying a Featured Parks
     - Display all featured parks in a grid on this page
+    <link rel="stylesheet" href="/css/featured-parks.css" />
 -->
 
 <%- include ('../partials/header')%>
-    <link rel="stylesheet" href="/css/featured-parks.css" />
+    <link rel="stylesheet" href="/css/park.css" />
 
     <main>
-        <style>
-            .facility {
-                border-style: solid;
-                padding: 10px;
-                margin: 5px;
-            }
-        </style>
-
         <%- include ('../partials/menu')%>
-
-            <section id="profileContainer" class="vh-100" style="background-color: #f4f5f7; height:100%;">
+            <div class="container">
                 <h3 style="text-align: center;">Featured Parks</h3>
-                <p style="text-align: center;">Here are some of our favorite parks!</p>
-                <div class="profileContainer">
-                    <% data.forEach(function (park) { %>
+                <p style="text-align: center;">Here are some of our most popular parks!</p>
+                <div class="row justify-content-center">
+                    <%data.forEach(park=> { %>
                         <a href="/park?id=<%=park.facilityid%>">
-                            <div class="parkCard">
-                                <%if (park.img) {%>
-                                    <img class="parkImage" src="<%=park.img%>" alt="" />
-                                    <%} else {%>
-                                        <img class="parkImage" src="/img/defaultPark.jpg" alt="" />
-                                        <%}%>
+                            <div class="col- mx-auto mb-3" style="padding:5px">
 
-                                            <div class="d-flex flex-column parkCardContent" style="text-align: center;">
-                                                <span class="parkName"><%-park.name %></span>
-                                                <span class="parkCity">City: <%-park.city %></span>
-                                            </div>
+                                <div class="parkCard">
+                                    <%if (park.img) {%>
+                                        <img class="parkImage" src="<%=park.img%>" alt="" />
+                                        <%} else {%>
+                                            <img class="parkImage" src="/img/defaultPark.jpg" alt="" />
+                                            <%}%>
+
+                                                <div class="d-flex flex-column parkCardContent">
+                                                    <span class="parkName"><%-park.name %></span>
+                                                    <span class="parkCity">City: <%-park.city %></span>
+                                                    <span class="parkReservations"># Reservations: <%-park.numres
+                                                            %></span>
+                                                </div>
+                                </div>
                             </div>
                         </a>
-                        <% }); %>
+                        <%}) %>
+
                 </div>
-            </section>
+            </div>
     </main>
 
     <%- include ('../partials/footer') %>
