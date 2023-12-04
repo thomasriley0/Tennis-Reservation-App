@@ -38,7 +38,7 @@
             <%if (zip == "") {%> 
                 <p class="text-center mt-5">Showing <%=parkCount%> parks. </p>
             <%} else {%>
-                <p class="text-center mt-5">Showing <%=parkCount%> parks within 200 miles of <%=zip%></p>
+                <p class="text-center mt-5">Showing <%=parkCount%> parks within 30 miles of <%=zip%></p>
             <% }%>
           </p>
         </div>
@@ -50,8 +50,8 @@
                 <div class="col- mx-auto mb-3">
 
                 <div class="parkCard">
-                  <%if (park.image) {%>
-                  <img class="parkImage" src="<%=park.image%>" alt="" />
+                  <%if (park.img) {%>
+                  <img class="parkImage" src="<%=park.img%>" alt="" />
                   <%} else {%>
                   <img class="parkImage" src="/img/defaultPark.jpg" alt="" />
                   <%}%>
