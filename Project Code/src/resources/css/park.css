@@ -16,6 +16,11 @@
   border-radius: 20px;
 }
 
+.parkCard:hover,
+.parkCard:active {
+  background-color: #f4f5f7;
+}
+
 .parkImage {
   height: 110px;
   width: 100%;

@@ -3,7 +3,6 @@ footer {
   background-color: #002f47;
   color: white !important;
   padding-top: 20px;
-
 }
 
 .footer-link {
@@ -11,6 +10,11 @@ footer {
   font-family: "Nunito Sans", sans-serif !important;
   font-size: 13px;
   font-weight: normal;
+}
+
+.footer-link:hover,
+.footer-link:active {
+  color: #c8c7c7 !important;
 }
 
 .footer-text {
