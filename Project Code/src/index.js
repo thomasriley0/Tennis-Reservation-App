@@ -62,7 +62,7 @@ app.use(express.static(__dirname + "/resources"));
 app.get("/", (req, res) => {
   db.task("home-page", (task) => {
     var location;
-    const getParks = "SELECT * FROM facilities LIMIT 8;";
+    const getParks = "SELECT facilities.name, facilities.facilityID, facilities.img, facilities.city, COUNT(facilities.name) as numres FROM facilities INNER JOIN reservation ON facilities.facilityID = reservation.facilityID GROUP BY facilities.name, facilities.facilityID, facilities.img, facilities.city ORDER BY COUNT(facilities.name) DESC LIMIT 8; ";
     if (user.location != undefined) {
       //query for no location found
       location = false;
