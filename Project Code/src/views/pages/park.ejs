@@ -7,24 +7,23 @@
 <main>
   <%- include ('../partials/menu')%>
 
-  <div class="container">
+  <div class="container ">
     <h3 class="text-center mt-4"><%-park.name%></h3>
-
-    <div class="court-div d-flex flex-wrap mt-5 justify-content-center">
-      <!-- for each court{
-        <a href="/court?id=c.id">
-            <div>
-                c.image ?
-                c.name
-                c.times
-            </div>
-        </a>
-        } -->
+    
+    <div class="div-courts d-flex  flex-wrap  mt-5  justify-content-center ">
       <% court_q.forEach(court => {%>
       <a href="/court?courtid=<%-court.courtid%>">
-        <div class="court-card d-flex justify-content-center mb-2 mr-2">
-          <h3 class="text-center mt-4"><%-court.name%></h3>
-        </div>
+        <div class="d-flex justify-content-center ">
+        <div class="court-card   d-flex  flex-column align-items-center justify-content-center p-3 m-1">
+          <h3 class="text-center mt-3"><%-court.name%></h3>
+          <div class="div-times p-2 d-flex flex-wrap  justify-content-center  mt-2 ">
+            <% times.forEach(time => { %>
+            <div class="times d-flex m-1 p-1">
+              <p>8:00-10:00</span>
+            </div>
+            <%}) %>
+          </div>
+        </div></div>
       </a>
       <%})%>
     </div>

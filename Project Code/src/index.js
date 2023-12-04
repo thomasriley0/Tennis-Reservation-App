@@ -214,8 +214,10 @@ app.get("/park", (req, res) => {
   const court_q = `SELECT * FROM courts WHERE facilityid = ${parkId};`;
   const park_q = `SELECT name FROM facilities WHERE facilityid = ${parkId};`;
 
+  const time_q = 'SELECT * FROM court_times LIMIT 8;';
+
   db.task((task) => {
-    return task.batch([task.any(court_q), task.any(park_q)]);
+    return task.batch([task.any(court_q), task.any(park_q), task.any(time_q)]);
   })
     .then((data) => {
       res.status(201);
@@ -223,6 +225,7 @@ app.get("/park", (req, res) => {
         court_q: data[0],
         park: data[1][0],
         user_id: user.user_id,
+        times: data[2],
       });
     })
     .catch((err) => {
@@ -234,23 +237,27 @@ app.get("/park", (req, res) => {
 app.get("/court", (req, res) => {
   const courtId = req.query.courtid;
 
-  var findPartners = `select reservations.reservationID, reservations.facilityID, reservations.timeID, reservations.courtID, reservations.userID,
-     facilities.name as parkName, facilities.location, facilities.city, courts.name as courtName, court_times.court_date, 
-     court_times.start_time, court_times.end_time, users.username
-     from (select * from reservation where lfg = TRUE) reservations
-     INNER JOIN facilities on reservations.facilityID = facilities.facilityID
-     INNER JOIN courts on reservations.courtID = courts.courtID
-     INNER JOIN court_times on reservations.timeID = court_times.timeID
-     INNER JOIN users on reservations.userID = users.userID;`;
+  const query = `SELECT name FROM courts WHERE courtid = ${courtId};`;
+
+  const time_q = 'SELECT * FROM court_times LIMIT 8;';
 
 
-  
+ db.task((task) => {
+    return task.batch([task.any(query), task.any(time_q)]);
+  })
+    .then((data) => {
+      res.status(201);
+      res.render("pages/court", {
+        user_id: user.user_id,
+        court: data[0],
+        times: data[1],
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(400);
+    });
 
-  db.any(findPartners).then((data) => {
-    console.log(data);
-  });
-
-  res.render("pages/court", { user_id: user.user_id });
 });
 
 app.get("/reservations", (req, res) => {

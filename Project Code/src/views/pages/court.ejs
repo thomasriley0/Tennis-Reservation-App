@@ -7,25 +7,15 @@
 <main>
   <%- include ('../partials/menu')%>
   <div class="container">
-    <h2 class="text-center mt-4">CU Rec Center 1</h2>
-
-    <div class="div-times d-flex flex-wrap justify-content-center mt-5">
-      <div class="times d-flex justify-content-center p-2 mr-4">
-        <span>8:00-10:00</span>
+    <div class="d-flex justify-content-center flex-column align-items-center align-content-center">
+    <h2 class="text-center mt-4"><%-court[0].name%></h2>
+    <div class="div-times p-2 d-flex flex-wrap  justify-content-center mt-2 ">
+      <% times.forEach(time => { %>
+      <div class="times d-flex m-1 p-1 ">
+        <p>8:00-10:00</span>
       </div>
-      <div class="times d-flex justify-content-center p-2 mr-4">
-        <span>8:00-10:00</span>
-      </div>
-      <div class="times d-flex justify-content-center p-2 mr-4">
-        <span>8:00-10:00</span>
-      </div>
-      <div class="times d-flex justify-content-center p-2 mr-4">
-        <span>8:00-10:00</span>
-      </div>
-      <div class="times d-flex justify-content-center p-2 mr-4">
-        <span>8:00-10:00</span>
-      </div>
-    </div>
+      <%}) %>
+    </div></div>
   </div>
 </main>
 

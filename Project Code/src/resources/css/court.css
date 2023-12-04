@@ -1,8 +1,18 @@
 .div-times{
-    border: 2px solid rgb(16, 46, 69);
-
+    background-color: #ffff;
+    color: #000;
+    width: 80%;
+    border-radius: 12px;
+    border: 2px solid rgb(8, 8, 87);
 }
 
 .times{
-    border: 2px solid rgb(81, 139, 54);
+    
+    background-color: rgb(30, 42, 69);
+    color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+    
 }
+
+
