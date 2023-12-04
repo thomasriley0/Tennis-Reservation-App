@@ -44,7 +44,11 @@ overflow:hidden;
   white-space: nowrap;
 }
 
-.nav-link:hover {
+.nav-link:hover, .nav-link:active  {
+  color: #005f8f !important;
+}
+
+.nav-list li a:hover, .nav-list li a:active {
   color: #005f8f !important;
 }
 

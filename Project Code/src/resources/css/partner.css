@@ -12,6 +12,11 @@
   border-radius: 20px;
 }
 
+.partnerCard:hover,
+.partnerCard:active {
+  background-color: #f4f5f7;
+}
+
 .partnerImage {
   height: 60px;
   width: 100%;
