@@ -1,61 +1,56 @@
-
 .featuredParks {
-    margin-top: 50px;
+  margin-top: 50px;
 }
 
-.parkCarousel{
-    gap: 10px;
-    overflow-x: scroll;
-    scroll-snap-type: x mandatory;
-    width: 95%;
+.parkCarousel {
+  gap: 10px;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  width: 95%;
 }
 
 .parkCard {
-    min-width: 276.69px;
-    height: 200px;
-    border: 1px solid #C5C5C5;
-    border-radius: 20px;
-    }
-    
+  width: 276.69px;
+  height: 200px;
+  border: 1px solid #c5c5c5;
+  border-radius: 20px;
+}
+
 .parkImage {
-    height: 110px;
-    width: 100%;
-    border-radius: 20px 20px 0px 0px;
+  height: 110px;
+  width: 100%;
+  border-radius: 20px 20px 0px 0px;
 }
 
 .parkCardContent span {
-    font-family: Poppins;
-    padding-left: 5px;
-    padding-top: 3px;
-    padding-bottom: 3px;
-   
+  font-family: Poppins;
+  padding-left: 5px;
+  padding-top: 3px;
+  padding-bottom: 3px;
 }
 
 .parkName {
-    font-size: 13px;
-    font-weight: 600;
-
+  font-size: 13px;
+  font-weight: 600;
 }
 
 .parkCity {
-    font-size: 12px;
-    font-weight: 500;
+  font-size: 12px;
+  font-weight: 500;
 }
 
 .parkTimes {
-    padding: 15px;
+  padding: 15px;
 }
 
-
 .parkTime {
-    background-color: #20AF4B;
-    color: white;
-    width: 70px;
-    border-radius: 6px;
-    border: none;
-
+  background-color: #20af4b;
+  color: white;
+  width: 70px;
+  border-radius: 6px;
+  border: none;
 }
 
 .spanTime {
-    font-size: 13px;
+  font-size: 13px;
 }
