@@ -314,16 +314,27 @@ app.get("/park-search", (req, res) => {
     const query = "SELECT * FROM facilities;";
     db.any(query)
       .then((data) => {
+        const parkCount = Object.keys(data).length;
         res.status(201);
-        res.render("pages/park-search", { parks: data, zip: "" });
+        res.render("pages/park-search", {
+          parks: data,
+          zip: "",
+          user_id: user.user_id,
+          parkCount: parkCount,
+        });
       })
       .catch((err) => {
         res.status(400);
-        res.render("pages/park-search", { parks: [], zip: "" });
+        res.render("pages/park-search", {
+          parks: [],
+          zip: "",
+          user_id: user.user_id,
+          parkCount: 0,
+        });
       });
   } else {
     const options = {
-      url: `https://maps.googleapis.com/maps/api/geocode/json?address=${zip}&key=AIzaSyAS6khmu5YxdRZLOre2vGYA9hf2FkOQcag`,
+      url: `https://maps.googleapis.com/maps/api/geocode/json?address=${zip}&key=${process.env.GOOGLE_API_KEY}`,
       method: "GET",
     };
 
@@ -345,18 +356,34 @@ app.get("/park-search", (req, res) => {
 
         db.any(query)
           .then((data) => {
+            const parkCount = Object.keys(data).length;
             res.status(201);
-            res.render("pages/park-search", { parks: data, zip: zip });
+            res.render("pages/park-search", {
+              parks: data,
+              zip: zip,
+              user_id: user.user_id,
+              parkCount: parkCount,
+            });
           })
           .catch((err) => {
             res.status(400);
             console.log(err);
-            res.render("pages/park-search", { parks: [], zip: zip });
+            res.render("pages/park-search", {
+              parks: [],
+              zip: zip,
+              user_id: user.user_id,
+              parkCount: 0,
+            });
           });
       })
       .catch((err) => {
         res.status(400);
-        res.render("pages/park-search", { parks: [], zip: zip });
+        res.render("pages/park-search", {
+          parks: [],
+          zip: zip,
+          user_id: user.user_id,
+          parkCount: 0,
+        });
       });
   }
 });
