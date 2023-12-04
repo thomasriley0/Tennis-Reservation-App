@@ -1,37 +1,35 @@
-.partnerCarousel{
-    gap: 10px;
-    overflow-x: scroll;
-    scroll-snap-type: x mandatory;
-    width: 95%;
-
+.partnerCarousel {
+  gap: 10px;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  width: 95%;
 }
 
 .partnerCard {
-    min-width: 170px;
-    height: 130px;
-    border: 1px solid #C5C5C5;
-    border-radius: 20px;
-    }
-    
+  min-width: 170px;
+  height: 145px;
+  border: 1px solid #c5c5c5;
+  border-radius: 20px;
+}
+
 .partnerImage {
-    height: 60px;
-    width: 100%;
-    border-radius: 20px 20px 0px 0px;
+  height: 60px;
+  width: 100%;
+  border-radius: 20px 20px 0px 0px;
 }
 
 .parterCardContent span {
-    font-family: Poppins;
-    padding-left: 5px;
-    padding-top: 3px;
-    padding-bottom: 3px;
-    font-size: 11px;
-   
+  font-family: Poppins;
+  padding-left: 5px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  font-size: 11px;
 }
 
 .partnerLocation {
-    font-weight: 500;
+  font-weight: 500;
 }
 
 .partnerTime {
-    font-weight: 400;
+  font-weight: 400;
 }

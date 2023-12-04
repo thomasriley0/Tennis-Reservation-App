@@ -3,7 +3,42 @@
 -->
 
 <%- include ('../partials/header')%>
+    <link rel="stylesheet" href="/css/login.css" />
 
-<main><%- include ('../partials/menu')%></main>
+    <main>
+        <style>
+            .profileContainer {
+                display: grid;
+                margin: auto;
+                grid-template-columns: repeat(3, 1fr);
+                width: 50%;
+                padding: 10px;
+            }
 
-<%- include ('../partials/footer') %>
+            .facility {
+                border-style: solid;
+                padding: 10px;
+                margin: 5px;
+            }
+        </style>
+
+        <%- include ('../partials/menu')%>
+
+            <section id="profileContainer" class="vh-100" style="background-color: #f4f5f7;">
+                <h3 style="text-align: center;">Featured Parks</h3>
+                <p style="text-align: center;">Here are some of our favorite parks in your local area!</p>
+                <div class="profileContainer">
+                    <% data.forEach(function (facility) { %>
+                        <div class="facility">
+                            <h3> <%- facility.name %> </h3>
+                            <form action="/park" method="GET">
+                                <input name="name" type="hidden" value="<%- facility.name %>">
+                                <button type="submit" class="btn btn-success">Courts</button>
+                            </form>
+                        </div>
+                        <% }); %>
+                </div>
+            </section>
+    </main>
+
+    <%- include ('../partials/footer') %>

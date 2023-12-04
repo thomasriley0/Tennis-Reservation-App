@@ -32,7 +32,7 @@ overflow:hidden;
   color: #666666;
   font-size: 16px;
   z-index: 1000;
-  position: absolute;
+  position: fixed;
   
 
 }

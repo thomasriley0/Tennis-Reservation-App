@@ -24,7 +24,8 @@ CREATE TABLE facilities(
     address CHAR(100),
     city CHAR(60),
     latitude FLOAT,
-    longitude FLOAT
+    longitude FLOAT,
+    img VARCHAR(300)
    
     
 );
@@ -67,6 +68,7 @@ CREATE TABLE reservation(
 
     reservationID SERIAL PRIMARY KEY,
     userID INT NOT NULL,
+    joinedUserID INT,
     courtID INT NOT NULL,
     timeID INT NOT NULL,
     facilityID INT NOT NULL,
