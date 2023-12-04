@@ -60,54 +60,7 @@ app.use(
 app.use(express.static(__dirname + "/resources"));
 
 app.get("/", (req, res) => {
-
-  //temporary partner data
-  const reservations = [
-    {
-      parkName: "Cu Rec Courts",
-      start_time: "8:00 AM",
-      end_time: "10:00 AM",
-      image: "https://www.colorado.edu/recreation/sites/default/files/styles/hero/public/page/cureccenter-r-tennis-02-low_res_0.jpg?itok=p6vRutfF"
-    },
-    {
-      parkName: "Cu Rec Courts",
-      start_time: "10:00 AM",
-      end_time: "12:00 PM"
-    },
-    {
-      parkName: "Cu Rec Courts",
-      start_time: "12:00 PM",
-      end_time: "2:00 PM"
-    },
-    {
-      parkName: "Cu Rec Courts",
-      start_time: "2:00 PM",
-      end_time: "4:00 PM"
-    },
-    {
-      parkName: "Cu Rec Courts",
-      start_time: "4:00 PM",
-      end_time: "6:00 PM"
-    },
-    {
-      parkName: "Cu Rec Courts",
-      start_time: "8:00 PM",
-      end_time: "9:00 PM"
-    }
-  ]
-
-  //temporary park query
-  const query =
-    "SELECT * FROM facilities LIMIT 8;";
-    db.any(query) .then((data) => {
-      res.status(200);
-      res.render("pages/home", { user_id: user.user_id, data:data, partnerInfo: reservations });
-    }) .catch((err) => {
-      res.render("pages/home", { user_id: user.user_id, data:[], parterInfo: reservations });
-      res.status(400);
-    });
- 
-
+  res.render("pages/home", { user_id: user.user_id });
   // res.render("pages/home");
 });
 //Login API Routes
@@ -118,9 +71,8 @@ app.get("/login", (req, res) => {
 app.get("/logout", (req, res) => {
   req.session.destroy();
   user = {};
-  res.render("pages/home", { user_id: user.user_id, data:[], partnerInfo: [] });
+  res.render("pages/home", { user_id: user.user_id });
 });
-
 
 app.post("/login", async (req, res) => {
   try {
@@ -230,18 +182,14 @@ app.get("/parks", (req, res) => {
     });
 });
 
-app.get("/park", (req, res) => { 
-  res.render("pages/park", {user_id: user.user_id } )
-});
+app.get("/park", (req, res) => {});
 
 app.get("/court", (req, res) => {
   res.render("pages/court");
 });
 
 app.get("/reservations", (req, res) => {
-
-  var query =
-    `SELECT courts.name AS court, facilities.name AS park, 
+  var query = `SELECT courts.name AS court, facilities.name AS park, 
   facilities.address, court_times.court_date,
   court_times.start_time, court_times.end_time, reservation.lfg,
   reservation.reservationID
@@ -252,21 +200,20 @@ app.get("/reservations", (req, res) => {
   ON reservation.timeID = court_times.timeID
   INNER JOIN facilities
   ON reservation.facilityID = facilities.facilityID
-  AND reservation.userID = ${req.session.user.user_id};`
+  AND reservation.userID = ${req.session.user.user_id};`;
 
   db.any(query)
     .then((data) => {
       res.status(201);
       res.render("pages/reservations", {
         data: data,
-        user_id: user.user_id
+        user_id: user.user_id,
       });
-
     })
     .catch((err) => {
-      console.log(err)
+      console.log(err);
       res.status(400);
-    })
+    });
 });
 
 app.post("/reservations", (req, res) => {
@@ -277,7 +224,7 @@ app.post("/reservations", (req, res) => {
       res.redirect("/reservations");
     })
     .catch((err) => {
-      console.log(err)
+      console.log(err);
       res.status(400);
     });
 });
@@ -290,9 +237,9 @@ app.get("/profile", (req, res) => {
     .then(function (data) {
       res.render("pages/profile", {
         data: data,
-        user_id: user.user_id
+        user_id: user.user_id,
       });
-     
+      res.status(201);
     })
     .catch((err) => {
       res.status(400);
@@ -302,37 +249,55 @@ app.get("/profile", (req, res) => {
 });
 
 app.get("/park-search", (req, res) => {
-  //get reservations that are looking for group
-  console.log(req.query.zip)
-  if (req.query.zip == "") {
-    //show all parks 
-    const query = "SELECT * FROM facilities;"
-    db.any(query).then(function (data) {
-      console.log(data)
-      res.status(201);
-      res.render("pages/park-search", {
-        parks: data,
-        zip: "",
-        parkCount: Object.keys(data).length,
-        user_id: user.user_id
+  if (!req.body.zip) {
+    const query = "SELECT * FROM facilities;";
+    db.any(query)
+      .then((data) => {
+        res.status(201);
+        res.render("pages/park-search", { parks: data, zip: "" });
       })
-    }).catch((err) => {
-      res.status(400);
-      console.log(err);
-      console.log(data);
-    });
+      .catch((err) => {
+        res.status(400);
+        res.render("pages/park-search", { parks: [], zip: "" });
+      });
   } else {
-    //show all parks in raidus of zip 
-    //sending blank for now needs to be implemented
-    res.render("pages/park-search", {
-      parks: [],
-      zip: req.query.zip,
-      parkCount: 0,
-      user_id: user.user_id
-    })
-    res.status(201);
-  }
+    const options = {
+      url: `https://maps.googleapis.com/maps/api/geocode/json?address=${zip}&key=AIzaSyAS6khmu5YxdRZLOre2vGYA9hf2FkOQcag`,
+      method: "GET",
+    };
 
+    axios(options)
+      .then((response) => {
+        results = response.json;
+
+        var radius = 100;
+        var zip = req.body.zip;
+        var radius_lat = radius / 68.707;
+        var radius_long = radius / (69.171 * Math.cos(radius_lat));
+
+        var latPlus = results[0].geometry.location["lat"] + radius_lat;
+        var latMinus = results[0].geometry.location["lat"] - radius_lat;
+        var longPlus = results[0].geometry.location["lng"] + radius_long;
+        var longMinus = results[0].geometry.location["lng"] - radius_long;
+
+        query = `SELECT * FROM facilities WHERE (latitude < '${latPlus}' AND latitude > '${latMinus}' AND longitude > ${longMinus}' AND longitude < '${longPlus}');`;
+
+        db.any(query)
+          .then((data) => {
+            res.status(201);
+            res.render("pages/park-search", { parks: data, zip: zip });
+          })
+          .catch((err) => {
+            res.status(400);
+            console.log(err);
+            res.render("pages/park-search", { parks: [], zip: zip });
+          });
+      })
+      .catch((err) => {
+        res.status(400);
+        res.render("pages/park-search", { parks: [], zip: zip });
+      });
+  }
 });
 
 app.post("/profile", (req, res) => {
