@@ -310,7 +310,7 @@ app.get("/user", (req, res) => {
 });
 
 app.get("/park-search", (req, res) => {
-  if (!req.body.zip) {
+  if (!req.query.zip) {
     const query = "SELECT * FROM facilities;";
     db.any(query)
       .then((data) => {
@@ -334,25 +334,26 @@ app.get("/park-search", (req, res) => {
       });
   } else {
     const options = {
-      url: `https://maps.googleapis.com/maps/api/geocode/json?address=${zip}&key=${process.env.GOOGLE_API_KEY}`,
+      url: `https://maps.googleapis.com/maps/api/geocode/json?address=${req.query.zip}&key=${process.env.GOOGLE_API_KEY}`,
       method: "GET",
     };
 
     axios(options)
       .then((response) => {
-        results = response.json;
+        const results = response.data["results"][0];
 
-        var radius = 100;
-        var zip = req.body.zip;
+        var radius = 30;
+        var zip = req.query.zip;
         var radius_lat = radius / 68.707;
         var radius_long = radius / (69.171 * Math.cos(radius_lat));
 
-        var latPlus = results[0].geometry.location["lat"] + radius_lat;
-        var latMinus = results[0].geometry.location["lat"] - radius_lat;
-        var longPlus = results[0].geometry.location["lng"] + radius_long;
-        var longMinus = results[0].geometry.location["lng"] - radius_long;
+        var latPlus = results.geometry.location["lat"] + radius_lat;
+        var latMinus = results.geometry.location["lat"] - radius_lat;
+        var longPlus = results.geometry.location["lng"] + radius_long;
+        var longMinus = results.geometry.location["lng"] - radius_long;
 
-        query = `SELECT * FROM facilities WHERE (latitude < '${latPlus}' AND latitude > '${latMinus}' AND longitude > ${longMinus}' AND longitude < '${longPlus}');`;
+        const query = `SELECT * FROM facilities WHERE (latitude < '${latPlus}' AND latitude > '${latMinus}')
+         AND (longitude > '${longMinus}' AND longitude < '${longPlus}');`;
 
         db.any(query)
           .then((data) => {
@@ -360,7 +361,7 @@ app.get("/park-search", (req, res) => {
             res.status(201);
             res.render("pages/park-search", {
               parks: data,
-              zip: zip,
+              zip: req.query.zip,
               user_id: user.user_id,
               parkCount: parkCount,
             });
@@ -370,7 +371,7 @@ app.get("/park-search", (req, res) => {
             console.log(err);
             res.render("pages/park-search", {
               parks: [],
-              zip: zip,
+              zip: req.query.zip,
               user_id: user.user_id,
               parkCount: 0,
             });
@@ -380,7 +381,7 @@ app.get("/park-search", (req, res) => {
         res.status(400);
         res.render("pages/park-search", {
           parks: [],
-          zip: zip,
+          zip: req.query.zip,
           user_id: user.user_id,
           parkCount: 0,
         });
