@@ -243,6 +243,9 @@ app.get("/court", (req, res) => {
      INNER JOIN court_times on reservations.timeID = court_times.timeID
      INNER JOIN users on reservations.userID = users.userID;`;
 
+
+  
+
   db.any(findPartners).then((data) => {
     console.log(data);
   });
