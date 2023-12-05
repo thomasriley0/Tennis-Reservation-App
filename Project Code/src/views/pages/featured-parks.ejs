@@ -1,44 +1,40 @@
 <!-- Template For Displaying a Featured Parks
     - Display all featured parks in a grid on this page
+    <link rel="stylesheet" href="/css/featured-parks.css" />
 -->
 
 <%- include ('../partials/header')%>
-    <link rel="stylesheet" href="/css/login.css" />
+<link rel="stylesheet" href="/css/park.css" />
 
-    <main>
-        <style>
-            .profileContainer {
-                display: grid;
-                margin: auto;
-                grid-template-columns: repeat(3, 1fr);
-                width: 50%;
-                padding: 10px;
-            }
+<main>
+  <%- include ('../partials/menu')%>
+  <div class="container">
+    <h3 style="text-align: center">Featured Parks</h3>
+    <p style="text-align: center">Here are some of our most popular parks!</p>
+    <div class="row justify-content-center">
+      <%data.forEach(park=> { %>
+      <a href="/park?id=<%=park.facilityid%>">
+        <div class="col- mx-auto mb-3" style="padding: 5px">
+          <div class="parkCard">
+            <%if (park.img) {%>
+            <img class="parkImage" src="<%=park.img%>" alt="" />
+            <%} else {%>
+            <img class="parkImage" src="/img/defaultPark.jpg" alt="" />
+            <%}%>
 
-            .facility {
-                border-style: solid;
-                padding: 10px;
-                margin: 5px;
-            }
-        </style>
+            <div class="d-flex flex-column parkCardContent">
+              <span class="parkName"><%-park.name %></span>
+              <span class="parkCity">City: <%-park.city %></span>
+              <span class="parkReservations"
+                ># Reservations: <%-park.numres %></span
+              >
+            </div>
+          </div>
+        </div>
+      </a>
+      <%}) %>
+    </div>
+  </div>
+</main>
 
-        <%- include ('../partials/menu')%>
-
-            <section id="profileContainer" class="vh-100" style="background-color: #f4f5f7;">
-                <h3 style="text-align: center;">Featured Parks</h3>
-                <p style="text-align: center;">Here are some of our favorite parks in your local area!</p>
-                <div class="profileContainer">
-                    <% data.forEach(function (facility) { %>
-                        <div class="facility">
-                            <h3> <%- facility.name %> </h3>
-                            <form action="/park" method="GET">
-                                <input name="name" type="hidden" value="<%- facility.name %>">
-                                <button type="submit" class="btn btn-success">Courts</button>
-                            </form>
-                        </div>
-                        <% }); %>
-                </div>
-            </section>
-    </main>
-
-    <%- include ('../partials/footer') %>
+<%- include ('../partials/footer') %>
