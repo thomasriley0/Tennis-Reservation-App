@@ -11,18 +11,18 @@
     <div class="text-left mt-3 ">
       <a href="javascript:history.back()" class="btn btn-back ">Back</a>
     </div>
-    <h3 class="text-center mt-4"><%-data.name%></h3>
+    <h3 class="text-center mt-4"><%-park.name%></h3>
     
     <div class="div-courts d-flex  mt-5  justify-content-center ">
-      <% data.forEach(court => {%>
+      <% courts.forEach(court => {%>
       <a href="/court?courtid=<%-court.courtid%>">
         <div class="d-flex justify-content-center ">
         <div class="court-card  d-flex flex-wrap flex-column align-items-center justify-content-center p-3 m-1 shadow">
           <h3 class="text-center mt-3"><%-court.name%></h3>
           <div class="div-times p-2 d-flex  flex-wrap justify-content-center  mt-2 ">
-            <% data.forEach(time => { %>
+            <% courts.forEach(time => { %>
             <div class="times d-flex m-1 p-1">
-              <p>8:00-10:00</span>
+              <p><%-time.start_time%>-<%-time.end_time%></span>
             </div>
             <%}) %>
           </div>

@@ -208,13 +208,50 @@ const auth = (req, res, next) => {
 // Authentication Required
 app.use(auth);
 
-app.get("/parks", (req, res) => {
-  const query = "SELECT * FROM facilities;";
-  db.any(query)
 
+
+app.get("/park", (req, res) => {
+
+  const park_id = req.query.id;
+  
+  const query = 
+  `SELECT courts.name AS name, courts.courtid AS courtID, court_times.start_time AS start_time, court_times.end_time AS end_time
+  FROM court_times
+  INNER JOIN court_to_times
+  ON court_times.timeID = court_to_times.timeID 
+  INNER JOIN courts
+  ON court_to_times.courtID = courts.courtID
+  AND courts.facilityID = '${park_id}';`;
+
+  const park = `SELECT name FROM facilities WHERE facilityID = ${park_id};`;
+
+  // db.any(query).then((data)=>{
+
+  //   res.status(201)
+  //   res.render("pages/park",{data:data, user_id: user.user_id});  /*sends court id, start_time, end_time, court_name for the park */
+  //   console.log(data)
+
+  // }).catch((err)=>{
+
+  //     console.log(err);
+  //     res.status(400)
+  //     res.render("pages/park",{data: [], user_id: user.user_id})
+  // })
+// });
+// 
+
+  db.task((task) => {
+    return task.batch([task.any(query), task.any(park)]);
+  })
     .then((data) => {
       res.status(201);
-      res.render("pages/parks", { data: data, user_id: user.user_id });
+      res.render("pages/park", {
+        courts: data[0],
+        park: data[1][0],
+        user_id: user.user_id,
+
+      });
+      console.log(data);
     })
     .catch((err) => {
       console.log(err);
@@ -222,35 +259,7 @@ app.get("/parks", (req, res) => {
     });
 });
 
-app.get("/park", (req, res) => {
 
-  const park_id = req.query.id;
-  
-  const query = 
-  `SELECT courts.name AS name, court_times.start_time AS start_time, court_times.end_time AS end_time
-  FROM court_times
-  INNER JOIN court_to_times
-  ON court_times.timeID = court_to_times.timeID 
-  INNER JOIN courts
-  ON court_to_times.courtID = courts.courtID
-  AND courts.facilityID = '${park_id}';`
-
-  
-
-  db.any(query).then((data)=>{
-
-    res.status(201)
-    res.render("pages/park",{data:data, user_id: user.user_id});  /*sends court id, start_time, end_time, court_name for the park */
-
-
-  }).catch((err)=>{
-
-      console.log(err);
-      res.status(400)
-      res.render("pages/park",{data: [], user_id: user.user_id})
-  })
-
-});
 
 app.get("/court", (req, res) => {
 
@@ -269,7 +278,7 @@ app.get("/court", (req, res) => {
 
     res.status(201)
     res.render("pages/court",{data:data,user_id: user.user_id})
-
+    console.log(data);
   }).catch((err)=>{
 
     console.log(err)
