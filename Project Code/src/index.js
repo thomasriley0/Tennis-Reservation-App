@@ -62,7 +62,8 @@ app.use(express.static(__dirname + "/resources"));
 app.get("/", (req, res) => {
   db.task("home-page", (task) => {
     var location;
-    const getParks = "SELECT facilities.name, facilities.facilityID, facilities.img, facilities.city, COUNT(facilities.name) as numres FROM facilities INNER JOIN reservation ON facilities.facilityID = reservation.facilityID GROUP BY facilities.name, facilities.facilityID, facilities.img, facilities.city ORDER BY COUNT(facilities.name) DESC LIMIT 8; ";
+    const getParks =
+      "SELECT facilities.name, facilities.facilityID, facilities.img, facilities.city, COUNT(facilities.name) as numres FROM facilities INNER JOIN reservation ON facilities.facilityID = reservation.facilityID GROUP BY facilities.name, facilities.facilityID, facilities.img, facilities.city ORDER BY COUNT(facilities.name) DESC LIMIT 8; ";
     if (user.location != undefined) {
       //query for no location found
       location = false;
@@ -208,22 +209,12 @@ const auth = (req, res, next) => {
 // Authentication Required
 app.use(auth);
 
-
-
 app.get("/park", (req, res) => {
-
   const park_id = req.query.id;
-  
-  const query = 
-  `SELECT courts.name AS name, courts.courtid AS courtID, court_times.start_time AS start_time, court_times.end_time AS end_time
-  FROM court_times
-  INNER JOIN court_to_times
-  ON court_times.timeID = court_to_times.timeID 
-  INNER JOIN courts
-  ON court_to_times.courtID = courts.courtID
-  AND courts.facilityID = '${park_id}';`;
 
-  const park = `SELECT name FROM facilities WHERE facilityID = ${park_id};`;
+  const query = `SELECT * from courts where facilityID = '${park_id}';`;
+
+  const park = `SELECT * FROM facilities WHERE facilityID = ${park_id};`;
 
   // db.any(query).then((data)=>{
 
@@ -237,8 +228,8 @@ app.get("/park", (req, res) => {
   //     res.status(400)
   //     res.render("pages/park",{data: [], user_id: user.user_id})
   // })
-// });
-// 
+  // });
+  //
 
   db.task((task) => {
     return task.batch([task.any(query), task.any(park)]);
@@ -249,7 +240,6 @@ app.get("/park", (req, res) => {
         courts: data[0],
         park: data[1][0],
         user_id: user.user_id,
-
       });
       console.log(data);
     })
@@ -259,34 +249,28 @@ app.get("/park", (req, res) => {
     });
 });
 
-
-
 app.get("/court", (req, res) => {
-
   const court_id = req.query.courtid;
 
-  const query = 
-  `SELECT courts.name AS name, courts.courtid as courtId,court_times.timeid AS timeID, court_times.court_date AS date,court_times.start_time AS start_time, court_times.end_time AS end_time
+  const query = `SELECT courts.name AS name, courts.courtid as courtId,court_times.timeid AS timeID, court_times.court_date AS date,court_times.start_time AS start_time, court_times.end_time AS end_time
   FROM court_times
   INNER JOIN court_to_times
   ON court_times.timeID = court_to_times.timeID 
   INNER JOIN courts
   ON court_to_times.courtID = courts.courtID
-  AND courts.courtID = '${court_id}';`
+  AND courts.courtID = '${court_id}';`;
 
-  db.any(query).then((data)=>{
-
-    res.status(201)
-    res.render("pages/court",{data:data,user_id: user.user_id})
-    console.log(data);
-  }).catch((err)=>{
-
-    console.log(err)
-    res.status(400)
-    res.render("pages/court",{data: [],user_id: user.user_id})
-
-  })
-  
+  db.any(query)
+    .then((data) => {
+      res.status(201);
+      res.render("pages/court", { data: data, user_id: user.user_id });
+      console.log(data);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(400);
+      res.render("pages/court", { data: [], user_id: user.user_id });
+    });
 });
 
 app.get("/reservations", (req, res) => {
@@ -330,42 +314,38 @@ app.post("/reservations", (req, res) => {
     });
 });
 
-app.post("/reserve",(req,res)=>{
-
+app.post("/reserve", (req, res) => {
   const start = req.body.start_time;
   const end = req.body.end_time;
   const court_date = req.body.court_date;
   const courtId = req.body.courtid;
   const timeId = req.body.timeid;
 
-  console.log(`Start time: ${start}, End time: ${end}, Date: ${court_date}, CourtId: ${courtId}`);
+  console.log(
+    `Start time: ${start}, End time: ${end}, Date: ${court_date}, CourtId: ${courtId}`
+  );
 
   // DELETE from court_times WHERE court_date = court_date, start = start, end = end, id = courtId
 
-  // const delete_q = 
-  // `DELETE   
+  // const delete_q =
+  // `DELETE
   // FROM court_times
   // INNER JOIN court_to_times
-  // ON court_times.timeID = court_to_times.timeID 
+  // ON court_times.timeID = court_to_times.timeID
   // INNER JOIN courts
   // ON court_to_times.courtID = courts.courtID
   // AND courts.courtID = '${courtId}' WHERE court_date = '${court_date}' AND start_date = '${start}' AND end_time = '${end}' AND courts.courtID = '${courtId}' ;`;
 
   //Insert time-id user-id court-id  lfg=true
 
-
   //const reserve_q = `INSERT INTO reservation (userid, courtid, timeid, lfg) VALUES (${req.session.user.user_id}, ${courtId}, ${timeId}, TRUE) returning *;`;
-
-
 
   db.task((task) => {
     return task.batch([task.any(reserve_q), task.any(delete_q)]);
-  })
-  .then((data)=> {
+  }).then((data) => {
     res.status(200);
-    console.log('help');
-  })
-
+    console.log("help");
+  });
 });
 
 app.get("/profile", (req, res) => {
@@ -626,7 +606,7 @@ app.get("/featured-parks", (req, res) => {
   //returns error, needs work
   //possibly because there are currently no resverations in table?
   const query =
-    "SELECT facilities.name, facilities.facilityID, facilities.img, facilities.city, COUNT(facilities.name) as numres FROM facilities INNER JOIN reservation ON facilities.facilityID = reservation.facilityID GROUP BY facilities.name, facilities.facilityID, facilities.img, facilities.city ORDER BY COUNT(facilities.name) DESC; "
+    "SELECT facilities.name, facilities.facilityID, facilities.img, facilities.city, COUNT(facilities.name) as numres FROM facilities INNER JOIN reservation ON facilities.facilityID = reservation.facilityID GROUP BY facilities.name, facilities.facilityID, facilities.img, facilities.city ORDER BY COUNT(facilities.name) DESC; ";
 
   //placeholder query for testing
   //const query = "select * from facilities LIMIT 8;";

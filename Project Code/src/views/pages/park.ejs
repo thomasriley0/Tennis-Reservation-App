@@ -4,39 +4,51 @@
 
 <%- include ('../partials/header')%>
 <link rel="stylesheet" href="/css/parks.css" />
+<link rel="stylesheet" href="/css/park.css" />
+
 <main>
   <%- include ('../partials/menu')%>
 
   <div class="container">
-    <div class="text-left mt-3">
-      <a href="javascript:history.back()" class="btn btn-back">Back</a>
-    </div>
-    <h3 class="text-center mt-4"><%-park.name%></h3>
+    <div class="d-flex flex-column justify-content-center">
+      <div class="text-left mt-3">
+        <a href="javascript:history.back()" class="btn btn-back">Back</a>
+      </div>
 
-    <div class="div-courts d-flex flex-wrap mt-5 justify-content-center">
-      <% courts.forEach(court => {%>
-      <a href="/court?courtid=<%-court.courtid%>">
-        <div class="d-flex justify-content-center">
-          <div
-            class="court-card d-flex flex-wrap flex-column align-items-center justify-content-center p-3 m-1 shadow"
+      <div
+        class="d-flex flex-column justify-content-center align-items-center mt-3"
+      >
+        <%if (park.img) {%>
+        <img class="parkImageHeader" src="<%=park.img%>" alt="" />
+        <%} else {%>
+        <img class="parkImageHeader" src="/img/defaultPark.jpg" alt="" />
+        <%}%>
+
+        <div
+          class="parkInfo d-flex flex-column justify-content-center align-items-center"
+        >
+          <span class="parkTextHeader"><%-park.name %></span>
+          <span class="parkAddress"
+            ><%-park.address%>, <%-park.city%> <%-park.location%></span
           >
-            <h3 class="text-center mt-3"><%-court.name%></h3>
+        </div>
+      </div>
+
+      <div class="div-courts d-flex flex-column mt-5 justify-content-center">
+        <% courts.forEach(court => {%>
+        <a href="/court?courtid=<%-court.courtid%>">
+          <div class="d-flex justify-content-center">
             <div
-              class="div-times p-2 d-flex flex-wrap justify-content-center mt-2"
+              class="court-card d-flex flex-wrap flex-column align-items-center justify-content-center p-3 m-2 shadow"
             >
-              <% courts.forEach(time => { %>
-              <div class="times d-flex m-1 p-1">
-                <span
-                  ><%- (time.start_time)/100 %>:00 - <%- (time.end_time)/100
-                  %>:00</span
-                >
-              </div>
-              <%}) %>
+              <span class="parkTextHeader text-center" style="color: white"
+                ><%-court.name%></span
+              >
             </div>
           </div>
-        </div>
-      </a>
-      <%})%>
+        </a>
+        <%})%>
+      </div>
     </div>
   </div>
 </main>

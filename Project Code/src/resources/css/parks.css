@@ -1,31 +1,41 @@
-.div-courts{
-    width: 100%;
+.parkImageHeader {
+  height: 150px;
+  width: 300px;
+  border-radius: 20px;
 }
 
-.court-card{
-    background-color: rgb(30, 42, 69);
-    color: #fff;
-    border-radius:10px;
-    
+@media (min-width: 801px) {
+  .parkImageHeader {
+    height: 250px;
+    width: 500px;
+  }
 }
 
-.btn-back{
-    background-color: rgb(30, 42, 69);
-    color: #fff !important;
-}
-.div-times{
-    background-color: #ffff;
-    color: #000;
-    border-radius: 12px;
-
+.parkTextHeader {
+  font-size: 24px;
+  font-weight: 600;
+  font-family: "Poppins", sans-serif;
+  color: #222222;
 }
 
-.times{
-    
-    background-color: rgb(30, 42, 69);
-    color: #fff;
-    border-radius: 5px;
-
-    
+.parkAddress {
+  font-size: 14px;
+  line-height: 1.2;
+  font-style: normal;
+  font-family: "Nunito Sans", sans-serif;
+  color: #222222;
 }
 
+.court-card {
+  width: 90%;
+  max-width: 700px;
+  height: 60px;
+  background-color: rgb(30, 42, 69);
+  color: #fff;
+  border-radius: 10px;
+}
+
+.btn-back {
+  background-color: rgb(30, 42, 69);
+  color: #fff !important;
+}
