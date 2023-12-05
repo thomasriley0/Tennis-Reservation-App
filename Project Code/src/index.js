@@ -336,21 +336,35 @@ app.post("/reserve",(req,res)=>{
   const end = req.body.end_time;
   const court_date = req.body.court_date;
   const courtId = req.body.courtid;
+  const timeId = req.body.timeid;
 
   console.log(`Start time: ${start}, End time: ${end}, Date: ${court_date}, CourtId: ${courtId}`);
 
   // DELETE from court_times WHERE court_date = court_date, start = start, end = end, id = courtId
 
-  // const query = 
+  // const delete_q = 
   // `DELETE   
   // FROM court_times
   // INNER JOIN court_to_times
   // ON court_times.timeID = court_to_times.timeID 
   // INNER JOIN courts
   // ON court_to_times.courtID = courts.courtID
-  // AND courts.courtID = '${courtId}' WHERE court_date = '${court_date}' AND start_date = '${start}' AND end_time = '${end}' AND courts.courtID = '${courtId}' ;`
+  // AND courts.courtID = '${courtId}' WHERE court_date = '${court_date}' AND start_date = '${start}' AND end_time = '${end}' AND courts.courtID = '${courtId}' ;`;
+
+  //Insert time-id user-id court-id  lfg=true
 
 
+  //const reserve_q = `INSERT INTO reservation (userid, courtid, timeid, lfg) VALUES (${req.session.user.user_id}, ${courtId}, ${timeId}, TRUE) returning *;`;
+
+
+
+  db.task((task) => {
+    return task.batch([task.any(reserve_q), task.any(delete_q)]);
+  })
+  .then((data)=> {
+    res.status(200);
+    console.log('help');
+  })
 
 });
 

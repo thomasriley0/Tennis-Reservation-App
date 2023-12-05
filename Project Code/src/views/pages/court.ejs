@@ -16,6 +16,10 @@
       class="d-flex justify-content-center flex-column align-items-center align-content-center"
     >
       <h2 class="text-center mt-4"><%- data[0].name %></h2>
+      <h3 class="text-center mt-2">
+        <%- data[0].date.toLocaleDateString('en-US', { weekday: 'long', year:
+        'numeric', month: 'long', day: 'numeric' }) %>
+      </h3>
       <div
         class="div-times p-2 d-flex flex-wrap justify-content-center mt-5 shadow"
       >
@@ -30,18 +34,18 @@
             <input type="hidden" name="end_time" value="<%- time.end_time %>" />
             <input type="hidden" name="court_date" value="<%- time.date %>" />
             <input type="hidden" name="courtid" value="<%- time.courtid %>" />
+            <input type="hidden" name="timeid" value="<%- time.timeID %>" />
 
-            <span>
-              <%- (time.start_time)/100 %>:00 - <%- (time.end_time)/100 %>:00
-            </span>
             <!-- Button trigger modal -->
             <button
               type="button"
-              class="btn btn-primary"
+              class="btn"
               data-toggle="modal"
               data-target="#exampleModal<%- time.uniqueId %>"
             >
-              Reserve
+              <span>
+                <%- (time.start_time)/100 %>:00 - <%- (time.end_time)/100 %>:00
+              </span>
             </button>
 
             <!-- Modal -->
@@ -55,7 +59,7 @@
             >
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                  <div class="modal-footer">
+                  <div class="modal-footer justify-content-center">
                     <button
                       type="button"
                       class="btn btn-secondary"
@@ -64,7 +68,9 @@
                       Close
                     </button>
 
-                    <button type="submit">reserve</button>
+                    <button class="btn btn-primary" type="submit">
+                      reserve
+                    </button>
                   </div>
                 </div>
               </div>
