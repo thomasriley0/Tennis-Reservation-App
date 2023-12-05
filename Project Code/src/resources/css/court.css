@@ -1,7 +1,7 @@
 .div-times{
     background-color: #ffff;
     color: #000;
-    width: 20%;
+    
     border-radius: 12px;
     border: 3px solid rgb(8, 8, 87);
 }
@@ -22,3 +22,40 @@
 }
 
 
+/* pop up modal */
+
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+  
+  /* Modal Content */
+  .modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+  }
+  
+  /* Close Button */
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .modal-backdrop{
+    z-index: 0;
+  }
+
+  

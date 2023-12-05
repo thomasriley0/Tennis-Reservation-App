@@ -1,24 +1,79 @@
-<!-- Template For Displaying a Court
-    - Display all court times for a given park in a list on this page
--->
-
-<%- include ('../partials/header')%>
+<!-- Template For Displaying a Court -->
+<%- include ('../partials/header') %>
 <link rel="stylesheet" href="/css/court.css" />
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
 <main>
-  <%- include ('../partials/menu')%>
+  <%- include ('../partials/menu') %>
   <div class="container">
-    <div class="text-left mt-3 ">
-      <a href="javascript:history.back()" class="btn btn-back ">Back</a>
+    <div class="text-left mt-3">
+      <a href="javascript:history.back()" class="btn btn-back">Back</a>
     </div>
-    <div class="d-flex justify-content-center flex-column align-items-center align-content-center">
-    <h2 class="text-center mt-4"><%-data[0].name%></h2>
-    <div class="div-times p-2 d-flex flex-wrap  justify-content-center mt-5 shadow ">
-      <% data.forEach(time => { %>
-      <div class="times d-flex m-1 p-1 ">
-        <p><%-time.start_time%>-<%-time.end_time%></span>
+    <div
+      class="d-flex justify-content-center flex-column align-items-center align-content-center"
+    >
+      <h2 class="text-center mt-4"><%- data[0].name %></h2>
+      <div
+        class="div-times p-2 d-flex flex-wrap justify-content-center mt-5 shadow"
+      >
+        <% data.forEach(time => { %>
+        <div class="times d-flex m-1 p-2">
+          <form method="post" action="/reserve">
+            <input
+              type="hidden"
+              name="start_time"
+              value="<%- time.start_time %>"
+            />
+            <input type="hidden" name="end_time" value="<%- time.end_time %>" />
+            <input type="hidden" name="court_date" value="<%- time.date %>" />
+            <input type="hidden" name="courtid" value="<%- time.courtid %>" />
+
+            <span>
+              <%- (time.start_time)/100 %>:00 - <%- (time.end_time)/100 %>:00
+            </span>
+            <!-- Button trigger modal -->
+            <button
+              type="button"
+              class="btn btn-primary"
+              data-toggle="modal"
+              data-target="#exampleModal<%- time.uniqueId %>"
+            >
+              Reserve
+            </button>
+
+            <!-- Modal -->
+            <div
+              class="modal fade"
+              id="exampleModal<%- time.uniqueId %>"
+              tabindex="-1"
+              role="dialog"
+              aria-labelledby="exampleModalLabel"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-dismiss="modal"
+                    >
+                      Close
+                    </button>
+
+                    <button type="submit">reserve</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <% }) %>
       </div>
-      <%}) %>
-    </div></div>
+    </div>
   </div>
 </main>
 

@@ -266,7 +266,7 @@ app.get("/court", (req, res) => {
   const court_id = req.query.courtid;
 
   const query = 
-  `SELECT courts.name AS name, court_times.start_time AS start_time, court_times.end_time AS end_time
+  `SELECT courts.name AS name, courts.courtid as courtId,court_times.timeid AS timeID, court_times.court_date AS date,court_times.start_time AS start_time, court_times.end_time AS end_time
   FROM court_times
   INNER JOIN court_to_times
   ON court_times.timeID = court_to_times.timeID 
@@ -328,6 +328,28 @@ app.post("/reservations", (req, res) => {
       console.log(err);
       res.status(400);
     });
+});
+
+app.post("/reserve",(req,res)=>{
+
+  const start = req.body.start_time;
+  const end = req.body.end_time;
+  const court_date = req.body.court_date;
+  const courtId = req.body.courtid;
+
+  console.log(`Start time: ${start}, End time: ${end}, Date: ${court_date}, CourtId: ${courtId}`);
+
+  // DELETE from court_times WHERE court_date = court_date, start = start, end = end, date = date
+
+  const query = 
+  `SELECT court_times  
+  FROM court_times
+  INNER JOIN court_to_times
+  ON court_times.timeID = court_to_times.timeID 
+  INNER JOIN courts
+  ON court_to_times.courtID = courts.courtID
+  AND courts.courtID = '${courtId}';`
+
 });
 
 app.get("/profile", (req, res) => {
