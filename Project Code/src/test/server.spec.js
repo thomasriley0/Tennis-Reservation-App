@@ -44,7 +44,7 @@ describe("Register", () => {
     chai
       .request(server)
       .post("/register")
-      .send({ username: "johndoe", password: "pass" })
+      .send({ username: "testttt", password: "pass" })
       .end((err, res) => {
         expect(err).to.equal(null);
         expect(res).to.have.status(200);
