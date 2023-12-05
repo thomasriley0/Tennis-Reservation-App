@@ -252,7 +252,7 @@ app.get("/park", (req, res) => {
 app.get("/court", (req, res) => {
   const court_id = req.query.courtid;
 
-  const query = `SELECT courts.name AS name, courts.courtid as courtId,court_times.timeid AS timeID, court_times.court_date AS date,court_times.start_time AS start_time, court_times.end_time AS end_time
+  const query = `SELECT courts.facilityID as facilityID, courts.name AS name, courts.courtid as courtId, court_times.timeid AS timeID, court_times.court_date AS date, court_times.start_time AS start_time, court_times.end_time AS end_time
   FROM court_times
   INNER JOIN court_to_times
   ON court_times.timeID = court_to_times.timeID 
@@ -315,15 +315,24 @@ app.post("/reservations", (req, res) => {
 });
 
 app.post("/reserve", (req, res) => {
-  const start = req.body.start_time;
-  const end = req.body.end_time;
-  const court_date = req.body.court_date;
   const courtId = req.body.courtid;
   const timeId = req.body.timeid;
+  const lfg = req.body.lfg;
+  const facilityId = req.body.facilityid;
 
-  console.log(
-    `Start time: ${start}, End time: ${end}, Date: ${court_date}, CourtId: ${courtId}`
-  );
+  const reserveInfo = {
+    courtId: courtId,
+    timeId: timeId,
+    lfg: lfg,
+    facilityId: facilityId,
+    userId: req.session.user.user_id,
+  };
+
+  console.log(reserveInfo);
+
+  //console.log(
+  // `Start time: ${start}, End time: ${end}, Date: ${court_date}, CourtId: ${courtId}`
+  //);
 
   // DELETE from court_times WHERE court_date = court_date, start = start, end = end, id = courtId
 
@@ -340,12 +349,13 @@ app.post("/reserve", (req, res) => {
 
   //const reserve_q = `INSERT INTO reservation (userid, courtid, timeid, lfg) VALUES (${req.session.user.user_id}, ${courtId}, ${timeId}, TRUE) returning *;`;
 
-  db.task((task) => {
-    return task.batch([task.any(reserve_q), task.any(delete_q)]);
-  }).then((data) => {
-    res.status(200);
-    console.log("help");
-  });
+  //db.task((task) => {
+  // return task.batch([task.any(reserve_q), task.any(delete_q)]);
+  // }).then((data) => {
+  // res.status(200);
+  //console.log("help");
+  //});
+  res.redirect("/");
 });
 
 app.get("/profile", (req, res) => {
