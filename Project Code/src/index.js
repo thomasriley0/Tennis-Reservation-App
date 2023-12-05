@@ -62,7 +62,7 @@ app.use(express.static(__dirname + "/resources"));
 app.get("/", (req, res) => {
   db.task("home-page", (task) => {
     var location;
-    const getParks = "SELECT * FROM facilities LIMIT 8;";
+    const getParks = "SELECT facilities.name, facilities.facilityID, facilities.img, facilities.city, COUNT(facilities.name) as numres FROM facilities INNER JOIN reservation ON facilities.facilityID = reservation.facilityID GROUP BY facilities.name, facilities.facilityID, facilities.img, facilities.city ORDER BY COUNT(facilities.name) DESC LIMIT 8; ";
     if (user.location != undefined) {
       //query for no location found
       location = false;
@@ -208,25 +208,13 @@ const auth = (req, res, next) => {
 // Authentication Required
 app.use(auth);
 
-app.get("/park", (req, res) => {
-  const parkId = req.query.id;
+app.get("/parks", (req, res) => {
+  const query = "SELECT * FROM facilities;";
+  db.any(query)
 
-  const court_q = `SELECT * FROM courts WHERE facilityid = ${parkId};`;
-  const park_q = `SELECT name FROM facilities WHERE facilityid = ${parkId};`;
-
-  const time_q = 'SELECT * FROM court_times LIMIT 8;';
-
-  db.task((task) => {
-    return task.batch([task.any(court_q), task.any(park_q), task.any(time_q)]);
-  })
     .then((data) => {
       res.status(201);
-      res.render("pages/park", {
-        court_q: data[0],
-        park: data[1][0],
-        user_id: user.user_id,
-        times: data[2],
-      });
+      res.render("pages/parks", { data: data, user_id: user.user_id });
     })
     .catch((err) => {
       console.log(err);
@@ -234,30 +222,62 @@ app.get("/park", (req, res) => {
     });
 });
 
-app.get("/court", (req, res) => {
-  const courtId = req.query.courtid;
+app.get("/park", (req, res) => {
 
-  const query = `SELECT name FROM courts WHERE courtid = ${courtId};`;
+  const park_id = req.query.id;
+  
+  const query = 
+  `SELECT courts.name AS name, court_times.start_time AS start_time, court_times.end_time AS end_time
+  FROM court_times
+  INNER JOIN court_to_times
+  ON court_times.timeID = court_to_times.timeID 
+  INNER JOIN courts
+  ON court_to_times.courtID = courts.courtID
+  AND courts.facilityID = '${park_id}';`
 
-  const time_q = 'SELECT * FROM court_times LIMIT 8;';
+  
+
+  db.any(query).then((data)=>{
+
+    res.status(201)
+    res.render("pages/park",{data:data, user_id: user.user_id});  /*sends court id, start_time, end_time, court_name for the park */
 
 
- db.task((task) => {
-    return task.batch([task.any(query), task.any(time_q)]);
-  })
-    .then((data) => {
-      res.status(201);
-      res.render("pages/court", {
-        user_id: user.user_id,
-        court: data[0],
-        times: data[1],
-      });
-    })
-    .catch((err) => {
+  }).catch((err)=>{
+
       console.log(err);
-      res.status(400);
-    });
+      res.status(400)
+      res.render("pages/park",{data: [], user_id: user.user_id})
+  })
 
+});
+
+app.get("/court", (req, res) => {
+
+  const court_id = req.query.courtid;
+
+  const query = 
+  `SELECT courts.name AS name, court_times.start_time AS start_time, court_times.end_time AS end_time
+  FROM court_times
+  INNER JOIN court_to_times
+  ON court_times.timeID = court_to_times.timeID 
+  INNER JOIN courts
+  ON court_to_times.courtID = courts.courtID
+  AND courts.courtID = '${court_id}';`
+
+  db.any(query).then((data)=>{
+
+    res.status(201)
+    res.render("pages/court",{data:data,user_id: user.user_id})
+
+  }).catch((err)=>{
+
+    console.log(err)
+    res.status(400)
+    res.render("pages/court",{data: [],user_id: user.user_id})
+
+  })
+  
 });
 
 app.get("/reservations", (req, res) => {
@@ -558,9 +578,8 @@ app.post("/join-reservation", (req, res) => {
 app.get("/featured-parks", (req, res) => {
   //returns error, needs work
   //possibly because there are currently no resverations in table?
-  //facilities.name, COUNT(facilities.name), facilities.location
   const query =
-    "SELECT facilities.name, COUNT(facilities.name) FROM facilities INNER JOIN reservation ON facilities.facilityID = reservation.facilityID GROUP BY facilities.name ORDER BY COUNT(facilities.name) DESC LIMIT 8; ";
+    "SELECT facilities.name, facilities.facilityID, facilities.img, facilities.city, COUNT(facilities.name) as numres FROM facilities INNER JOIN reservation ON facilities.facilityID = reservation.facilityID GROUP BY facilities.name, facilities.facilityID, facilities.img, facilities.city ORDER BY COUNT(facilities.name) DESC; "
 
   //placeholder query for testing
   //const query = "select * from facilities LIMIT 8;";
