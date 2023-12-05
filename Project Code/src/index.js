@@ -339,16 +339,18 @@ app.post("/reserve",(req,res)=>{
 
   console.log(`Start time: ${start}, End time: ${end}, Date: ${court_date}, CourtId: ${courtId}`);
 
-  // DELETE from court_times WHERE court_date = court_date, start = start, end = end, date = date
+  // DELETE from court_times WHERE court_date = court_date, start = start, end = end, id = courtId
 
-  const query = 
-  `SELECT court_times  
-  FROM court_times
-  INNER JOIN court_to_times
-  ON court_times.timeID = court_to_times.timeID 
-  INNER JOIN courts
-  ON court_to_times.courtID = courts.courtID
-  AND courts.courtID = '${courtId}';`
+  // const query = 
+  // `DELETE   
+  // FROM court_times
+  // INNER JOIN court_to_times
+  // ON court_times.timeID = court_to_times.timeID 
+  // INNER JOIN courts
+  // ON court_to_times.courtID = courts.courtID
+  // AND courts.courtID = '${courtId}' WHERE court_date = '${court_date}' AND start_date = '${start}' AND end_time = '${end}' AND courts.courtID = '${courtId}' ;`
+
+
 
 });
 
