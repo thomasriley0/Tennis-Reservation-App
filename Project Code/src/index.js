@@ -611,7 +611,8 @@ app.post("/join-reservation", (req, res) => {
       var query2 = `update reservation set lfg = 'FALSE' where reservationID = '${req.body.reservationID}' returning *;`;
       db.any(query2)
         .then((data2) => {
-          res.redirect("/find-partners");
+          console.log("joined reservation");
+          res.redirect("/reservations");
         })
         .catch((error) => {
           res.status(400);
