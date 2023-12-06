@@ -258,9 +258,6 @@ app.get("/court", (req, res) => {
   ON court_times.timeID = court_to_times.timeID 
   INNER JOIN courts
   ON court_to_times.courtID = courts.courtID
-  LEFT JOIN reservations
-  ON courts.courtID = reservations.courtID
-  WHERE reservations.courtID IS NULL
   AND courts.courtID = '${court_id}';`;
 
   db.any(query)
@@ -306,6 +303,7 @@ app.get("/reservations", (req, res) => {
 
 app.post("/reservations", (req, res) => {
   const query = `DELETE FROM reservation WHERE reservationID = '${req.body.reservationID}';`;
+  
   db.any(query)
     .then((data) => {
       res.status(201);
@@ -323,28 +321,30 @@ app.post("/reserve", (req, res) => {
   const lfg = req.body.lfg;
   const facilityId = req.body.facilityid;
 
-  const reserveInfo = {
-    courtId: courtId,
-    timeId: timeId,
-    lfg: lfg,
-    facilityId: facilityId,
-    userId: req.session.user.user_id,
-  };
+  query =
+  `INSERT INTO reservation (userID,courtID,timeID,facilityID,lfg) VALUES ('${req.sessions.user.user_id}','${courtId}','${timeId}','${facilityId}','${lfg}');`
 
-  const query = 
-  `INSERT INTO reservation (userID,courtID,timeID,facilityID,lfg) VALUES ($5, $1, $2, $4, $3);`
+  query2 =
+  `DELETE FROM court_to_times WHERE timeID = '${timeId};`
 
-  db.any(query,reserveInfo).then((data)=>{
+  db.task('post-everything',task =>{
 
-    console.log("reservation added")
+      return task.batch([
+        task.any(query),
+        task.any(query2)
+      ])
+  })
+
+  .then(data=>{
+
+    console.log("reservation has been added")
     res.status(201)
     res.redirect("/reservations")
 
   }).catch((err)=>{
-
+   
     console.log(err)
     res.status(400)
-    res.redirect("/")
   })
 
   
@@ -374,7 +374,7 @@ app.post("/reserve", (req, res) => {
   // res.status(200);
   //console.log("help");
   //});
-  res.redirect("/");
+  
 });
 
 app.get("/profile", (req, res) => {
