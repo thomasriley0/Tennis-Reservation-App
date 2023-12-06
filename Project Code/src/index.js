@@ -303,7 +303,7 @@ app.get("/reservations", (req, res) => {
 
 app.post("/reservations", (req, res) => {
   const query = `DELETE FROM reservation WHERE reservationID = '${req.body.reservationID}';`;
-  
+
   db.any(query)
     .then((data) => {
       res.status(201);
@@ -321,33 +321,23 @@ app.post("/reserve", (req, res) => {
   const lfg = req.body.lfg;
   const facilityId = req.body.facilityid;
 
-  query =
-  `INSERT INTO reservation (userID,courtID,timeID,facilityID,lfg) VALUES ('${req.sessions.user.user_id}','${courtId}','${timeId}','${facilityId}','${lfg}');`
+  query = `INSERT INTO reservation (userID,courtID,timeID,facilityID,lfg) VALUES ('${req.session.user.user_id}','${courtId}','${timeId}','${facilityId}','${lfg}');`;
 
-  query2 =
-  `DELETE FROM court_to_times WHERE timeID = '${timeId};`
+  query2 = `DELETE FROM court_to_times WHERE timeID = '${timeId}';`;
 
-  db.task('post-everything',task =>{
-
-      return task.batch([
-        task.any(query),
-        task.any(query2)
-      ])
+  db.task("post-everything", (task) => {
+    return task.batch([task.any(query), task.any(query2)]);
   })
 
-  .then(data=>{
-
-    console.log("reservation has been added")
-    res.status(201)
-    res.redirect("/reservations")
-
-  }).catch((err)=>{
-   
-    console.log(err)
-    res.status(400)
-  })
-
-  
+    .then((data) => {
+      console.log("reservation has been added");
+      res.status(201);
+      res.redirect("/reservations");
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(400);
+    });
 
   //console.log(
   // `Start time: ${start}, End time: ${end}, Date: ${court_date}, CourtId: ${courtId}`
@@ -374,7 +364,6 @@ app.post("/reserve", (req, res) => {
   // res.status(200);
   //console.log("help");
   //});
-  
 });
 
 app.get("/profile", (req, res) => {
