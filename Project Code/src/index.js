@@ -321,7 +321,11 @@ app.post("/reserve", (req, res) => {
   const lfg = req.body.lfg;
   const facilityId = req.body.facilityid;
 
-  query = `INSERT INTO reservation (userID,courtID,timeID,facilityID,lfg) VALUES ('${req.session.user.user_id}','${courtId}','${timeId}','${facilityId}','${lfg}');`;
+  if (lfg) {
+    query = `INSERT INTO reservation (userID,courtID,timeID,facilityID,lfg) VALUES ('${req.session.user.user_id}','${courtId}','${timeId}','${facilityId}',true);`;
+  } else {
+    query = `INSERT INTO reservation (userID,courtID,timeID,facilityID,lfg) VALUES ('${req.session.user.user_id}','${courtId}','${timeId}','${facilityId}',false);`;
+  }
 
   query2 = `DELETE FROM court_to_times WHERE timeID = '${timeId}';`;
 
