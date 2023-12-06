@@ -62,7 +62,9 @@ app.use(express.static(__dirname + "/resources"));
 app.get("/", (req, res) => {
   db.task("home-page", (task) => {
     var location;
+
     const getParks = "SELECT facilities.name, facilities.facilityID, facilities.img, facilities.city, COUNT(facilities.name) as numres FROM facilities INNER JOIN reservation ON facilities.facilityID = reservation.facilityID GROUP BY facilities.name, facilities.facilityID, facilities.img, facilities.city ORDER BY COUNT(facilities.name) DESC LIMIT 8; ";
+
     if (user.location != undefined) {
       //query for no location found
       location = false;
@@ -208,13 +210,39 @@ const auth = (req, res, next) => {
 // Authentication Required
 app.use(auth);
 
-app.get("/parks", (req, res) => {
-  const query = "SELECT * FROM facilities;";
-  db.any(query)
+app.get("/park", (req, res) => {
+  const park_id = req.query.id;
 
+  const query = `SELECT * from courts where facilityID = '${park_id}';`;
+
+  const park = `SELECT * FROM facilities WHERE facilityID = ${park_id};`;
+
+  // db.any(query).then((data)=>{
+
+  //   res.status(201)
+  //   res.render("pages/park",{data:data, user_id: user.user_id});  /*sends court id, start_time, end_time, court_name for the park */
+  //   console.log(data)
+
+  // }).catch((err)=>{
+
+  //     console.log(err);
+  //     res.status(400)
+  //     res.render("pages/park",{data: [], user_id: user.user_id})
+  // })
+  // });
+  //
+
+  db.task((task) => {
+    return task.batch([task.any(query), task.any(park)]);
+  })
     .then((data) => {
       res.status(201);
-      res.render("pages/parks", { data: data, user_id: user.user_id });
+      res.render("pages/park", {
+        courts: data[0],
+        park: data[1][0],
+        user_id: user.user_id,
+      });
+      console.log(data);
     })
     .catch((err) => {
       console.log(err);
@@ -222,12 +250,28 @@ app.get("/parks", (req, res) => {
     });
 });
 
-app.get("/park", (req, res) => {
-  res.render("pages/park", { user_id: user.user_id });
-});
-
 app.get("/court", (req, res) => {
-  res.render("pages/court");
+  const court_id = req.query.courtid;
+
+  const query = `SELECT courts.facilityID as facilityID, courts.name AS name, courts.courtid as courtId, court_times.timeid AS timeID, court_times.court_date AS date, court_times.start_time AS start_time, court_times.end_time AS end_time
+  FROM court_times
+  INNER JOIN court_to_times
+  ON court_times.timeID = court_to_times.timeID 
+  INNER JOIN courts
+  ON court_to_times.courtID = courts.courtID
+  AND courts.courtID = '${court_id}';`;
+
+  db.any(query)
+    .then((data) => {
+      res.status(201);
+      res.render("pages/court", { data: data, user_id: user.user_id });
+      console.log(data);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(400);
+      res.render("pages/court", { data: [], user_id: user.user_id });
+    });
 });
 
 app.get("/reservations", (req, res) => {
@@ -260,6 +304,7 @@ app.get("/reservations", (req, res) => {
 
 app.post("/reservations", (req, res) => {
   const query = `DELETE FROM reservation WHERE reservationID = '${req.body.reservationID}';`;
+
   db.any(query)
     .then((data) => {
       res.status(201);
@@ -269,6 +314,61 @@ app.post("/reservations", (req, res) => {
       console.log(err);
       res.status(400);
     });
+});
+
+app.post("/reserve", (req, res) => {
+  const courtId = req.body.courtid;
+  const timeId = req.body.timeid;
+  const lfg = req.body.lfg;
+  const facilityId = req.body.facilityid;
+
+  if (lfg) {
+    query = `INSERT INTO reservation (userID,courtID,timeID,facilityID,lfg) VALUES ('${req.session.user.user_id}','${courtId}','${timeId}','${facilityId}',true);`;
+  } else {
+    query = `INSERT INTO reservation (userID,courtID,timeID,facilityID,lfg) VALUES ('${req.session.user.user_id}','${courtId}','${timeId}','${facilityId}',false);`;
+  }
+
+  query2 = `DELETE FROM court_to_times WHERE timeID = '${timeId}';`;
+
+  db.task("post-everything", (task) => {
+    return task.batch([task.any(query), task.any(query2)]);
+  })
+
+    .then((data) => {
+      console.log("reservation has been added");
+      res.status(201);
+      res.redirect("/reservations");
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(400);
+    });
+
+  //console.log(
+  // `Start time: ${start}, End time: ${end}, Date: ${court_date}, CourtId: ${courtId}`
+  //);
+
+  // DELETE from court_times WHERE court_date = court_date, start = start, end = end, id = courtId
+
+  // const delete_q =
+  // `DELETE
+  // FROM court_times
+  // INNER JOIN court_to_times
+  // ON court_times.timeID = court_to_times.timeID
+  // INNER JOIN courts
+  // ON court_to_times.courtID = courts.courtID
+  // AND courts.courtID = '${courtId}' WHERE court_date = '${court_date}' AND start_date = '${start}' AND end_time = '${end}' AND courts.courtID = '${courtId}' ;`;
+
+  //Insert time-id user-id court-id  lfg=true
+
+  //const reserve_q = `INSERT INTO reservation (userid, courtid, timeid, lfg) VALUES (${req.session.user.user_id}, ${courtId}, ${timeId}, TRUE) returning *;`;
+
+  //db.task((task) => {
+  // return task.batch([task.any(reserve_q), task.any(delete_q)]);
+  // }).then((data) => {
+  // res.status(200);
+  //console.log("help");
+  //});
 });
 
 app.get("/profile", (req, res) => {
@@ -529,7 +629,9 @@ app.get("/featured-parks", (req, res) => {
   //returns error, needs work
   //possibly because there are currently no resverations in table?
   const query =
+
     "SELECT facilities.name, facilities.facilityID, facilities.img, facilities.city, COUNT(facilities.name) as numres FROM facilities INNER JOIN reservation ON facilities.facilityID = reservation.facilityID GROUP BY facilities.name, facilities.facilityID, facilities.img, facilities.city ORDER BY COUNT(facilities.name) DESC; "
+
 
   //placeholder query for testing
   //const query = "select * from facilities LIMIT 8;";
