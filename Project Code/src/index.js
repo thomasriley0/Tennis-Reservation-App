@@ -62,8 +62,9 @@ app.use(express.static(__dirname + "/resources"));
 app.get("/", (req, res) => {
   db.task("home-page", (task) => {
     var location;
-    const getParks =
-      "SELECT facilities.name, facilities.facilityID, facilities.img, facilities.city, COUNT(facilities.name) as numres FROM facilities INNER JOIN reservation ON facilities.facilityID = reservation.facilityID GROUP BY facilities.name, facilities.facilityID, facilities.img, facilities.city ORDER BY COUNT(facilities.name) DESC LIMIT 8; ";
+
+    const getParks = "SELECT facilities.name, facilities.facilityID, facilities.img, facilities.city, COUNT(facilities.name) as numres FROM facilities INNER JOIN reservation ON facilities.facilityID = reservation.facilityID GROUP BY facilities.name, facilities.facilityID, facilities.img, facilities.city ORDER BY COUNT(facilities.name) DESC LIMIT 8; ";
+
     if (user.location != undefined) {
       //query for no location found
       location = false;
@@ -120,9 +121,9 @@ app.get("/logout", (req, res) => {
 
 app.post("/login", async (req, res) => {
   try {
-    const username = req.body.username;
+    const username = req.body.username.toLowerCase();
     const password = req.body.password;
-    const query = `select * from users where username='${username}';`;
+    const query = `select * from users where LOWER(username)='${username}';`;
     let user_temp = await db.one(query);
 
     if (user_temp.length != 0) {
@@ -161,7 +162,7 @@ app.post("/register", async (req, res) => {
 
   var error;
 
-  const query1 = `select * from users where username = '${req.body.username}';`;
+  const query1 = `select * from users where LOWER(username) = '${req.body.username.toLowerCase()}';`;
 
   //check to see if username already exists in db
   //If we do not get an error, then the user must exist already
@@ -371,7 +372,7 @@ app.post("/reserve", (req, res) => {
 });
 
 app.get("/profile", (req, res) => {
-  const query = `SELECT * FROM users WHERE userID = '${req.session.user.user_id}';`;
+  const query = `SELECT username, userID, rating, gender, image, description, age, location FROM users WHERE userID = '${req.session.user.user_id}';`;
 
   db.any(query)
 
@@ -385,16 +386,16 @@ app.get("/profile", (req, res) => {
     .catch((err) => {
       res.status(400);
       console.log(err);
-      console.log(data);
     });
 });
 
 app.get("/user", (req, res) => {
-  const query = `SELECT * FROM users WHERE userID = '${req.query.userID}';`;
+  const query = `SELECT username, userID, rating, gender, image, description, age, location FROM users WHERE userID = '${req.query.userID}';`;
 
   db.any(query)
 
     .then(function (data) {
+      console.log(data)
       res.render("pages/user", {
         data: data,
         user_id: user.user_id,
@@ -628,7 +629,9 @@ app.get("/featured-parks", (req, res) => {
   //returns error, needs work
   //possibly because there are currently no resverations in table?
   const query =
-    "SELECT facilities.name, facilities.facilityID, facilities.img, facilities.city, COUNT(facilities.name) as numres FROM facilities INNER JOIN reservation ON facilities.facilityID = reservation.facilityID GROUP BY facilities.name, facilities.facilityID, facilities.img, facilities.city ORDER BY COUNT(facilities.name) DESC; ";
+
+    "SELECT facilities.name, facilities.facilityID, facilities.img, facilities.city, COUNT(facilities.name) as numres FROM facilities INNER JOIN reservation ON facilities.facilityID = reservation.facilityID GROUP BY facilities.name, facilities.facilityID, facilities.img, facilities.city ORDER BY COUNT(facilities.name) DESC; "
+
 
   //placeholder query for testing
   //const query = "select * from facilities LIMIT 8;";

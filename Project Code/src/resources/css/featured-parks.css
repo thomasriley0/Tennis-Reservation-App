@@ -1,0 +1,23 @@
+.parkCard {
+    min-width: 276.69px;
+    height: 200px;
+    border: 1px solid #C5C5C5;
+    border-radius: 20px;
+}
+
+.parkImage {
+    height: 110px;
+    width: 100%;
+    border-radius: 20px 20px 0px 0px;
+}
+
+.profileContainer {
+    display: grid;
+    margin: auto;
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 20px;
+    column-gap: 10px;
+    width: 50%;
+    padding: 10px;
+    font-family: Poppins
+}
