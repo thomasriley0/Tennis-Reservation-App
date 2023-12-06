@@ -258,6 +258,9 @@ app.get("/court", (req, res) => {
   ON court_times.timeID = court_to_times.timeID 
   INNER JOIN courts
   ON court_to_times.courtID = courts.courtID
+  LEFT JOIN reservations
+  ON courts.courtID = reservations.courtID
+  WHERE reservations.courtID IS NULL
   AND courts.courtID = '${court_id}';`;
 
   db.any(query)
@@ -328,7 +331,23 @@ app.post("/reserve", (req, res) => {
     userId: req.session.user.user_id,
   };
 
-  console.log(reserveInfo);
+  const query = 
+  `INSERT INTO reservation (userID,courtID,timeID,facilityID,lfg) VALUES ($5, $1, $2, $4, $3);`
+
+  db.any(query,reserveInfo).then((data)=>{
+
+    console.log("reservation added")
+    res.status(201)
+    res.redirect("/reservations")
+
+  }).catch((err)=>{
+
+    console.log(err)
+    res.status(400)
+    res.redirect("/")
+  })
+
+  
 
   //console.log(
   // `Start time: ${start}, End time: ${end}, Date: ${court_date}, CourtId: ${courtId}`
