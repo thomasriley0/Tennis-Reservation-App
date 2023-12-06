@@ -79,6 +79,34 @@ describe("Profile: editing profiles", () => {
   });
 });
 
+describe("positive: join-reservation", () => {
+  it("positive : /profile", (done) => {
+    chai
+      .request(server)
+      .post("/join-reservation")
+      .send({ reservationID: 1 })
+      .end((err, res) => {
+        expect(err).to.equal(null);
+        expect(res).to.have.status(200);
+        done();
+      });
+  });
+});
+
+describe("negative: join-reservation", () => {
+  it("positive : /profile", (done) => {
+    chai
+      .request(server)
+      .post("/join-reservation")
+      .send({ reservationID: 500 })
+      .end((err, res) => {
+        expect(err).to.equal(null);
+        expect(res).to.have.status(200);
+        done();
+      });
+  });
+});
+
 describe("Testing all GET ROUTES", () => {
   it('positive: testing get /', done => {
     chai

@@ -614,14 +614,15 @@ app.post("/join-reservation", (req, res) => {
           res.redirect("/find-partners");
         })
         .catch((error) => {
+          res.status(400);
           console.log(error);
           res.redirect("/find-partners");
         });
     })
     .catch((err) => {
       console.log(err);
-      res.redirect("/");
       res.status(400);
+      res.redirect("/");
     });
 });
 
