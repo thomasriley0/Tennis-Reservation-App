@@ -1,9 +1,9 @@
-INSERT INTO users (username,password) VALUES ('Caleb','$2a$12$nmc04NyhuWQsIuvmbw2mAuQiuyArhSNDwwUET/hloBZ2JaNcxnuQm'); /*password is pass*/
-INSERT INTO users (username,password) VALUES ('Jake','$2a$12$nmc04NyhuWQsIuvmbw2mAuQiuyArhSNDwwUET/hloBZ2JaNcxnuQm');
-INSERT INTO users (username,password) VALUES ('Tom','$2a$12$nmc04NyhuWQsIuvmbw2mAuQiuyArhSNDwwUET/hloBZ2JaNcxnuQm');
-INSERT INTO users (username,password) VALUES ('Mitch','$2a$12$nmc04NyhuWQsIuvmbw2mAuQiuyArhSNDwwUET/hloBZ2JaNcxnuQm');
-INSERT INTO users (username,password) VALUES ('Trish','$2a$12$nmc04NyhuWQsIuvmbw2mAuQiuyArhSNDwwUET/hloBZ2JaNcxnuQm');
-INSERT INTO users (username,password) VALUES ('Rodrigo','$2a$12$nmc04NyhuWQsIuvmbw2mAuQiuyArhSNDwwUET/hloBZ2JaNcxnuQm');
+INSERT INTO users (username,password, rating, location, age, gender, description, image) VALUES ('Caleb','$2a$12$nmc04NyhuWQsIuvmbw2mAuQiuyArhSNDwwUET/hloBZ2JaNcxnuQm', 4, 80303, 20, 'He/Him', 'Just a cool dude who loves tennis', 'https://cdn.britannica.com/57/183257-050-0BA11B4B/Roger-Federer-2012.jpg'); /*password is pass*/
+INSERT INTO users (username,password, rating, location, age, gender, description, image) VALUES ('Jake','$2a$12$nmc04NyhuWQsIuvmbw2mAuQiuyArhSNDwwUET/hloBZ2JaNcxnuQm', 6, 80305, 19, 'He/Him', 'The goat maybe', 'https://images.wsj.net/im-884001/?width=1278&size=1');
+INSERT INTO users (username,password, rating, location, age, gender, description, image) VALUES ('Tom','$2a$12$nmc04NyhuWQsIuvmbw2mAuQiuyArhSNDwwUET/hloBZ2JaNcxnuQm', 7, 80302, 20, 'He/Him', 'Can eat like 5 ice creams maybe', 'https://phantom-marca.unidadeditorial.es/a79358952d27d4836957475522aac7cb/crop/0x0/2044x1363/resize/828/f/jpg/assets/multimedia/imagenes/2023/09/06/16940121928334.jpg');
+INSERT INTO users (username,password, rating, location, age, gender, description, image) VALUES ('Mitch','$2a$12$nmc04NyhuWQsIuvmbw2mAuQiuyArhSNDwwUET/hloBZ2JaNcxnuQm', 1, 80130, 19, 'He/Him', 'hue hue hue', 'https://www.hot97.com/_next/image?url=https%3A%2F%2Fimages.ctfassets.net%2Fbjeljlcmmjko%2F4Tvps92QsRYFOAjOxGCdjM%2F7a3f20c60891fdf7402192a0b5cd8637%2FGettyImages-1328425368.jpg&w=2048&q=75');
+INSERT INTO users (username,password, rating, location, age, gender, description, image) VALUES ('Trish','$2a$12$nmc04NyhuWQsIuvmbw2mAuQiuyArhSNDwwUET/hloBZ2JaNcxnuQm', 5, 80301, 19, 'She/Her', 'Fortnite OG since season 1', 'https://media.npr.org/assets/img/2022/06/14/gettyimages-1231196817-9f4221e92b6331e592eeb14218f66d87e3648e3d-s1100-c50.jpg');
+INSERT INTO users (username,password, rating, location, age, gender, description, image) VALUES ('Rodrigo','$2a$12$nmc04NyhuWQsIuvmbw2mAuQiuyArhSNDwwUET/hloBZ2JaNcxnuQm', 10, 80306, 20, 'He/Him', 'Better than you', 'https://e0.365dm.com/23/10/2048x1152/skysports-rafael-nadal-tennis_6317471.jpg?20231011063145');
 INSERT INTO users (username,password) VALUES ('Johndoe','$2a$12$nmc04NyhuWQsIuvmbw2mAuQiuyArhSNDwwUET/hloBZ2JaNcxnuQm');
 INSERT INTO users (username,password) VALUES ('James','$2a$12$nmc04NyhuWQsIuvmbw2mAuQiuyArhSNDwwUET/hloBZ2JaNcxnuQm');
 INSERT INTO users (username,password) VALUES ('Theo','$2a$12$nmc04NyhuWQsIuvmbw2mAuQiuyArhSNDwwUET/hloBZ2JaNcxnuQm');
