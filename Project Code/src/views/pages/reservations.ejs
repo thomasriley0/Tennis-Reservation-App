@@ -39,6 +39,13 @@
                                             </p>
                                             <p class="card-text">Address: <%=item.address%>
                                             </p>
+                                            <% if (item.userid==user_id) { %>
+                                                <p class="card-text">Opponent: N/A</p>
+                                                <% } else if (item.joineduserid==user_id) { %>
+                                                    <p class="card-text">Opponent: <%- item.username %></p>
+                                                    <% } else { %>
+                                                        <p class="card-text">Opponent: N/A</p>
+                                                        <% } %>
                                         </div>
 
                                         <div class="col-md-3 d-flex justify-content-end align-items-center">

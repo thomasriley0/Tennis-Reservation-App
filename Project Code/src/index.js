@@ -278,7 +278,7 @@ app.get("/reservations", (req, res) => {
   var query = `SELECT courts.name AS court, facilities.name AS park, 
   facilities.address, court_times.court_date,
   court_times.start_time, court_times.end_time, reservation.lfg,
-  reservation.reservationID
+  reservation.reservationID, reservation.userID, reservation.joinedUserID, users.username
   FROM reservation
   INNER JOIN courts
   ON reservation.courtID = courts.courtID
@@ -286,7 +286,9 @@ app.get("/reservations", (req, res) => {
   ON reservation.timeID = court_times.timeID
   INNER JOIN facilities
   ON reservation.facilityID = facilities.facilityID
-  AND (reservation.userID = ${req.session.user.user_id} OR reservation.joinedUserID = ${req.session.user.user_id});`;
+  AND (reservation.userID = ${req.session.user.user_id} OR reservation.joinedUserID = ${req.session.user.user_id})
+  INNER JOIN users
+  on reservation.userID = users.userID`;
 
   db.any(query)
     .then((data) => {
@@ -524,11 +526,11 @@ app.get("/find-partners", async (req, res) => {
     var getReservation = `select reservations.reservationID, reservations.facilityID, reservations.timeID, reservations.courtID, reservations.userID,
     facilities.name as parkName, facilities.location, facilities.city, courts.name as courtName, court_times.court_date, 
     court_times.start_time, court_times.end_time, users.username
-    from (select * from reservation where reservationID = ${reservationId}) reservations
+    from (select * from reservation where (reservationID = ${reservationId} AND userID <> ${req.session.user.user_id})) reservations
     INNER JOIN facilities on reservations.facilityID = facilities.facilityID
     INNER JOIN courts on reservations.courtID = courts.courtID
     INNER JOIN court_times on reservations.timeID = court_times.timeID
-    INNER JOIN users on reservations.userID = users.userID;`;
+    INNER JOIN users on (reservations.userID = users.userID AND users.userID <> ${req.session.user.user_id});`;
 
     db.any(getReservation)
       .then((data) => {
