@@ -23,10 +23,7 @@
                                                 <%=item.court_date.toLocaleDateString()%>
                                             </h5>
                                             <p>
-                                                Time: <%=item.start_time.toString().substring(0,2)%>:
-                                                    <%=item.start_time.toString().substring(2,4)%> -
-                                                        <%=item.end_time.toString().substring(0,2)%>:
-                                                            <%=item.end_time.toString().substring(2,4)%>
+                                                Time: <%- (item.start_time)/100 %>:00 - <%- (item.end_time)/100 %>:00
                                             </p>
                                         </div>
 
