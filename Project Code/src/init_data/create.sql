@@ -11,7 +11,7 @@ CREATE TABLE users(
     description VARCHAR(200),  /*optional description max 200 characters*/
     latitude FLOAT,
     longitude FLOAT,
-    image VARCHAR(300)
+    image VARCHAR(2048)
 
 );
 
