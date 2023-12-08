@@ -273,12 +273,11 @@ app.get("/court", (req, res) => {
       res.render("pages/court", { data: [], user_id: user.user_id });
     });
 });
-
 app.get("/reservations", (req, res) => {
-  var query = `SELECT courts.name AS court, facilities.name AS park, 
+  var query = `SELECT courts.courtID AS courtID, court_times.timeID AS timeID,courts.name AS court, facilities.name AS park, 
   facilities.address, court_times.court_date,
   court_times.start_time, court_times.end_time, reservation.lfg,
-  reservation.reservationID, reservation.userID, reservation.joinedUserID, users.username
+  reservation.reservationID
   FROM reservation
   INNER JOIN courts
   ON reservation.courtID = courts.courtID
@@ -286,9 +285,7 @@ app.get("/reservations", (req, res) => {
   ON reservation.timeID = court_times.timeID
   INNER JOIN facilities
   ON reservation.facilityID = facilities.facilityID
-  AND (reservation.userID = ${req.session.user.user_id} OR reservation.joinedUserID = ${req.session.user.user_id})
-  INNER JOIN users
-  on reservation.userID = users.userID`;
+  AND (reservation.userID = ${req.session.user.user_id} OR reservation.joinedUserID = ${req.session.user.user_id});`;
 
   db.any(query)
     .then((data) => {
@@ -305,18 +302,35 @@ app.get("/reservations", (req, res) => {
 });
 
 app.post("/reservations", (req, res) => {
-  const query = `DELETE FROM reservation WHERE reservationID = '${req.body.reservationID}';`;
+  
+  const query = `INSERT INTO court_to_times (courtID,timeID) VALUES ('${req.body.courtID}', '${req.body.timeID}');`
+  const query2 = `DELETE FROM reservation WHERE reservationID = '${req.body.reservationID}';`;
+  
+  db.task('post-everything',task=>{
 
-  db.any(query)
-    .then((data) => {
-      res.status(201);
-      res.redirect("/reservations");
+    return task.batch([
+
+      db.any(query),
+      db.any(query2)
+
+    ]).then(()=>{
+
+      console.log("reservation deleted")
+      res.status(201)
+      res.redirect("/reservations")
+    
+    }).catch((err)=>{
+      console.log(err)
+      res.status(400)
+      res.redirect("/")
+
     })
-    .catch((err) => {
-      console.log(err);
-      res.status(400);
-    });
+
+
+  })
+  
 });
+
 
 app.post("/reserve", (req, res) => {
   const courtId = req.body.courtid;
