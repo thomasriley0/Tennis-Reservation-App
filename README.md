@@ -39,5 +39,5 @@ in order to clear the volumes of the database, which will allow all of the test 
 The running of the test cases are fully handled in the `docker compose up` command. 
 If the application is successfully running, then all of the test cases have passed.
 ## Deployed Application
-The Deployed Application can be found at [http://recitation-12-team-03.eastus.cloudapp.azure.com:3000/]((https://tennis-reservation-app.onrender.com/))
+The Deployed Application can be found at [http://recitation-12-team-03.eastus.cloudapp.azure.com:3000/]([https://tennis-reservation-app.onrender.com/])
 
