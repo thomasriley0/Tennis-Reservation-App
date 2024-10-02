@@ -8,7 +8,7 @@ const bodyParser = require("body-parser");
 
 // database configuration
 const dbConfig = {
-  host: "db",
+  host: ".env.POSTGRES_HOST",
   port: 5432,
   database: process.env.POSTGRES_DB,
   user: process.env.POSTGRES_USER,
